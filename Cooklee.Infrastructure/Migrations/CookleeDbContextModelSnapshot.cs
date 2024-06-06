@@ -22,6 +22,121 @@ namespace Cooklee.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ClientMeal", b =>
+                {
+                    b.Property<int>("MealsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("clientsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MealsId", "clientsId");
+
+                    b.HasIndex("clientsId");
+
+                    b.ToTable("ClientMeal");
+                });
+
+            modelBuilder.Entity("CookLeeProject.Data.Entities.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MealId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rate")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("MealId");
+
+                    b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("Cooklee.Data.Entities.ChefPage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId")
+                        .IsUnique();
+
+                    b.ToTable("ChefPage");
+                });
+
+            modelBuilder.Entity("Cooklee.Data.Entities.Client", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("ChefId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId")
+                        .IsUnique();
+
+                    b.ToTable("Clients");
+                });
+
+            modelBuilder.Entity("Cooklee.Data.Entities.ClientMeal", b =>
+                {
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MealId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Rate")
+                        .HasColumnType("real");
+
+                    b.HasKey("ClientId", "MealId", "Id");
+
+                    b.HasIndex("MealId");
+
+                    b.ToTable("ClientMeals");
+                });
+
             modelBuilder.Entity("Cooklee.Data.Entities.Identity.Address", b =>
                 {
                     b.Property<int>("Id")
@@ -59,7 +174,7 @@ namespace Cooklee.Infrastructure.Migrations
                     b.HasIndex("AppUserId")
                         .IsUnique();
 
-                    b.ToTable("Address");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("Cooklee.Data.Entities.Identity.AppUser", b =>
@@ -68,6 +183,9 @@ namespace Cooklee.Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -128,6 +246,86 @@ namespace Cooklee.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Cooklee.Data.Entities.Meal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ChefPageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsHealthy")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSpecial")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MealDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MealName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Rate")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Tags")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChefPageId");
+
+                    b.ToTable("Meals");
+                });
+
+            modelBuilder.Entity("Cooklee.Data.Entities.SpecialMeal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MaxPrice")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinPrice")
+                        .HasColumnType("int");
+
+                    b.Property<string>("S_MealName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("SpecialMeals");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -263,6 +461,81 @@ namespace Cooklee.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ClientMeal", b =>
+                {
+                    b.HasOne("Cooklee.Data.Entities.Meal", null)
+                        .WithMany()
+                        .HasForeignKey("MealsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cooklee.Data.Entities.Client", null)
+                        .WithMany()
+                        .HasForeignKey("clientsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CookLeeProject.Data.Entities.Review", b =>
+                {
+                    b.HasOne("Cooklee.Data.Entities.Client", "Client")
+                        .WithMany("reviews")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cooklee.Data.Entities.Meal", "Meal")
+                        .WithMany("Reviews")
+                        .HasForeignKey("MealId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Meal");
+                });
+
+            modelBuilder.Entity("Cooklee.Data.Entities.ChefPage", b =>
+                {
+                    b.HasOne("Cooklee.Data.Entities.Client", "Client")
+                        .WithOne("Chef")
+                        .HasForeignKey("Cooklee.Data.Entities.ChefPage", "ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("Cooklee.Data.Entities.Client", b =>
+                {
+                    b.HasOne("Cooklee.Data.Entities.Identity.AppUser", "AppUser")
+                        .WithOne("Client")
+                        .HasForeignKey("Cooklee.Data.Entities.Client", "AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("Cooklee.Data.Entities.ClientMeal", b =>
+                {
+                    b.HasOne("Cooklee.Data.Entities.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cooklee.Data.Entities.Meal", "Meal")
+                        .WithMany()
+                        .HasForeignKey("MealId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Meal");
+                });
+
             modelBuilder.Entity("Cooklee.Data.Entities.Identity.Address", b =>
                 {
                     b.HasOne("Cooklee.Data.Entities.Identity.AppUser", null)
@@ -270,6 +543,28 @@ namespace Cooklee.Infrastructure.Migrations
                         .HasForeignKey("Cooklee.Data.Entities.Identity.Address", "AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Cooklee.Data.Entities.Meal", b =>
+                {
+                    b.HasOne("Cooklee.Data.Entities.ChefPage", "ChefPage")
+                        .WithMany("Meals")
+                        .HasForeignKey("ChefPageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ChefPage");
+                });
+
+            modelBuilder.Entity("Cooklee.Data.Entities.SpecialMeal", b =>
+                {
+                    b.HasOne("Cooklee.Data.Entities.Client", "Client")
+                        .WithMany("SpecialMeals")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -323,9 +618,30 @@ namespace Cooklee.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Cooklee.Data.Entities.ChefPage", b =>
+                {
+                    b.Navigation("Meals");
+                });
+
+            modelBuilder.Entity("Cooklee.Data.Entities.Client", b =>
+                {
+                    b.Navigation("Chef");
+
+                    b.Navigation("SpecialMeals");
+
+                    b.Navigation("reviews");
+                });
+
             modelBuilder.Entity("Cooklee.Data.Entities.Identity.AppUser", b =>
                 {
                     b.Navigation("Address");
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("Cooklee.Data.Entities.Meal", b =>
+                {
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

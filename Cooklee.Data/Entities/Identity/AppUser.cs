@@ -12,9 +12,7 @@ namespace Cooklee.Data.Entities.Identity
     {
         public string? DisplayName { get; set; }
         public Address? Address { get; set; }
-        //public int? ChefId { get; set; }
-        //public Chef? Chef { get; set; }
-        //public int? ClientId { get; set; }
-        //public Client? Client { get; set; }
+        public int? ClientId { get; set; }
+        public Client? Client { get; set; }
     }
 }

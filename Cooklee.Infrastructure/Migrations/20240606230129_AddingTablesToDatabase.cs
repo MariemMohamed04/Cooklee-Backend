@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cooklee.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class CreatingDatabase : Migration
+    public partial class AddingTablesToDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,6 +31,7 @@ namespace Cooklee.Infrastructure.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClientId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -73,7 +74,7 @@ namespace Cooklee.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Address",
+                name: "Addresses",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -87,9 +88,9 @@ namespace Cooklee.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Address", x => x.Id);
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Address_AspNetUsers_AppUserId",
+                        name: "FK_Addresses_AspNetUsers_AppUserId",
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -181,9 +182,179 @@ namespace Cooklee.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Clients",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ChefId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clients", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Clients_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ChefPage",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClientId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChefPage", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ChefPage_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SpecialMeals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    S_MealName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MinPrice = table.Column<int>(type: "int", nullable: false),
+                    MaxPrice = table.Column<int>(type: "int", nullable: false),
+                    ClientId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SpecialMeals", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SpecialMeals_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Meals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MealName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MealDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsHealthy = table.Column<bool>(type: "bit", nullable: false),
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: false),
+                    IsSpecial = table.Column<bool>(type: "bit", nullable: false),
+                    Price = table.Column<float>(type: "real", nullable: false),
+                    Rate = table.Column<float>(type: "real", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ChefPageId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Meals", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Meals_ChefPage_ChefPageId",
+                        column: x => x.ChefPageId,
+                        principalTable: "ChefPage",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientMeal",
+                columns: table => new
+                {
+                    MealsId = table.Column<int>(type: "int", nullable: false),
+                    clientsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientMeal", x => new { x.MealsId, x.clientsId });
+                    table.ForeignKey(
+                        name: "FK_ClientMeal_Clients_clientsId",
+                        column: x => x.clientsId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClientMeal_Meals_MealsId",
+                        column: x => x.MealsId,
+                        principalTable: "Meals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientMeals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    MealId = table.Column<int>(type: "int", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Rate = table.Column<float>(type: "real", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientMeals", x => new { x.ClientId, x.MealId, x.Id });
+                    table.ForeignKey(
+                        name: "FK_ClientMeals_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClientMeals_Meals_MealId",
+                        column: x => x.MealId,
+                        principalTable: "Meals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reviews",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Rate = table.Column<int>(type: "int", nullable: false),
+                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    MealId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Meals_MealId",
+                        column: x => x.MealId,
+                        principalTable: "Meals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_Address_AppUserId",
-                table: "Address",
+                name: "IX_Addresses_AppUserId",
+                table: "Addresses",
                 column: "AppUserId",
                 unique: true);
 
@@ -225,13 +396,55 @@ namespace Cooklee.Infrastructure.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChefPage_ClientId",
+                table: "ChefPage",
+                column: "ClientId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientMeal_clientsId",
+                table: "ClientMeal",
+                column: "clientsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientMeals_MealId",
+                table: "ClientMeals",
+                column: "MealId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Clients_AppUserId",
+                table: "Clients",
+                column: "AppUserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Meals_ChefPageId",
+                table: "Meals",
+                column: "ChefPageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_ClientId",
+                table: "Reviews",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_MealId",
+                table: "Reviews",
+                column: "MealId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SpecialMeals_ClientId",
+                table: "SpecialMeals",
+                column: "ClientId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Address");
+                name: "Addresses");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -249,7 +462,28 @@ namespace Cooklee.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ClientMeal");
+
+            migrationBuilder.DropTable(
+                name: "ClientMeals");
+
+            migrationBuilder.DropTable(
+                name: "Reviews");
+
+            migrationBuilder.DropTable(
+                name: "SpecialMeals");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Meals");
+
+            migrationBuilder.DropTable(
+                name: "ChefPage");
+
+            migrationBuilder.DropTable(
+                name: "Clients");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
