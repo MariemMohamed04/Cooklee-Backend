@@ -34,7 +34,7 @@ namespace Cooklee.Core.Helpers
             //.ForMember(d => d.Address, o => o.MapFrom(S => S.Address));
 
             CreateMap<Client, ClientProfileDto>()
-
+             .ForMember(d => d.Id, o => o.MapFrom(S => S.Id))
             .ForMember(d => d.DisplayName, o => o.MapFrom(S => S.DisplayName))
             .ForMember(d => d.Email, o => o.MapFrom(S => S.Email))
              .ForMember(d => d.ImgURL, o => o.MapFrom(S => S.ImgURL))
@@ -44,6 +44,13 @@ namespace Cooklee.Core.Helpers
             CreateMap<ClientProfileDto, Client>();
 
 
+
+            CreateMap<ChefPage, ChefPageDto>()
+            .ForMember(d => d.Id, o => o.MapFrom(S => S.Id))
+
+            .ForMember(d => d.DisplayName, o => o.MapFrom(S => S.DisplayName));
+        
+            CreateMap<ChefPageDto, ChefPage>();
 
 
 

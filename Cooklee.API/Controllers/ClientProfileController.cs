@@ -18,12 +18,15 @@ namespace Cooklee.API.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public ClientProfileController(IUnitOfWork unitOfWork, UserManager<AppUser> userManager, IMapper mapper)
+        public ClientProfileController(IUnitOfWork unitOfWork, UserManager<AppUser> userManager, IMapper mapper, RoleManager<IdentityRole> roleManager
+)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _mapper = mapper;
+            _roleManager = roleManager;
         }
         //add profile
 
@@ -37,6 +40,22 @@ namespace Cooklee.API.Controllers
                 return Unauthorized(new ApiResponse(401, "User not found"));
             }
 
+
+            var roles = await _userManager.GetRolesAsync(user);
+            if (roles.Count == 0)
+            {
+
+                var checkRole = await _roleManager.RoleExistsAsync("Client");
+
+                if (!checkRole)
+                {
+                    IdentityRole ClentRole = new IdentityRole("Client");
+                   await _roleManager.CreateAsync(ClentRole);
+
+                }
+                await _userManager.AddToRoleAsync(user, "Client");
+            }
+
             Client clientFound = await _unitOfWork.ClientProfileRepo.GetProfileAsync(userId);
 
             if (clientFound != null)
@@ -46,6 +65,7 @@ namespace Cooklee.API.Controllers
                 return Ok(clientFoundDro);
 
             }
+
 
             Client client = new Client
             {
@@ -62,6 +82,8 @@ namespace Cooklee.API.Controllers
             {
                 return BadRequest(new ApiResponse(400, "Failed to get client setting"));
             }
+
+           
 
 
             var clientDro = _mapper.Map<Client, ClientProfileDto>(client);

@@ -71,6 +71,8 @@ namespace Cooklee.API.Controllers
                 return BadRequest(new ApiResponse(400));
             }
 
+         
+
             return Ok(new UserDto()
             {
                 DisplayName = user.DisplayName,

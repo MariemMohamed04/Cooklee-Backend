@@ -12,5 +12,6 @@ namespace Cooklee.Data.Repository.Contract
         IUserRepository<AppUser> UserRepo { get; set; }
         
         IClientProfileRepo ClientProfileRepo { get; set; }
+        IChefPageRepo ChefPageRepo { get; set; }
     }
 }
