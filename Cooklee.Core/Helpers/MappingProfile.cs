@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Cooklee.Core.DTOs;
+using Cooklee.Data.Entities;
 using Cooklee.Data.Entities.Identity;
 using System;
 using System.Collections.Generic;
@@ -19,18 +20,34 @@ namespace Cooklee.Core.Helpers
                 .ForMember(d => d.DisplayName, o => o.MapFrom(S => S.DisplayName))
                 .ForMember(d => d.Email, o => o.MapFrom(S => S.Email))
                 .ForMember(d => d.UserName, o => o.MapFrom(S => S.UserName))
-                .ForMember(d => d.PhoneNumber, o => o.MapFrom(S => S.PhoneNumber))
-                .ForMember(d => d.Password, o => o.MapFrom(S => S.PasswordHash))
-                .ForMember(d => d.Address, o => o.MapFrom(S => S.Address));
+//.ForMember(d => d.PhoneNumber, o => o.MapFrom(S => S.PhoneNumber))
+                .ForMember(d => d.Password, o => o.MapFrom(S => S.PasswordHash));
+            // .ForMember(d => d.Address, o => o.MapFrom(S => S.Address));
 
             CreateMap<AppUser, UserToReturnDto>()
 
             .ForMember(d => d.DisplayName, o => o.MapFrom(S => S.DisplayName))
              .ForMember(d => d.Email, o => o.MapFrom(S => S.Email))
              .ForMember(d => d.UserName, o => o.MapFrom(S => S.UserName))
-              .ForMember(d => d.PhoneNumber, o => o.MapFrom(S => S.PhoneNumber))
-              .ForMember(d => d.Password, o => o.MapFrom(S => S.PasswordHash))
-             .ForMember(d => d.Address, o => o.MapFrom(S => S.Address));
+            //  .ForMember(d => d.PhoneNumber, o => o.MapFrom(S => S.PhoneNumber))
+              .ForMember(d => d.Password, o => o.MapFrom(S => S.PasswordHash));
+            //.ForMember(d => d.Address, o => o.MapFrom(S => S.Address));
+
+            CreateMap<Client, ClientProfileDto>()
+
+            .ForMember(d => d.DisplayName, o => o.MapFrom(S => S.DisplayName))
+            .ForMember(d => d.Email, o => o.MapFrom(S => S.Email))
+             .ForMember(d => d.ImgURL, o => o.MapFrom(S => S.ImgURL))
+             .ForMember(d => d.PhoneNumber, o => o.MapFrom(S => S.PhoneNumber))
+              .ForMember(d => d.Address, o => o.MapFrom(S => S.Address));
+
+            CreateMap<ClientProfileDto, Client>();
+
+
+
+
+
+
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Cooklee.API.Errors;
 using Cooklee.Core.DTOs;
 using Cooklee.Data.Entities.Identity;
+using Cooklee.Data.Repository.Contract;
 using Cooklee.Data.Service.Contract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -23,6 +24,7 @@ namespace Cooklee.API.Controllers
             SignInManager<AppUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             IAuthService authService
+           
             )
         {
             _userManager = userManager;

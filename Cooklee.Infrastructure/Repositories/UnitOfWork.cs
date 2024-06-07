@@ -11,12 +11,17 @@ namespace Cooklee.Infrastructure.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         public IUserRepository<AppUser> UserRepo { get; set; }
-
-        public UnitOfWork(
-            IUserRepository<AppUser> userRepo
+        public IClientProfileRepo ClientProfileRepo { get; set; }
+        public UnitOfWork
+            (
+            IUserRepository<AppUser> userRepo,
+             IClientProfileRepo clientProfileRepo
             )
+        
+        
         {
             UserRepo = userRepo;
+            ClientProfileRepo = clientProfileRepo;
         }
     }
 }

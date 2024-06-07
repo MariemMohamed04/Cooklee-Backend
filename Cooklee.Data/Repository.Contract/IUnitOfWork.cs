@@ -10,5 +10,7 @@ namespace Cooklee.Data.Repository.Contract
     public interface IUnitOfWork
     {
         IUserRepository<AppUser> UserRepo { get; set; }
+        
+        IClientProfileRepo ClientProfileRepo { get; set; }
     }
 }

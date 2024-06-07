@@ -11,6 +11,15 @@ namespace Cooklee.Data.Entities
 {
     public class Client : BaseEntity
     {
+        public string DisplayName { get; set; }
+        public string Email { get; set; }
+
+        public string? ImgURL { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? Address { get; set; }
+
+
+
         [ForeignKey(nameof(AppUser))]
         public string AppUserId { get; set; }
         public AppUser AppUser { get; set; }
