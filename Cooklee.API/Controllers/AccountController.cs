@@ -78,6 +78,14 @@ namespace Cooklee.API.Controllers
                 });
             }
 
+            if (model.Password != model.ConfirmPassword)
+            {
+                return BadRequest(new ApiValidationErrorResponse
+                {
+                    Errors = new string[] { "The password and confirmation password do not match." }
+                });
+            }
+
             var user = new AppUser
             {
                 Fname = model.Fname,
