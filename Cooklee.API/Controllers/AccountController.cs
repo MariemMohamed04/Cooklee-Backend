@@ -56,6 +56,10 @@ namespace Cooklee.API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto model)
         {
+            if (CheckEmailExists(model.Email).Result.Value)
+            {
+                return BadRequest(new ApiValidationErrorResponse() { Errors = new string[] { "This email is already in use!!" } });
+            }
             var user = new AppUser()
             {
                 DisplayName = model.DisplayName,
@@ -83,6 +87,12 @@ namespace Cooklee.API.Controllers
         {
             await _signInManager.SignOutAsync();
             return NoContent(); // 204 No Content
+        }
+
+        [HttpGet("emailexists")]
+        public async Task<ActionResult<bool>> CheckEmailExists(string email)
+        {
+            return await _userManager.FindByEmailAsync(email) is not null;
         }
     }
 }
