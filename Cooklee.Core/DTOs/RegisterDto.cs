@@ -10,7 +10,10 @@ namespace Cooklee.Core.DTOs
     public class RegisterDto
     {
         [Required]
-        public String DisplayName { get; set; }
+        public string Fname { get; set; }
+        [Required]
+        public string Lname { get; set; }
+        //public String DisplayName { get; set; }
         [Required]
         [EmailAddress]
         [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
@@ -22,5 +25,9 @@ namespace Cooklee.Core.DTOs
 ,
         ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one digit, one special character, and be at least 8 characters long.")]
         public string Password { get; set; }
+
+        [Required]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
     }
 }
