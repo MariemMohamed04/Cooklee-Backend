@@ -9,11 +9,11 @@ namespace Cooklee.Core.DTOs
 {
     public class RegisterDto
     {
-        [Required]
-        public string Fname { get; set; }
-        [Required]
-        public string Lname { get; set; }
-        //public String DisplayName { get; set; }
+        //[Required]
+        //public string Fname { get; set; }
+        //[Required]
+        //public string Lname { get; set; }
+        ////public String DisplayName { get; set; }
         [Required]
         [EmailAddress]
         public String Email { get; set; }

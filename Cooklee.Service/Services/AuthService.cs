@@ -41,7 +41,7 @@ namespace Cooklee.Service.Services
             var token = new JwtSecurityToken(
                 audience: _configuration["JWT:ValidAudiance"],
                 issuer: _configuration["JWT:ValidIssuer"],
-                expires: DateTime.UtcNow.AddDays(1),
+                expires: DateTime.UtcNow.AddDays(2),
                 claims: authClaims,
                 // Secret Key + Algorithm
                 signingCredentials: new SigningCredentials(authKey, SecurityAlgorithms.HmacSha256Signature)
