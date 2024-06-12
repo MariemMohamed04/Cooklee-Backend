@@ -15,7 +15,11 @@ namespace Cooklee.API.Exetensions
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
             services.AddScoped(typeof(IAuthService), typeof(AuthService));
             services.AddScoped(typeof(IUserRepository<>), typeof(UserRepository<>));
+            services.AddScoped(typeof(IClientProfileRepo), typeof(ClientProfileRepo));
+            services.AddScoped(typeof(IChefPageRepo), typeof(ChefPageRepo));
+
             services.AddAutoMapper(typeof(MappingProfile));
+            services.AddScoped<MappingProfile>();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {

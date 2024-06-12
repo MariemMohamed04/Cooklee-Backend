@@ -1,4 +1,5 @@
-﻿using Cooklee.Data.Entities.Identity;
+﻿using Cooklee.Data.Entities;
+using Cooklee.Data.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,11 @@ namespace Cooklee.Infrastructure.DataSeed
 
                 };
                 await userManager.CreateAsync(user, "Pa$$w0rd");
+
+              
+
             }
+
         }
     }
 }

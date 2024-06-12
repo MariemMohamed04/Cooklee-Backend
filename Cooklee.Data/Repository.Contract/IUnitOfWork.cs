@@ -10,7 +10,9 @@ namespace Cooklee.Data.Repository.Contract
 {
     public interface IUnitOfWork
     {
-        IUserRepository<AppUser> UserRepo { get; set; }
+        IUserRepository<AppUser> UserRepo { get; set; }        
+        IClientProfileRepo ClientProfileRepo { get; set; }
+        IChefPageRepo ChefPageRepo { get; set; }
         IAuthService AuthService { get; set; }
     }
 }

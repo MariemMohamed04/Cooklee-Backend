@@ -1,6 +1,7 @@
 ﻿using Cooklee.API.Errors;
 using Cooklee.Core.DTOs;
 using Cooklee.Data.Entities.Identity;
+using Cooklee.Data.Repository.Contract;
 using Cooklee.Data.Service.Contract;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authentication;
@@ -28,6 +29,7 @@ namespace Cooklee.API.Controllers
             SignInManager<AppUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             IAuthService authService
+           
             )
         {
             _userManager = userManager;
@@ -143,8 +145,9 @@ namespace Cooklee.API.Controllers
             {
                 return BadRequest(new ApiResponse(400));
             }
-
+            
             return Ok(new UserDto
+         RegistrationPageMerge
             {
                 Email = user.Email,
                 Token = await _authService.CreatTokenAsync(user, _userManager)

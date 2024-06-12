@@ -31,6 +31,7 @@ namespace Cooklee.API
 
             #endregion
 
+            builder.Services.AddControllers().AddNewtonsoftJson(op=>op.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             builder.Services.AddApplicationServices();
             builder.Services.AddIdentityServices();
             builder.Services.AddAccountServices(configuration);
