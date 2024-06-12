@@ -15,7 +15,7 @@ namespace Cooklee.API.Exetensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
-            //services.AddScoped(typeof(IUserRepository<>), typeof(UserRepository<>));
+            services.AddScoped(typeof(IUserRepository<>), typeof(UserRepository<>));
             services.AddScoped<IMealRepository, MealRepository>();
             services.AddScoped<IMealService, MealService>();
             services.AddAutoMapper(typeof(MappingProfile));
