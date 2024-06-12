@@ -1,5 +1,6 @@
 ﻿using Cooklee.Data.Entities.Identity;
 using Cooklee.Data.Repository.Contract;
+using Cooklee.Data.Service.Contract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +19,16 @@ namespace Cooklee.Infrastructure.Repositories
             IUserRepository<AppUser> userRepo,
              IClientProfileRepo clientProfileRepo,
              IChefPageRepo chefPageRepo
-            )
-        
-        
+        public IAuthService AuthService { get; set; }
+        public UnitOfWork(
+            IUserRepository<AppUser> userRepo,
+            IAuthService authService
+            )     
         {
             UserRepo = userRepo;
             ClientProfileRepo = clientProfileRepo;
             ChefPageRepo = chefPageRepo;
+            AuthService = authService;
         }
     }
 }

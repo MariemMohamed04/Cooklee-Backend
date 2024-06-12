@@ -1,7 +1,9 @@
 ﻿using Cooklee.API.Errors;
 using Cooklee.Core.Helpers;
 using Cooklee.Data.Repository.Contract;
+using Cooklee.Data.Service.Contract;
 using Cooklee.Infrastructure.Repositories;
+using Cooklee.Service.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cooklee.API.Exetensions
@@ -11,6 +13,7 @@ namespace Cooklee.API.Exetensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+            services.AddScoped(typeof(IAuthService), typeof(AuthService));
             services.AddScoped(typeof(IUserRepository<>), typeof(UserRepository<>));
             services.AddScoped(typeof(IClientProfileRepo), typeof(ClientProfileRepo));
             services.AddScoped(typeof(IChefPageRepo), typeof(ChefPageRepo));
