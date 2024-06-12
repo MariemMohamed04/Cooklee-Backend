@@ -1,8 +1,12 @@
 ﻿using Cooklee.API.Errors;
+using Cooklee.Core;
 using Cooklee.Core.Helpers;
 using Cooklee.Data.Repository.Contract;
 using Cooklee.Infrastructure.Repositories;
+using Cooklee.Service.Abstracts;
+using Cooklee.Service.Implemetaions;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace Cooklee.API.Exetensions
 {
@@ -11,10 +15,13 @@ namespace Cooklee.API.Exetensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
-            services.AddScoped(typeof(IUserRepository<>), typeof(UserRepository<>));
+            //services.AddScoped(typeof(IUserRepository<>), typeof(UserRepository<>));
+            services.AddScoped<IMealRepository, MealRepository>();
+            services.AddScoped<IMealService, MealService>();
             services.AddAutoMapper(typeof(MappingProfile));
+            services.AddCoreDependencies();
 
-            services.Configure<ApiBehaviorOptions>(options =>
+			services.Configure<ApiBehaviorOptions>(options =>
             {
                 // State for model so we're changing its default state from invalid to this
                 options.InvalidModelStateResponseFactory = (actionContext) =>
