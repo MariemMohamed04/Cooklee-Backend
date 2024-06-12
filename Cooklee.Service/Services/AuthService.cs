@@ -22,7 +22,6 @@ namespace Cooklee.Service.Services
             // Private Claims (User-Defined)
             var authClaims = new List<Claim>()
             {
-                new Claim ("Name", user.DisplayName),
                 new Claim ("Email", user.Email),
                 new Claim ("UserId", user.Id),
             };

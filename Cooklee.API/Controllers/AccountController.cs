@@ -22,21 +22,18 @@ namespace Cooklee.API.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IAuthService _authService;
-        //private readonly ILogger _logger;
 
         public AccountController(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             IAuthService authService
-            //ILogger logger
             )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _authService = authService;
-            //_logger = logger;
         }
 
         #region Login
@@ -56,7 +53,6 @@ namespace Cooklee.API.Controllers
 
             return Ok(new UserDto
             {
-                //DisplayName = user.DisplayName,
                 Email = user.Email,
                 Token = await _authService.CreatTokenAsync(user, _userManager)
             });
@@ -76,8 +72,6 @@ namespace Cooklee.API.Controllers
             }
             catch (InvalidJwtException ex)
             {
-                // Log the exception for debugging purposes
-                //_logger.LogError(ex, "Invalid Google token.");
                 return Unauthorized(new ApiResponse(401, "Invalid Google token."));
             }
 
@@ -95,9 +89,7 @@ namespace Cooklee.API.Controllers
                 var result = await _userManager.CreateAsync(user);
                 if (!result.Succeeded)
                 {
-                    // Log the errors returned by the user creation process
                     var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-                    //_logger.LogError("User creation failed: {Errors}", errors);
                     return BadRequest(new ApiResponse(400, "Failed to create user account. " + errors));
                 }
             }
@@ -106,45 +98,10 @@ namespace Cooklee.API.Controllers
 
             return Ok(new UserDto
             {
-                //DisplayName = user.DisplayName,
                 Email = user.Email,
                 Token = token
             });
         }
-
-        //[HttpPost("loginWithGoogle")]
-        //public async Task<IActionResult> loginWithGoogle([FromBody] string credential)
-        //{
-        //    var clientId = "18100862023-jdj8tauqbj6sdmumaeiai1tajk4njvte.apps.googleusercontent.com";
-        //    var settings = new GoogleJsonWebSignature.ValidationSettings()
-        //    {
-        //        Audience = new List<string> 
-        //        { 
-        //            clientId
-        //        }
-        //    };
-
-        //    var model = new UserDto();
-
-        //    var payload = await GoogleJsonWebSignature.ValidateAsync(credential, settings);
-        //    var user = new AppUser
-        //    {
-        //        Email = model.Email,
-        //        UserName = model.Email.Split("@")[0]
-        //    };
-        //    if (user is not null)
-        //    { 
-        //        return Ok(new UserDto
-        //        {
-        //            Email = user.Email,
-        //            Token = await _authService.CreatTokenAsync(user, _userManager)
-        //        });
-        //    }
-        //    else
-        //    {
-        //        return BadRequest(new ApiResponse(400));
-        //    }
-        //} 
         #endregion
 
         #region Register
@@ -177,9 +134,6 @@ namespace Cooklee.API.Controllers
 
             var user = new AppUser
             {
-                //Fname = model.Fname,
-                //Lname = model.Lname,
-                //DisplayName = $"{model.Fname}.{model.Lname}",
                 Email = model.Email,
                 UserName = model.Email.Split("@")[0]
             };
@@ -192,13 +146,13 @@ namespace Cooklee.API.Controllers
 
             return Ok(new UserDto
             {
-                //Fname = user.Fname,
-                //Lname = user.Lname,
-                //DisplayName = user.DisplayName,
                 Email = user.Email,
                 Token = await _authService.CreatTokenAsync(user, _userManager)
             });
-        } 
+        }
+
+
+
         #endregion
 
         #region Logout
