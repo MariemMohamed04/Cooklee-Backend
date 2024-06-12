@@ -2,6 +2,7 @@
 using Cooklee.Data.Entities.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -11,10 +12,14 @@ namespace Cooklee.Data.Entities
 {
 	public class ChefPage : BaseEntity
 	{
-        [ForeignKey(nameof(Client))]
+        public string DisplayName { get; set; }
 
+        [ForeignKey(nameof(Client))]
         public int ClientId { get; set; }
         public Client Client { get; set; }
+
+        [DefaultValue(true)]
+        public bool IsActive { get; set; }
 
         //public string AppUserId { get; set; }
         //public AppUser AppUser { get; set; }

@@ -2,9 +2,11 @@
 using Cooklee.Core;
 using Cooklee.Core.Helpers;
 using Cooklee.Data.Repository.Contract;
+using Cooklee.Data.Service.Contract;
 using Cooklee.Infrastructure.Repositories;
 using Cooklee.Service.Abstracts;
 using Cooklee.Service.Implemetaions;
+using Cooklee.Service.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
@@ -15,11 +17,16 @@ namespace Cooklee.API.Exetensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+            services.AddScoped(typeof(IAuthService), typeof(AuthService));
             services.AddScoped(typeof(IUserRepository<>), typeof(UserRepository<>));
             services.AddScoped<IMealRepository, MealRepository>();
             services.AddScoped<IMealService, MealService>();
             services.AddAutoMapper(typeof(MappingProfile));
             services.AddCoreDependencies();
+            services.AddScoped(typeof(IClientProfileRepo), typeof(ClientProfileRepo));
+            services.AddScoped(typeof(IChefPageRepo), typeof(ChefPageRepo));
+            services.AddScoped<MappingProfile>();
+
 
 			services.Configure<ApiBehaviorOptions>(options =>
             {
