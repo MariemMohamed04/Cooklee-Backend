@@ -2,6 +2,7 @@
 using Cooklee.Core.DTOs;
 using Cooklee.Data.Entities;
 using Cooklee.Data.Entities.Identity;
+using CookLeeProject.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,9 @@ namespace Cooklee.Core.Helpers
             .ForMember(d => d.DisplayName, o => o.MapFrom(S => S.DisplayName));
         
             CreateMap<ChefPageDto, ChefPage>();
+
+            CreateMap<Review, ReviewDto>();
+            CreateMap<ReviewDto, Review>();
 
         }
     }
