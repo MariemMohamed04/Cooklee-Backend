@@ -1,17 +1,11 @@
 ﻿using Cooklee.API.Errors;
 using Cooklee.Core.DTOs;
 using Cooklee.Data.Entities.Identity;
-using Cooklee.Data.Repository.Contract;
 using Cooklee.Data.Service.Contract;
 using Google.Apis.Auth;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace Cooklee.API.Controllers
 {
@@ -29,7 +23,6 @@ namespace Cooklee.API.Controllers
             SignInManager<AppUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             IAuthService authService
-           
             )
         {
             _userManager = userManager;
@@ -145,17 +138,13 @@ namespace Cooklee.API.Controllers
             {
                 return BadRequest(new ApiResponse(400));
             }
-            
+
             return Ok(new UserDto
-         RegistrationPageMerge
             {
                 Email = user.Email,
                 Token = await _authService.CreatTokenAsync(user, _userManager)
             });
         }
-
-
-
         #endregion
 
         #region Logout
@@ -165,7 +154,7 @@ namespace Cooklee.API.Controllers
         {
             await _signInManager.SignOutAsync();
             return NoContent();
-        } 
+        }
         #endregion
 
         #region CheckEmailExists
@@ -174,91 +163,6 @@ namespace Cooklee.API.Controllers
         {
             return await _userManager.FindByEmailAsync(email) is not null;
         }
-        #endregion
-
-        #region Login with Google
-        //private async Task<AuthenticateResult> AuthenticateGoogleAsync()
-        //{
-        //    return await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
-        //}
-
-        //private (string, string) ProcessClaims(IEnumerable<Claim> claims)
-        //{
-        //    var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-        //    var name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-        //    return (email, name);
-        //}
-
-        //[HttpGet]
-        //public async Task<IActionResult> GoogleResponse()
-        //{
-        //    var result = await AuthenticateGoogleAsync();
-
-        //    if (!result.Succeeded || result.Principal == null)
-        //    {
-        //        return Unauthorized(new { message = "Authentication failed." });
-        //    }
-
-        //    var claims = result.Principal.Identities.FirstOrDefault()?.Claims;
-
-        //    if (claims == null || !claims.Any())
-        //    {
-        //        return BadRequest(new { message = "No claims found." });
-        //    }
-
-        //    var (email, name) = ProcessClaims(claims);
-
-        //    return Ok(new
-        //    {
-        //        message = "Logged in with Google successfully",
-        //        email = email,
-        //        name = name
-        //    });
-        //}
-
-        //[HttpGet("login-google")]
-        //public IActionResult LoginGoogle()
-        //{
-        //    var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleResponse") };
-        //    return Challenge(properties, GoogleDefaults.AuthenticationScheme);
-        //}
-
-        //[HttpGet("signin-google")]
-        //public async Task<IActionResult> GoogleResponse()
-        //{
-        //    var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        //    if (!result.Succeeded)
-        //    {
-        //        return Unauthorized();
-        //    }
-
-        //    var claims = result.Principal.Identities.FirstOrDefault()?.Claims;
-        //    var (email, name) = ProcessClaims(claims);
-
-        //    var user = await _userManager.FindByEmailAsync(email);
-        //    if (user == null)
-        //    {
-        //        user = new AppUser
-        //        {
-        //            UserName = email,
-        //            Email = email,
-        //            DisplayName = name
-        //        };
-        //        await _userManager.CreateAsync(user);
-        //    }
-
-        //    await _signInManager.SignInAsync(user, isPersistent: false);
-
-        //    return Redirect("/ClientForm");
-        //}
-
-        //private (string, string) ProcessClaims(IEnumerable<Claim> claims)
-        //{
-        //    var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-        //    var name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-        //    return (email, name);
-        //}
-
         #endregion
     }
 }
