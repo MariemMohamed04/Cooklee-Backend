@@ -46,9 +46,9 @@ namespace Cooklee.Infrastructure.Repositories
 			return meals;
 		}
 
-        public Task<Meal?> GetAsync(int id)
+        public async Task<Meal?> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<Meal>().FindAsync(id);
         }
 
         public Task<int> SaveChanges()
