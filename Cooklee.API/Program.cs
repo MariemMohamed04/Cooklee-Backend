@@ -2,10 +2,13 @@
 using Cooklee.API.Exetensions;
 using Cooklee.API.Middlewares;
 using Cooklee.Data.Entities.Identity;
+using Cooklee.Data.Repository.Contract;
 using Cooklee.Infrastructure.Data;
 using Cooklee.Infrastructure.DataSeed;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using static Cooklee.Infrastructure.Repositories.HomePageMeals;
+using static Cooklee.Service.Services.HomePageMealsService;
 
 namespace Cooklee.API
 {
@@ -44,6 +47,11 @@ namespace Cooklee.API
                 });
             });
             #endregion
+            // Register the repositories
+            builder.Services.AddScoped<IMealsRepo, MealRepository>();
+
+            // Register the services
+            builder.Services.AddScoped<IMealService, MealService>();
 
             var app = builder.Build();
 
@@ -94,7 +102,6 @@ namespace Cooklee.API
             #region CORS
             app.UseCors("MyPolicy");
             #endregion
-
             // Redirect
             // Static formatting kestral will return the value.
             app.UseStatusCodePagesWithRedirects("errors/{0}");
