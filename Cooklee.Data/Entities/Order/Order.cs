@@ -10,7 +10,7 @@ namespace Cooklee.Data.Entities.Order
     {
         public Order()
         {
-            
+            //
         }
 
         public Order(string clientEmail, OrderAddress shippingAddress, ICollection<OrderItem> items, decimal subTotal)
