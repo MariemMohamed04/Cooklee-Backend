@@ -1,5 +1,6 @@
 ﻿using Cooklee.Data.Entities;
 using Cooklee.Data.Entities.Identity;
+using Cooklee.Data.Entities.Order;
 using CookLeeProject.Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,8 @@ namespace Cooklee.Infrastructure.Data
         public DbSet<ClientMeal> ClientMeals { get; set; }
         public DbSet<SpecialMeal> SpecialMeals { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        //public DbSet<Order> Orders { get; set; }
+        //public DbSet<OrderItem> OrderItems { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
