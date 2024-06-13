@@ -16,7 +16,7 @@ namespace Cooklee.Data.Entities.Cart
         //public string? PaymentIntentId { get; set; }
         //public string? ClientSecret { get; set; } 
         #endregion
-
+        //
         public CustomerCart(int id)
         {
             Id = id;
