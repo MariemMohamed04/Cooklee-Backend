@@ -6,6 +6,7 @@ using Cooklee.Infrastructure.Data;
 using Cooklee.Infrastructure.DataSeed;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 namespace Cooklee.API
 {
@@ -28,7 +29,11 @@ namespace Cooklee.API
             #endregion
 
             #region Redis
-
+            builder.Services.AddSingleton<IConnectionMultiplexer>(option =>
+            {
+                var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"));
+                return ConnectionMultiplexer.Connect(configuration);
+            });
             #endregion
 
             builder.Services.AddControllers().AddNewtonsoftJson(op=>op.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore);

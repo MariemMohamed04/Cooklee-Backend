@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cooklee.Infrastructure.Migrations
 {
     [DbContext(typeof(CookleeDbContext))]
-    [Migration("20240607072447_updateClientModelsAddNullble")]
-    partial class updateClientModelsAddNullble
+    [Migration("20240613115944_CreatingDatabase")]
+    partial class CreatingDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,6 +80,13 @@ namespace Cooklee.Infrastructure.Migrations
 
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
