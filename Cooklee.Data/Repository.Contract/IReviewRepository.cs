@@ -11,6 +11,8 @@ namespace Cooklee.Data.Repository.Contract
     public interface IReviewRepository: IGenericRepo<Review>
     {
         public Task<List<Review>> GetAllReviewsAsync();
+        public void AddAsync(Review review);
+
 
     }
 }

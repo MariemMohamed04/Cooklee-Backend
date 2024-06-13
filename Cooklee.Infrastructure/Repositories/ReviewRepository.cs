@@ -22,10 +22,63 @@ namespace Cooklee.Infrastructure.Repositories
         }
         #endregion
         #region Handle function
+        public void AddAsync(Review review)
+        {
+            _dbcontext.Reviews.Add(review);
+            _dbcontext.SaveChanges();
+        }
         public async Task<List<Review>> GetAllReviewsAsync()
         {
             return await _dbcontext.Reviews.ToListAsync();
         }
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var review = await _dbcontext.Reviews.FindAsync(id);
+            if (review == null)
+            {
+                return false;
+            }
+
+            _dbcontext.Reviews.Remove(review);
+            await _dbcontext.SaveChangesAsync();
+            return true;
+        }
+
+        private async Task<bool> CheckIfExistsAsync(int ReviewId)
+        {
+            return await _dbcontext.Reviews.AnyAsync(e => e.Id == ReviewId);
+        }
+        public async Task<bool> UpdateAsync(int id, Review item)
+        {
+            try
+            {
+                Review review = await _dbcontext.Reviews.FindAsync(id);
+                if (review == null)
+                {
+                    return false;
+                }
+
+                review.Rate = item.Rate;
+                review.Comment = item.Comment;
+
+                await _dbcontext.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await CheckIfExistsAsync(id))
+                {
+                    return false;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
+        
+
         #endregion
     }
 }

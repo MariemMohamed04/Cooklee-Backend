@@ -33,5 +33,10 @@ namespace Cooklee.Infrastructure.Data
             modelBuilder.Entity<ClientMeal>().HasKey(C => new { C.ClientId, C.MealId, C.Id });
             modelBuilder.Entity<Address>().ToTable("Addresses");
         }
+
+        internal Task FindAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
