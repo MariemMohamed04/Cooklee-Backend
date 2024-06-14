@@ -14,6 +14,8 @@ namespace Cooklee.API
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var configuration = builder.Configuration;
+
 
             builder.Services.AddControllers();
             builder.Services.AddSwaggerServices();
@@ -32,6 +34,7 @@ namespace Cooklee.API
             builder.Services.AddControllers().AddNewtonsoftJson(op=>op.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             builder.Services.AddApplicationServices();
             builder.Services.AddIdentityServices();
+            builder.Services.AddAccountServices(configuration);
 
             #region CORS
             builder.Services.AddCors(options =>
