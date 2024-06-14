@@ -13,7 +13,7 @@ namespace Cooklee.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientProfileController : ControllerBase
+    public class ClientProfileController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<AppUser> _userManager;

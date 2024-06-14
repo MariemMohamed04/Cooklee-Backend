@@ -7,13 +7,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\**" />
+    <Compile Remove="Mapping\**" />
+    <EmbeddedResource Remove="Features\**" />
+    <EmbeddedResource Remove="Mapping\**" />
+    <None Remove="Features\**" />
+    <None Remove="Mapping\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="MediatR" Version="12.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Cooklee.Data\Cooklee.Data.csproj" />
     <ProjectReference Include="..\Cooklee.Infrastructure\Cooklee.Infrastructure.csproj" />
     <ProjectReference Include="..\Cooklee.Service\Cooklee.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Meals\Commands\Handlers\" />
+    <Folder Include="Meals\Commands\Models\" />
+    <Folder Include="Meals\Commands\Validations\" />
   </ItemGroup>
 
 </Project>

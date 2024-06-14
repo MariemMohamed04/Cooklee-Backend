@@ -12,7 +12,7 @@ namespace Cooklee.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ChefPageController : ControllerBase
+    public class ChefPageController : BaseApiController
     {
 
         private readonly IUnitOfWork _unitOfWork;

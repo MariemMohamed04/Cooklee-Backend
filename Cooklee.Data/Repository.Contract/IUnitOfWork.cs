@@ -14,5 +14,7 @@ namespace Cooklee.Data.Repository.Contract
         IClientProfileRepo ClientProfileRepo { get; set; }
         IChefPageRepo ChefPageRepo { get; set; }
         IAuthService AuthService { get; set; }
+        ICartRepository CartRepo { get; set; }
+        IMealRepository MealRepository { get; set; }
     }
 }
