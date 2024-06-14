@@ -64,6 +64,16 @@ namespace Cooklee.API.Controllers
 			var chefMealsDto = _mapper.Map<MealDto>(chefMeals);
 			return Ok(chefMealsDto);	
 		}
+		[HttpDelete]
+		public async Task<IActionResult> DeleteMealAsync(int id)
+		{
+			bool deleted = await _genericMealRepo.DeleteAsync(id);
+			if(!deleted)
+			{
+				return BadRequest();
+			}
+			return Ok();
+		}
 	
 	}
 }
