@@ -37,7 +37,8 @@ namespace Cooklee.Data.Entities
         public float Price { get; set; }
         public float Rate { get; set; }
         public string Image { get; set; }
-        public List<Tag>? Tags { get; set; }
+        public List<string>? Tags { get; set; }
+
 
         public List<Review>? Reviews { get; set; }
 
@@ -55,7 +56,7 @@ namespace Cooklee.Data.Entities
         public Meal()
         {
             clients = new List<Client>();
-            Tags = new List<Tag>();
+            Tags = new List<string>();
         }
 
     }
