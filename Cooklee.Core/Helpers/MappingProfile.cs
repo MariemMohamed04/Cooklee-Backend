@@ -3,6 +3,7 @@ using Cooklee.Core.DTOs;
 using Cooklee.Data.Entities;
 using Cooklee.Data.Entities.Cart;
 using Cooklee.Data.Entities.Identity;
+using Cooklee.Data.Entities.Order;
 using CookLeeProject.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -49,6 +50,7 @@ namespace Cooklee.Core.Helpers
 
             CreateMap<Review, ReviewDto>();
             CreateMap<ReviewDto, Review>();
+            CreateMap<Order, OrderDto>();
 
 
         }

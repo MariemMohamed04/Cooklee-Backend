@@ -29,6 +29,8 @@ namespace Cooklee.API.Exetensions
             services.AddScoped<MappingProfile>();
             services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository));
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped(typeof(IOrderService), typeof(OrderService));
 
 
 
