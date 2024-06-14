@@ -1,6 +1,7 @@
 ﻿using Cooklee.Data.Entities;
 using Cooklee.Data.Repository.Contract;
 using Cooklee.Infrastructure.Data;
+using CookLeeProject.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Cooklee.Infrastructure.Repositories
 {
-	public class MealRepository : IMealRepository
+	public class MealRepository : GenericRepo<Meal>, IMealRepository
 		
 	{
 		#region fields
@@ -18,8 +19,8 @@ namespace Cooklee.Infrastructure.Repositories
 		#endregion
 
 		#region Constructor
-		public MealRepository(CookleeDbContext dbContext)
-		{
+		public MealRepository(CookleeDbContext dbContext) : base(dbContext)
+        {
 			_dbContext = dbContext;
 		}
 

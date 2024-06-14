@@ -8,7 +8,7 @@
     "Price": 12.99,
     "Rate": 4.5,
     "Image": "https://example.com/images/spaghetti.jpg",
-    "Tags": [ "WESTERN_FOODD" ],
+    "Tags": [ "EASTERN_FOOD" ],
     "ChefPageId": 1
   },
   {
@@ -20,7 +20,7 @@
     "Price": 10.99,
     "Rate": 4.2,
     "Image": "https://example.com/images/margherita-pizza.jpg",
-    "Tags": [ "WESTERN_FOODD" ],
+    "Tags": [ "EASTERN_FOOD" ],
     "ChefPageId": 1
   },
   {
@@ -32,7 +32,7 @@
     "Price": 8.99,
     "Rate": 4.0,
     "Image": "https://example.com/images/caprese-salad.jpg",
-    "Tags": [ "WESTERN_FOODD" ],
+    "Tags": [ "EASTERN_FOOD" ],
     "ChefPageId": 1
   },
   {
@@ -44,7 +44,7 @@
     "Price": 7.99,
     "Rate": 4.4,
     "Image": "https://example.com/images/tiramisu.jpg",
-    "Tags": [ "WESTERN_FOODD" ],
+    "Tags": [ "EASTERN_FOOD" ],
     "ChefPageId": 1
   },
   {
@@ -56,7 +56,7 @@
     "Price": 14.99,
     "Rate": 4.6,
     "Image": "https://example.com/images/risotto.jpg",
-    "Tags": [ "WESTERN_FOODD" ],
+    "Tags": [ "EASTERN_FOOD" ],
     "ChefPageId": 1
   },
   {
@@ -68,7 +68,7 @@
     "Price": 11.99,
     "Rate": 4.3,
     "Image": "https://example.com/images/pesto-pasta.jpg",
-    "Tags": [ "WESTERN_FOODD" ],
+    "Tags": [ "EASTERN_FOOD" ],
     "ChefPageId": 1
   },
   {
@@ -92,7 +92,7 @@
     "Price": 13.99,
     "Rate": 4.5,
     "Image": "https://example.com/images/lasagna.jpg",
-    "Tags": [ "WESTERN_FOODD" ],
+    "Tags": [ "EASTERN_FOOD" ],
     "ChefPageId": 1
   },
   {
@@ -104,7 +104,7 @@
     "Price": 9.99,
     "Rate": 4.2,
     "Image": "https://example.com/images/minestrone-soup.jpg",
-    "Tags": [ "WESTERN_FOODD" ],
+    "Tags": [ "EASTERN_FOOD" ],
     "ChefPageId": 1
   },
   {
@@ -116,7 +116,7 @@
     "Price": 16.99,
     "Rate": 4.4,
     "Image": "https://example.com/images/chicken-parmesan.jpg",
-    "Tags": [ "WESTERN_FOODD" ],
+    "Tags": [ "EASTERN_FOOD" ],
     "ChefPageId": 1
   },
   {
@@ -128,7 +128,7 @@
     "Price": 5.99,
     "Rate": 4.3,
     "Image": "https://example.com/images/cannoli.jpg",
-    "Tags": [ "WESTERN_FOODD" ],
+    "Tags": [ "EASTERN_FOOD" ],
     "ChefPageId": 1
   }
 ]

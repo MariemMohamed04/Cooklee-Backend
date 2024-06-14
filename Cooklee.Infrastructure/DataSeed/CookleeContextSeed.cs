@@ -1,5 +1,6 @@
 ﻿using Cooklee.Data.Entities;
 using Cooklee.Infrastructure.Data;
+using CookLeeProject.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,6 +68,21 @@ namespace Cooklee.Infrastructure.DataSeed
                     foreach (var meal in meals)
                     {
                         context.Set<Meal>().Add(meal);
+                    }
+                    await context.SaveChangesAsync();
+                }
+            }
+            // Seed Reviews
+            if (context.Reviews.Count() == 0)
+            {
+                var reviewsData = File.ReadAllText("../Cooklee.Infrastructure/DataSeed/SeedingFiles/Review.json");
+                var reviews = JsonSerializer.Deserialize<List<Review>>(reviewsData);
+
+                if (reviews?.Count > 0)
+                {
+                    foreach (var review in reviews)
+                    {
+                        context.Set<Review>().Add(review);
                     }
                     await context.SaveChangesAsync();
                 }
