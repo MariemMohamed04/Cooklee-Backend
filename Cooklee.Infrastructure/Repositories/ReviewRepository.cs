@@ -14,7 +14,6 @@ namespace Cooklee.Infrastructure.Repositories
     {
         #region field
         private readonly CookleeDbContext _dbcontext;
-
         #endregion
         #region constructor
         public ReviewRepository(CookleeDbContext dbcontext) : base(dbcontext)
@@ -23,12 +22,12 @@ namespace Cooklee.Infrastructure.Repositories
         }
         #endregion
         #region Handle function
-        public void AddAsync(Review review)
+        public async Task AddAsync(Review review)
         {
-            _dbcontext.Reviews.Add(review);
-            _dbcontext.SaveChanges();
+            await _dbcontext.Reviews.AddAsync(review);
+            await _dbcontext.SaveChangesAsync();
         }
-        public async Task<List<Review>> GetAllReviewsAsync()
+        public async Task<IEnumerable<Review>> GetAllReviewsAsync()
         {
             return await _dbcontext.Reviews.ToListAsync();
         }

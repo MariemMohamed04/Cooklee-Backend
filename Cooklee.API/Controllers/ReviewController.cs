@@ -1,4 +1,5 @@
-﻿using Cooklee.API.Errors;
+﻿using AutoMapper;
+using Cooklee.API.Errors;
 using Cooklee.Core.DTOs;
 using Cooklee.Data.Entities;
 using Cooklee.Data.Repository.Contract;
@@ -14,42 +15,51 @@ namespace Cooklee.API.Controllers
     public class ReviewController : ControllerBase
     {
         private readonly IReviewRepository _reviewRepository;
+        private readonly IMapper _mapper;
 
-        public ReviewController(IReviewRepository reviewRepository)
+
+        public ReviewController(IReviewRepository reviewRepository,IMapper mapper)
         {
             _reviewRepository = reviewRepository;
+           _mapper = mapper;
         }
+   
+        [HttpPost]
+        public async Task<ActionResult<ReviewDto>> CreateReview(ReviewDto reviewDto)
+        {
+            var review = _mapper.Map<Review>(reviewDto);
+            await _reviewRepository.AddAsync(review);
+            return CreatedAtAction(nameof(GetReview), new { id = review.Id }, new ApiResponse(201, "Review created successfully."));
+        }
+
 
         [HttpGet("reviews")]
-        public async Task<ActionResult<IEnumerable<Review>>> GetAllReviews()
+        public async Task<ActionResult<IEnumerable<ReviewDto>>> GetAllReviews()
         {
             var reviews = await _reviewRepository.GetAllReviewsAsync();
-            return Ok(reviews);
+            var reviewsDto = _mapper.Map<IEnumerable<ReviewDto>>(reviews);
+            return Ok(reviewsDto);
         }
 
-        [HttpGet("{id}/reviews")]
-        public async Task<ActionResult<Review>> GetReview(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ReviewDto>> GetReview(int id)
         {
             var review = await _reviewRepository.GetAsync(id);
             if (review == null)
             {
-                return NotFound();
+                return NotFound(new ApiResponse(404));
             }
-            return Ok(review);
+
+            var reviewDto = _mapper.Map<ReviewDto>(review);
+            return reviewDto;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Review>> CreateReview(Review review)
-        {
-            _reviewRepository.AddAsync(review);
-            _reviewRepository.SaveChanges();
-            return CreatedAtAction(nameof(GetReview), new { id = review.Id }, new ApiResponse(201, "Review created successfully."));
-        }
+
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateReview(int id, Review review)
+        public async Task<IActionResult> UpdateReview(int id, ReviewDto reviewDto)
         {
-            if (id != review.Id)
+            if (id != reviewDto.Id)
             {
                 return BadRequest(new ApiResponse(400, "Review ID mismatch."));
             }
@@ -60,7 +70,8 @@ namespace Cooklee.API.Controllers
                 return NotFound(new ApiResponse(404, "Review not found."));
             }
 
-            var updatedReview = await _reviewRepository.UpdateAsync(id, review);
+            var updatedReview = _mapper.Map(reviewDto, existingReview);
+            await _reviewRepository.UpdateAsync(id, updatedReview);
             return Ok(new ApiResponse(200, "Review updated successfully."));
         }
 
@@ -71,7 +82,7 @@ namespace Cooklee.API.Controllers
             var result = await _reviewRepository.DeleteAsync(id);
             if (!result)
             {
-                return NotFound();
+                return NotFound(new ApiResponse(404, "Review not found."));
             }
 
             return NoContent();
