@@ -44,6 +44,23 @@ namespace Cooklee.Core.Helpers
             CreateMap<CustomerCartDto, CustomerCart>();
 
             CreateMap<CartItemDto, CartItem>();
+
+            CreateMap<SpecialMeal, SpecialMealDto>()
+                .ForMember(dest => dest.MealName, opt => opt.MapFrom(src => src.S_MealName))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                .ForMember(dest => dest.MinPrice, opt => opt.MapFrom(src => src.MinPrice))
+                .ForMember(dest => dest.MaxPrice, opt => opt.MapFrom(src => src.MaxPrice))
+                .ForMember(dest => dest.ClientId, opt => opt.MapFrom(src => src.ClientId));
+
+            CreateMap<SpecialMealDto, SpecialMeal>()
+                .ForMember(dest => dest.S_MealName, opt => opt.MapFrom(src => src.MealName))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                .ForMember(dest => dest.MinPrice, opt => opt.MapFrom(src => src.MinPrice))
+                .ForMember(dest => dest.MaxPrice, opt => opt.MapFrom(src => src.MaxPrice))
+                .ForMember(dest => dest.ClientId, opt => opt.MapFrom(src => src.ClientId));
+
+
+            CreateMap<SpecialMealDto, SpecialMeal>();
         }
     }
 }

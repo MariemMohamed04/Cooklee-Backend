@@ -25,6 +25,7 @@ namespace Cooklee.API.Exetensions
             services.AddScoped(typeof(IClientProfileRepo), typeof(ClientProfileRepo));
             services.AddScoped(typeof(IChefPageRepo), typeof(ChefPageRepo));
             services.AddScoped(typeof(ICartRepository), typeof(CartRepository));
+            services.AddScoped(typeof(IGenericRepo<>), typeof(GenericRepo<>));
             services.AddCoreDependencies();
             services.AddScoped<MappingProfile>();
 
