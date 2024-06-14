@@ -22,5 +22,9 @@ namespace Cooklee.Data.Repository.Contract
         Task<T?> AddAsync(T entity);
 
         Task<int> SaveChanges();
+        Task<bool> CheckIfExistsAsync(int id);
+
     }
+
 }
+

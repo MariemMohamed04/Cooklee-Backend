@@ -17,7 +17,6 @@ namespace Cooklee.Infrastructure.Repositories
         public IAuthService AuthService { get; set; }
         public ICartRepository CartRepo { get; set; }
         public IMealRepository MealRepository { get; set; }
-
         public UnitOfWork
             (
             IUserRepository<AppUser> userRepo,
@@ -37,3 +36,4 @@ namespace Cooklee.Infrastructure.Repositories
         }
     }
 }
+

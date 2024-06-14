@@ -61,8 +61,13 @@ namespace Cooklee.Infrastructure.Repositories
         {
             return await _dbcontext.SaveChangesAsync();
         }
+        public async Task<bool> CheckIfExistsAsync(int id)
+        {
+            T entity = await _dbcontext.Set<T>().FindAsync(id);
+            return entity != null;
+        }
 
-      
+
     }
 }
 

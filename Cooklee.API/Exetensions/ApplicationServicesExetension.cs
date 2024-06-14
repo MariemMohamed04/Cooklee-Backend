@@ -27,9 +27,11 @@ namespace Cooklee.API.Exetensions
             services.AddScoped(typeof(ICartRepository), typeof(CartRepository));
             services.AddCoreDependencies();
             services.AddScoped<MappingProfile>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
 
 
-			services.Configure<ApiBehaviorOptions>(options =>
+
+            services.Configure<ApiBehaviorOptions>(options =>
             {
                 // State for model so we're changing its default state from invalid to this
                 options.InvalidModelStateResponseFactory = (actionContext) =>
