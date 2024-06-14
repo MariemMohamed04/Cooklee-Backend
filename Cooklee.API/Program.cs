@@ -87,6 +87,7 @@ namespace Cooklee.API
                     await _dbContext.Database.MigrateAsync();
                     var _userManager = services.GetRequiredService<UserManager<AppUser>>();
                     await AppIdentityDbContextDataSeed.SeedUserAsync(_userManager);
+                    await CookleeContextSeed.SeedAsync(_dbContext);
                 }
                 catch (Exception ex)
                 {
