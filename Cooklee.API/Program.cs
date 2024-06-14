@@ -4,9 +4,12 @@ using Cooklee.API.Middlewares;
 using Cooklee.Data.Entities.Identity;
 using Cooklee.Infrastructure.Data;
 using Cooklee.Infrastructure.DataSeed;
+using Cooklee.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
+using static Cooklee.Data.Repository.Contract.IHomePageMealsRep;
+using static Cooklee.Service.Services.HomePageMealsService;
 
 namespace Cooklee.API
 {
@@ -53,6 +56,11 @@ namespace Cooklee.API
                 });
             });
             #endregion
+            // Register the repositories
+            builder.Services.AddScoped<IMealsRepo, HomePageMealsRepo>();
+
+            // Register the services
+            builder.Services.AddScoped<IHomePageMealsService, MealsService>();
 
             var app = builder.Build();
 
