@@ -31,12 +31,13 @@ namespace Cooklee.Infrastructure.Repositories
        public async Task<ChefPage?> UpdatePageAsync(int ClientId, ChefPage updatedChefPage)
         {
             ChefPage chefPage = await _dbcontext.ChefPage.SingleOrDefaultAsync(ch => ch.ClientId == ClientId);
-
+            updatedChefPage.ClientId=ClientId;
             updatedChefPage.Id = chefPage.Id;
 
             if (chefPage != null)
             {
-                _dbcontext.Update(chefPage);
+                _dbcontext.Entry(chefPage).CurrentValues.SetValues(updatedChefPage);
+
 
             }
             return updatedChefPage;
