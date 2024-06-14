@@ -4,8 +4,12 @@ using Cooklee.API.Middlewares;
 using Cooklee.Data.Entities.Identity;
 using Cooklee.Infrastructure.Data;
 using Cooklee.Infrastructure.DataSeed;
+using Cooklee.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
+using static Cooklee.Data.Repository.Contract.IHomePageMealsRep;
+using static Cooklee.Service.Services.HomePageMealsService;
 
 namespace Cooklee.API
 {
@@ -28,7 +32,11 @@ namespace Cooklee.API
             #endregion
 
             #region Redis
-
+            builder.Services.AddSingleton<IConnectionMultiplexer>(option =>
+            {
+                var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"));
+                return ConnectionMultiplexer.Connect(configuration);
+            });
             #endregion
 
             builder.Services.AddControllers().AddNewtonsoftJson(op=>op.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -48,6 +56,11 @@ namespace Cooklee.API
                 });
             });
             #endregion
+            // Register the repositories
+            builder.Services.AddScoped<IMealsRepo, HomePageMealsRepo>();
+
+            // Register the services
+            builder.Services.AddScoped<IHomePageMealsService, MealsService>();
 
             var app = builder.Build();
 
@@ -74,6 +87,7 @@ namespace Cooklee.API
                     await _dbContext.Database.MigrateAsync();
                     var _userManager = services.GetRequiredService<UserManager<AppUser>>();
                     await AppIdentityDbContextDataSeed.SeedUserAsync(_userManager);
+                    await CookleeContextSeed.SeedAsync(_dbContext);
                 }
                 catch (Exception ex)
                 {
