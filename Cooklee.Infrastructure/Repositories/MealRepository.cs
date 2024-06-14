@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Cooklee.Infrastructure.Repositories
 {
-	public class MealRepository : IMealRepository
+	public class MealRepository : GenericRepo<Meal>,IMealRepository
 		
 	{
 		#region fields
@@ -18,22 +18,27 @@ namespace Cooklee.Infrastructure.Repositories
 		#endregion
 
 		#region Constructor
-		public MealRepository(CookleeDbContext dbContext)
+		public MealRepository(CookleeDbContext dbContext):base(dbContext)
 		{
 			_dbContext = dbContext;
 		}
 		#endregion
 
 		#region Handel function
-		public async Task<List<Meal>> GetAllMealAsync()
+
+		public async Task<IEnumerable<Meal>> GetMealsOrderedByRateAsync()
 		{
-			var meals = await _dbContext.Meals.ToListAsync();
-			return meals;
+			return await _dbContext.Set<Meal>()
+								 .OrderByDescending(m => m.Rate)
+								 .ToListAsync();
 		}
-		/*public Task<List<Meal>> GetAllMealAsync()
+
+		public async Task<IEnumerable<Meal>> GetAllChefMealsAsync(int id)
 		{
-			throw new NotImplementedException();
-		}*/
+			return await _dbContext.Set<Meal>()
+									.Where(m=> m.ChefPageId == id)
+									.ToListAsync();
+		}
 		#endregion
 
 	}

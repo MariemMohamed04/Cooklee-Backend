@@ -15,17 +15,21 @@ namespace Cooklee.Infrastructure.Repositories
         public IClientProfileRepo ClientProfileRepo { get; set; }
         public IChefPageRepo ChefPageRepo { get; set; }
         public IAuthService AuthService { get; set; }
+        public IMealRepository MealRepo { get; set; }
         public UnitOfWork
         (
             IUserRepository<AppUser> userRepo,
             IClientProfileRepo clientProfileRepo,
             IChefPageRepo chefPageRepo,
-            IAuthService authService)  
+            IAuthService authService,
+            IMealRepository mealRepo
+            )  
         {
             UserRepo = userRepo;
             ClientProfileRepo = clientProfileRepo;
             ChefPageRepo = chefPageRepo;
             AuthService = authService;
+            MealRepo = mealRepo;
         }
     }
 }
