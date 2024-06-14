@@ -34,7 +34,7 @@ namespace Cooklee.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginDto model)
+        public async Task<ActionResult<string>> Login(LoginDto model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user is null)
@@ -47,12 +47,7 @@ namespace Cooklee.API.Controllers
                 return Unauthorized(new ApiResponse(401));
             }
 
-            return Ok(new UserDto
-            {
-                DisplayName = user.DisplayName,
-                Email = user.Email,
-                Token = await _authService.CreatTokenAsync(user, _userManager)
-            });
+            return Ok(await _authService.CreatTokenAsync(user, _userManager));
         }
 
         [HttpPost("register")]
@@ -71,14 +66,9 @@ namespace Cooklee.API.Controllers
                 return BadRequest(new ApiResponse(400));
             }
 
-         
 
-            return Ok(new UserDto()
-            {
-                DisplayName = user.DisplayName,
-                Email = user.Email,
-                Token = await _authService.CreatTokenAsync(user, _userManager)
-            });
+
+            return Ok(await _authService.CreatTokenAsync(user, _userManager));
         }
 
         [HttpPost("logout")]

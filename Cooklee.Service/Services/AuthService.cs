@@ -34,6 +34,8 @@ namespace Cooklee.Service.Services
                 authClaims.Add(new Claim(ClaimTypes.Role, role));
             }
 
+
+
             // Secret Key
             var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:SecretKey"]));
 

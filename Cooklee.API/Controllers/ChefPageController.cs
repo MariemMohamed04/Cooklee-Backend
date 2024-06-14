@@ -59,7 +59,7 @@ namespace Cooklee.API.Controllers
 
             ChefPage chefPage = new ChefPage
             {
-                DisplayName = client.DisplayName,
+                DisplayName = client.FirstName + " "+ client.LastName,
            
                 ClientId= client.Id,
                
