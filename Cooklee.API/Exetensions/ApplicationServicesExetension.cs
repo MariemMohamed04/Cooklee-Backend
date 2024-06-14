@@ -20,7 +20,7 @@ namespace Cooklee.API.Exetensions
             services.AddScoped(typeof(IAuthService), typeof(AuthService));
             services.AddScoped(typeof(IUserRepository<>), typeof(UserRepository<>));
             services.AddScoped<IMealRepository, MealRepository>();
-            services.AddScoped<IMealService, MealService>();
+            //services.AddScoped<IMealService, MealService>();
             services.AddAutoMapper(typeof(MappingProfile));
             services.AddScoped(typeof(IClientProfileRepo), typeof(ClientProfileRepo));
             services.AddScoped(typeof(IChefPageRepo), typeof(ChefPageRepo));

@@ -24,24 +24,8 @@ namespace Cooklee.Infrastructure.Repositories
 			_dbContext = dbContext;
 		}
 
-        public Task<Meal?> AddAsync(Meal entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IReadOnlyList<Meal>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
         #region Handel function
-        public async Task<List<Meal>> GetAllMealAsync()
+        //public async Task<List<Meal>> GetAllMealAsync()
 		public async Task<IEnumerable<Meal>> GetMealsOrderedByRateAsync()
 		{
 			return await _dbContext.Set<Meal>()
@@ -58,20 +42,12 @@ namespace Cooklee.Infrastructure.Repositories
 		}
 		#endregion
 
-        public async Task<Meal?> GetAsync(int id)
-        {
-            return await _dbContext.Set<Meal>().FindAsync(id);
-        }
+        //public async Task<Meal?> GetAsync(int id)
+        //{
+        //    return await _dbContext.Set<Meal>().FindAsync(id);
+        //}
 
-        public Task<int> SaveChanges()
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<Meal?> UpdateAsync(int id, Meal entityToUpdate)
-        {
-            throw new NotImplementedException();
-        }
         /*public Task<List<Meal>> GetAllMealAsync()
 {
     throw new NotImplementedException();

@@ -14,8 +14,7 @@ namespace Cooklee.Data.Entities
     public enum Tag 
 	{ 
 		EASTERN_FOOD, 
-		WE
-            STERN_FOODD, 
+		WESTERN_FOODD, 
 		VEGETABLES, 
 		MEATS, 
 		GRAINS_AND_PASTA, 
