@@ -360,7 +360,7 @@ namespace Cooklee.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DeliveryMethodId")
+                    b.Property<int?>("DeliveryMethodId")
                         .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("OrderDate")
@@ -668,9 +668,7 @@ namespace Cooklee.Infrastructure.Migrations
                 {
                     b.HasOne("Cooklee.Data.Entities.Order.DeliveryMethod", "DeliveryMethod")
                         .WithMany()
-                        .HasForeignKey("DeliveryMethodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DeliveryMethodId");
 
                     b.OwnsOne("Cooklee.Data.Entities.Order.OrderAddress", "ShippingAddress", b1 =>
                         {

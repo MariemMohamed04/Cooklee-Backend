@@ -28,7 +28,7 @@ namespace Cooklee.Data.Entities.Order
         public ICollection<OrderItem> Items { get; set; } = new HashSet<OrderItem>();
         public float SubTotal { get; set; }
         //public int? DeliveryMethodId { get; set; }
-        public DeliveryMethod DeliveryMethod { get; set; }
+        public DeliveryMethod? DeliveryMethod { get; set; }
         public float GetTotal() => SubTotal + DeliveryMethod.Cost;
     }
 }

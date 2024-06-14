@@ -28,6 +28,11 @@ namespace Cooklee.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
+        public Task<bool> CheckIfExistsAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<bool> DeleteAsync(int id)
         {
             throw new NotImplementedException();

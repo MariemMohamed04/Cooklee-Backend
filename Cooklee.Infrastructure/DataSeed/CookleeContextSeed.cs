@@ -1,4 +1,5 @@
 ﻿using Cooklee.Data.Entities;
+using Cooklee.Data.Entities.Order;
 using Cooklee.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
@@ -67,6 +68,21 @@ namespace Cooklee.Infrastructure.DataSeed
                     foreach (var meal in meals)
                     {
                         context.Set<Meal>().Add(meal);
+                    }
+                    await context.SaveChangesAsync();
+                }
+            }
+
+            if (context.DeliveryMethods.Count() == 0)
+            {
+                var deliveryMethodData = File.ReadAllText("../Cooklee.Infrastructure/DataSeed/SeedingFiles/Delivery.json");
+                var deliveryMethods = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryMethodData);
+
+                if (deliveryMethods?.Count() > 0)
+                {
+                    foreach (var deliveryMethod in deliveryMethods)
+                    {
+                        context.Set<DeliveryMethod>().Add(deliveryMethod);
                     }
                     await context.SaveChangesAsync();
                 }
