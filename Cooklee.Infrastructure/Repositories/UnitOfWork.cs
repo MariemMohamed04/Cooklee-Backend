@@ -25,7 +25,8 @@ namespace Cooklee.Infrastructure.Repositories
             IAuthService authService,
             ICartRepository cartRepository,
             IMealRepository mealRepository
-            )     
+            IMealRepository mealRepo
+            )  
         {
             UserRepo = userRepo;
             ClientProfileRepo = clientProfileRepo;
@@ -33,6 +34,7 @@ namespace Cooklee.Infrastructure.Repositories
             AuthService = authService;
             CartRepo = cartRepository;
             MealRepository = mealRepository;
+            MealRepo = mealRepo;
         }
     }
 }

@@ -14,7 +14,8 @@ namespace Cooklee.Data.Entities
     public enum Tag 
 	{ 
 		EASTERN_FOOD, 
-		WESTERN_FOODD, 
+		WE
+            STERN_FOODD, 
 		VEGETABLES, 
 		MEATS, 
 		GRAINS_AND_PASTA, 
@@ -48,8 +49,6 @@ namespace Cooklee.Data.Entities
         [ForeignKey(nameof(ChefPage))]
         public int ChefPageId { get; set; }
         public ChefPage ChefPage { get; set; }
-
-
         public List<Client>? clients { get; set; }
 
         public Meal()
