@@ -23,14 +23,40 @@ namespace Cooklee.API.Controllers
             _reviewRepository = reviewRepository;
            _mapper = mapper;
         }
-   
         [HttpPost]
-        public async Task<ActionResult<ReviewDto>> CreateReview(ReviewDto reviewDto)
+        public async Task<IActionResult> PostReview([FromBody] ReviewDto reviewDto)
         {
-            var review = _mapper.Map<Review>(reviewDto);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var review = new Review
+            {
+                Comment = reviewDto.Comment,
+                Rate = reviewDto.Rate,
+                ClientId = reviewDto.ClientId,
+                MealId = reviewDto.MealId,
+            };
+
             await _reviewRepository.AddAsync(review);
-            return CreatedAtAction(nameof(GetReview), new { id = review.Id }, new ApiResponse(201, "Review created successfully."));
+            if (await _reviewRepository.SaveChanges()>0)
+            {
+                return CreatedAtAction(nameof(GetReview), new { id = review.Id }, review);
+            }
+            else
+            {
+                return StatusCode(500, "A problem happened while handling your request.");
+            }
         }
+        //[HttpPost]
+        //public async Task<ActionResult<ReviewDto>> CreateReview(ReviewDto reviewDto)
+        //{
+        //    var review = _mapper.Map<Review>(reviewDto);
+        //    await _reviewRepository.AddAsync(review);
+        //    return CreatedAtAction(nameof(GetReview), new { id = review.Id }, new ApiResponse(201, "Review created successfully."));
+        //}
+
 
 
         [HttpGet("reviews")]
@@ -56,24 +82,24 @@ namespace Cooklee.API.Controllers
 
 
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateReview(int id, ReviewDto reviewDto)
-        {
-            if (id != reviewDto.Id)
-            {
-                return BadRequest(new ApiResponse(400, "Review ID mismatch."));
-            }
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> UpdateReview(int id, ReviewDto reviewDto)
+        //{
+        //    if (id != reviewDto.Id)
+        //    {
+        //        return BadRequest(new ApiResponse(400, "Review ID mismatch."));
+        //    }
 
-            var existingReview = await _reviewRepository.GetAsync(id);
-            if (existingReview == null)
-            {
-                return NotFound(new ApiResponse(404, "Review not found."));
-            }
+        //    var existingReview = await _reviewRepository.GetAsync(id);
+        //    if (existingReview == null)
+        //    {
+        //        return NotFound(new ApiResponse(404, "Review not found."));
+        //    }
 
-            var updatedReview = _mapper.Map(reviewDto, existingReview);
-            await _reviewRepository.UpdateAsync(id, updatedReview);
-            return Ok(new ApiResponse(200, "Review updated successfully."));
-        }
+        //    var updatedReview = _mapper.Map(reviewDto, existingReview);
+        //    await _reviewRepository.UpdateAsync(id, updatedReview);
+        //    return Ok(new ApiResponse(200, "Review updated successfully."));
+        //}
 
 
         [HttpDelete("{id}/reviews")]

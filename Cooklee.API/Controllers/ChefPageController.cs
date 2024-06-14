@@ -12,7 +12,7 @@ namespace Cooklee.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ChefPageController : ControllerBase
+    public class ChefPageController : BaseApiController
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -59,7 +59,7 @@ namespace Cooklee.API.Controllers
 
             ChefPage chefPage = new ChefPage
             {
-                DisplayName = client.DisplayName,
+                DisplayName = client.FirstName + " "+ client.LastName,
            
                 ClientId= client.Id,
                
