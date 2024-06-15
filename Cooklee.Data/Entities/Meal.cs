@@ -35,7 +35,7 @@ namespace Cooklee.Data.Entities
         [DefaultValue("false")]
         public bool IsSpecial { get; set; }
         public float Price { get; set; }
-        public float Rate { get; set; }
+        public float? Rate { get; set; }
         public string Image { get; set; }
         public List<Tag>? Tags { get; set; }
 

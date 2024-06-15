@@ -22,7 +22,7 @@ namespace Cooklee.Service.Services
             this.cartRepository = cartRepository;
         }
 
-        public async Task<Order?> CreateAsync(string clientEmail, int cartId, OrderAddress shippingAddress)
+        public async Task<Order?> CreateAsync(string clientEmail, string cartId, OrderAddress shippingAddress)
         {
             var cart = await cartRepository.GetCartAsync(cartId);
             var orderItems = new List<OrderItem>();
@@ -31,6 +31,8 @@ namespace Cooklee.Service.Services
                 foreach (var cartItem in cart.Items)
                 {
                     var meal = await unit.MealRepository.GetAsync(cartItem.Id);
+                    if (meal == null) continue;
+
                     var mealItemOrder = new MealItemOrder(cartItem.Id, meal.MealName, meal.Image);
                     var orderItem = new OrderItem(mealItemOrder, cartItem.Quantity, meal.Price);
                     orderItems.Add(orderItem);
@@ -50,15 +52,16 @@ namespace Cooklee.Service.Services
         }
 
 
-        public async Task<IReadOnlyList<Order?>> GetOrdersForUserAsync(string clientEmail)
+
+        public async Task<IReadOnlyList<Order?>> GetOrdersForClientAsync(string clientEmail)
         {
             var orders = await unit.OrderRepository.GetOrdersByEmailAsync(clientEmail);
             return orders;
         }
 
-        public async Task<Order?> GetOrderByIdForUserAsync(int orderId, string clientEmail)
+        public async Task<Order?> GetOrderByIdForClientAsync(int orderId, string clientEmail)
         {
-            return await unit.OrderRepository.GetOrderByIdForUserAsync(orderId, clientEmail);
+            return await unit.OrderRepository.GetOrderByIdForClientAsync(orderId, clientEmail);
         }
 
 

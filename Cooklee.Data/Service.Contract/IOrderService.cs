@@ -10,9 +10,9 @@ namespace Cooklee.Data.Service.Contract
 {
     public interface IOrderService
     {
-        Task<Order?> CreateAsync(string clientEmail, int cartId, OrderAddress shippingAddress);
-        Task<IReadOnlyList<Order?>> GetOrdersForUserAsync(string clientEmail);
-        Task<Order?> GetOrderByIdForUserAsync(int orderId, string clientEmail);
+        Task<Order?> CreateAsync(string clientEmail, string cartId, OrderAddress shippingAddress);
+        Task<IReadOnlyList<Order?>> GetOrdersForClientAsync(string clientEmail);
+        Task<Order?> GetOrderByIdForClientAsync(int orderId, string clientEmail);
 
     }
 }

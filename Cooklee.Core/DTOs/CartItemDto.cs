@@ -14,8 +14,10 @@ namespace Cooklee.Core.DTOs
         public string MealName { get; set; }
         public string PictureUrl { get; set; }
         [Required]
-        [Range(1, int.MaxValue)]
+        [Range(1, int.MaxValue, ErrorMessage = "Quantity must be at least one item!!")]
         public int Quantity { get; set; }
+        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Price must be greater than 0!!!")]
         public float Price { get; set; }
     }
 }

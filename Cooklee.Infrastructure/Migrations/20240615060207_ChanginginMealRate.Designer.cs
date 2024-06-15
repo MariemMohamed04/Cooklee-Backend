@@ -4,6 +4,7 @@ using Cooklee.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cooklee.Infrastructure.Migrations
 {
     [DbContext(typeof(CookleeDbContext))]
-    partial class CookleeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240615060207_ChanginginMealRate")]
+    partial class ChanginginMealRate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -676,6 +679,10 @@ namespace Cooklee.Infrastructure.Migrations
                                 .HasColumnType("int");
 
                             b1.Property<string>("City")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Country")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 

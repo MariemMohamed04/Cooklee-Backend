@@ -11,7 +11,7 @@ namespace Cooklee.Core.DTOs
     public class CustomerCartDto
     {
         [Required]
-        public int Id { get; set; }
+        public string Id { get; set; }
         public List<CartItem> Items { get; set; }
     }
 }

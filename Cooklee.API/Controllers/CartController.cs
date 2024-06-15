@@ -23,7 +23,7 @@ namespace Cooklee.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<CustomerCart>> GetCart(int id)
+        public async Task<ActionResult<CustomerCart>> GetCart(string id)
         {
             var cart = await _unit.CartRepo.GetCartAsync(id);
             if (cart == null)
@@ -48,7 +48,7 @@ namespace Cooklee.API.Controllers
         }
 
         [HttpDelete]
-        public async Task DeleteCart(int id)
+        public async Task DeleteCart(string id)
         {
             await _unit.CartRepo.DeleteCartAsync(id);
         }

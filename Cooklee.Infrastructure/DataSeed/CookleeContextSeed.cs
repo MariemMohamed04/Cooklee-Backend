@@ -61,7 +61,11 @@ namespace Cooklee.Infrastructure.DataSeed
             if (context.Meals.Count() == 0)
             {
                 var mealData = File.ReadAllText("../Cooklee.Infrastructure/DataSeed/SeedingFiles/Meal.json");
-                var meals = JsonSerializer.Deserialize<List<Meal>>(mealData);
+                var options = new JsonSerializerOptions
+                {
+                    Converters = { new TagEnumConverter() }
+                };
+                var meals = JsonSerializer.Deserialize<List<Meal>>(mealData, options);
 
                 if (meals?.Count() > 0)
                 {
@@ -73,20 +77,20 @@ namespace Cooklee.Infrastructure.DataSeed
                 }
             }
 
-            if (context.DeliveryMethods.Count() == 0)
-            {
-                var deliveryMethodData = File.ReadAllText("../Cooklee.Infrastructure/DataSeed/SeedingFiles/Delivery.json");
-                var deliveryMethods = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryMethodData);
+            //if (context.DeliveryMethods.Count() == 0)
+            //{
+            //    var deliveryMethodData = File.ReadAllText("../Cooklee.Infrastructure/DataSeed/SeedingFiles/Delivery.json");
+            //    var deliveryMethods = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryMethodData);
 
-                if (deliveryMethods?.Count() > 0)
-                {
-                    foreach (var deliveryMethod in deliveryMethods)
-                    {
-                        context.Set<DeliveryMethod>().Add(deliveryMethod);
-                    }
-                    await context.SaveChangesAsync();
-                }
-            }
+            //    if (deliveryMethods?.Count() > 0)
+            //    {
+            //        foreach (var deliveryMethod in deliveryMethods)
+            //        {
+            //            context.Set<DeliveryMethod>().Add(deliveryMethod);
+            //        }
+            //        await context.SaveChangesAsync();
+            //    }
+            //}
         }
     }
 }

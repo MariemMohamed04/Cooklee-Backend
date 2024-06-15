@@ -8,7 +8,7 @@ namespace Cooklee.Data.Entities.Cart
 {
     public class CustomerCart
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public List<CartItem> Items { get; set; }
         #region Extra
         //public int? DeliveryMethodId { get; set; }
@@ -17,7 +17,7 @@ namespace Cooklee.Data.Entities.Cart
         //public string? ClientSecret { get; set; } 
         #endregion
 
-        public CustomerCart(int id)
+        public CustomerCart(string id)
         {
             Id = id;
             Items = new List<CartItem>();

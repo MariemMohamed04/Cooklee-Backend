@@ -51,7 +51,7 @@ namespace Cooklee.Core.Helpers
             CreateMap<Review, ReviewDto>();
             CreateMap<ReviewDto, Review>();
             CreateMap<Order, OrderDto>();
-
+            CreateMap<OrderAddressDto, OrderAddress>();
 
         }
     }

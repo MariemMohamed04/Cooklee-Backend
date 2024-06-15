@@ -24,7 +24,7 @@ namespace Cooklee.Infrastructure.Repositories
             return await dbcontext.Orders.Include(O => O.Items).Where(O => O.ClientEmail == email).ToListAsync();
         }
 
-        public async Task<Order> GetOrderByIdForUserAsync(int orderId, string clientEmail)
+        public async Task<Order> GetOrderByIdForClientAsync(int orderId, string clientEmail)
         {
             return await dbcontext.Orders.Include(O => O.Items).SingleOrDefaultAsync(O => O.Id == orderId && O.ClientEmail == clientEmail);
         }

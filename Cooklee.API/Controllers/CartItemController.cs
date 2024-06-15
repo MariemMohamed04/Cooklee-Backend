@@ -20,7 +20,7 @@ namespace Cooklee.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CustomerCart>> AddCartItem(int cartId, CartItem item)
+        public async Task<ActionResult<CustomerCart>> AddCartItem(string cartId, CartItem item)
         {
             if (_unit.MealRepository.GetAsync(item.Id) != null)
             {
@@ -38,7 +38,7 @@ namespace Cooklee.API.Controllers
         }
 
         [HttpPatch("{cartId}")]
-        public async Task<ActionResult<CustomerCart>> UpdateCartItemQuentity(int cartId, CartItem item)
+        public async Task<ActionResult<CustomerCart>> UpdateCartItemQuentity(string cartId, CartItem item)
         {
             var cart = await _unit.CartRepo.UpdateItemQuentity(cartId, item);
             if (cart != null)
@@ -49,7 +49,7 @@ namespace Cooklee.API.Controllers
         }
 
         [HttpDelete("{cartId}")]
-        public async Task<ActionResult<CustomerCart>> DeleteCartItem(int cartId, [FromBody] CartItem item)
+        public async Task<ActionResult<CustomerCart>> DeleteCartItem(string cartId, [FromBody] CartItem item)
         {
             var cart = await _unit.CartRepo.DeleteCartItemAsync(cartId, item);
             if (cart != null)

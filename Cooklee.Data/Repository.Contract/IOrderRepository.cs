@@ -10,6 +10,6 @@ namespace Cooklee.Data.Repository.Contract
     public interface IOrderRepository : IGenericRepo<Order>
     {
         Task<IReadOnlyList<Order>> GetOrdersByEmailAsync(string email);
-        Task<Order> GetOrderByIdForUserAsync(int orderId, string clientEmail);
+        Task<Order> GetOrderByIdForClientAsync(int orderId, string clientEmail);
     }
 }

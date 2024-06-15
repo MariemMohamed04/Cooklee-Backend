@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Cooklee.API.Errors;
 using Cooklee.Core.DTOs;
+using Cooklee.Data.Entities.Order;
 using Cooklee.Data.Service.Contract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,50 +21,40 @@ namespace Cooklee.API.Controllers
             _mapper = mapper;
         }
 
+        [ProducesResponseType(typeof(Order), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<ActionResult<OrderDto>> CreateOrder(OrderDto orderDto)
         {
-            var shippingAddress = _mapper.Map<AddressDto, Address>(orderDto.shippingAddress);
-            var createdOrder = await _orderService.CreateAsync(orderDto.buyerEmail, orderDto.CartId, shippingAddress);
-
-
-            if (createdOrder == null)
+            var shippingAddress = _mapper.Map<OrderAddressDto, OrderAddress>(orderDto.ShippingAddress);
+            var order = await _orderService.CreateAsync(orderDto.ClientEmail, orderDto.CartId, shippingAddress);
+            if (order == null)
             {
-                return BadRequest(400);
+                return BadRequest(new ApiResponse(400));
             }
-
-
-            var order = _mapper.Map<OrderDto>(createdOrder);
-
             return Ok(order);
-
         }
 
-
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<Order>>> GetOrdersForUser(string email)
+        public async Task<ActionResult<IReadOnlyList<Order>>> GetOrdersForClient(string email)
         {
             var orders = await _orderService.GetOrdersForUserAsync(email);
-
             if (orders == null)
             {
-                return NotFound(404); // Return 404 if no orders are found
+                return NotFound(new ApiResponse(404));
             }
-
-            return Ok(orders); // Return 200 with the list of orders
+            return Ok(orders);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrderForUser(int orderId, string email)
+        public async Task<ActionResult<Order>> GetOrderByIdForClient(int orderId, string email)
         {
             var order = await _orderService.GetOrderByIdForUserAsync(orderId, email);
-
             if (order == null)
             {
-                return NotFound(404); // Return 404 if no orders are found
+                return NotFound(new ApiResponse(404));
             }
-
-            return Ok(order); // Return 200 with the list of orders
+            return Ok(order);
         }
     }
 }
