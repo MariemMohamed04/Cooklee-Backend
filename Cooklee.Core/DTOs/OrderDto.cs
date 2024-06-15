@@ -14,6 +14,6 @@ namespace Cooklee.Core.DTOs
 
         [Required]
         public string CartId { get; set; }
-        public OrderAddressDto ShippingAddress { get; set; }
+        public ShipmentDetailsDto ShipmentDetails { get; set; }
     }
 }

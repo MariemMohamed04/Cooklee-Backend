@@ -26,7 +26,7 @@ namespace Cooklee.API.Controllers
         [HttpPost]
         public async Task<ActionResult<OrderDto>> CreateOrder(OrderDto orderDto)
         {
-            var shippingAddress = _mapper.Map<OrderAddressDto, OrderAddress>(orderDto.ShippingAddress);
+            var shippingAddress = _mapper.Map<ShipmentDetailsDto, ShipmentDetails>(orderDto.ShipmentDetails);
             var order = await _orderService.CreateAsync(orderDto.ClientEmail, orderDto.CartId, shippingAddress);
             if (order == null)
             {
@@ -35,10 +35,12 @@ namespace Cooklee.API.Controllers
             return Ok(order);
         }
 
+        [ProducesResponseType(typeof(Order), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<Order>>> GetOrdersForClient(string email)
         {
-            var orders = await _orderService.GetOrdersForUserAsync(email);
+            var orders = await _orderService.GetOrdersForClientAsync(email);
             if (orders == null)
             {
                 return NotFound(new ApiResponse(404));
@@ -46,10 +48,12 @@ namespace Cooklee.API.Controllers
             return Ok(orders);
         }
 
+        [ProducesResponseType(typeof(Order), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetOrderByIdForClient(int orderId, string email)
         {
-            var order = await _orderService.GetOrderByIdForUserAsync(orderId, email);
+            var order = await _orderService.GetOrderByIdForClientAsync(orderId, email);
             if (order == null)
             {
                 return NotFound(new ApiResponse(404));

@@ -7,15 +7,17 @@ using System.Threading.Tasks;
 
 namespace Cooklee.Core.DTOs
 {
-    public class OrderAddressDto
+    public class ShipmentDetailsDto
     {
         [Required]
-        public string FName { get; set; }
+        public string FirstName { get; set; }
         [Required]
-        public string LName { get; set; }
+        public string LastName { get; set; }
+        [Required]
+        public string PhoneNumber { get; set; }
+        [Required]
+        public string Area { get; set; }
         [Required]
         public string Street { get; set; }
-        [Required]
-        public string City { get; set; }
     }
 }
