@@ -17,5 +17,6 @@ namespace Cooklee.Data.Repository.Contract
         ICartRepository CartRepo { get; set; }
         IMealRepository MealRepository { get; set; }
         IOrderRepository OrderRepository { get; set; }
+        IFavouriteRepository FavoriteRepository { get; set; }
     }
 }

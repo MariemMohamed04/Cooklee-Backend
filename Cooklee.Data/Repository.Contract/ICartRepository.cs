@@ -9,12 +9,12 @@ namespace Cooklee.Data.Repository.Contract
 {
     public interface ICartRepository
     {
-        Task<CustomerCart?> GetCartAsync(string cartId);
-        Task<CustomerCart?> UpdateCartAsync(CustomerCart cart);
+        Task<ClientCart?> GetCartAsync(string cartId);
+        Task<ClientCart?> UpdateCartAsync(ClientCart cart);
         Task<bool> DeleteCartAsync(string cartId);
-        Task<CustomerCart?> AddCartItem(string cartId, CartItem item);
-        Task<CustomerCart?> UpdateCartItemAsync(string cartId, CartItem cartItem);
-        Task<CustomerCart?> DeleteCartItemAsync(string cartId, CartItem cartItem);
-        Task<CustomerCart?> UpdateItemQuentity(string cartId, CartItem cartItem);
+        Task<ClientCart?> AddCartItem(string cartId, CartItem item);
+        Task<ClientCart?> UpdateCartItemAsync(string cartId, CartItem cartItem);
+        Task<ClientCart?> DeleteCartItemAsync(string cartId, CartItem cartItem);
+        Task<ClientCart?> UpdateItemQuentity(string cartId, CartItem cartItem);
     }
 }

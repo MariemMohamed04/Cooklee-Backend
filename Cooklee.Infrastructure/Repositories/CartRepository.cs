@@ -18,13 +18,13 @@ namespace Cooklee.Infrastructure.Repositories
             _db = redis.GetDatabase();
         }
 
-        public async Task<CustomerCart?> GetCartAsync(string cartId)
+        public async Task<ClientCart?> GetCartAsync(string cartId)
         {
             var cart = await _db.StringGetAsync(cartId);
-            return cart.IsNullOrEmpty ? null : JsonSerializer.Deserialize<CustomerCart>(cart);
+            return cart.IsNullOrEmpty ? null : JsonSerializer.Deserialize<ClientCart>(cart);
         }
 
-        public async Task<CustomerCart?> UpdateCartAsync(CustomerCart cart)
+        public async Task<ClientCart?> UpdateCartAsync(ClientCart cart)
         {
             string serializedCart = JsonSerializer.Serialize(cart);
             bool createdOrUpdated = await _db.StringSetAsync(cart.Id, serializedCart, TimeSpan.FromDays(30));
@@ -36,9 +36,9 @@ namespace Cooklee.Infrastructure.Repositories
             return await _db.KeyDeleteAsync(cartId);
         }
 
-        public async Task<CustomerCart?> AddCartItem(string cartId, CartItem item)
+        public async Task<ClientCart?> AddCartItem(string cartId, CartItem item)
         {
-            var cart = await GetCartAsync(cartId) ?? new CustomerCart(cartId);
+            var cart = await GetCartAsync(cartId) ?? new ClientCart(cartId);
             var existingItem = cart.Items.FirstOrDefault(i => i.Id == item.Id);
             if (existingItem != null)
             {
@@ -55,7 +55,7 @@ namespace Cooklee.Infrastructure.Repositories
             return await UpdateCartAsync(cart);
         }
 
-        public async Task<CustomerCart?> UpdateCartItemAsync(string cartId, CartItem cartItem)
+        public async Task<ClientCart?> UpdateCartItemAsync(string cartId, CartItem cartItem)
         {
             var cart = await GetCartAsync(cartId);
             if (cart == null) return null;
@@ -69,7 +69,7 @@ namespace Cooklee.Infrastructure.Repositories
             return null;
         }
 
-        public async Task<CustomerCart?> DeleteCartItemAsync(string cartId, CartItem cartItem)
+        public async Task<ClientCart?> DeleteCartItemAsync(string cartId, CartItem cartItem)
         {
             var cart = await GetCartAsync(cartId);
             if (cart == null) return null;
@@ -82,7 +82,7 @@ namespace Cooklee.Infrastructure.Repositories
             return null;
         }
 
-        public async Task<CustomerCart?> UpdateItemQuentity(string cartId, CartItem cartItem)
+        public async Task<ClientCart?> UpdateItemQuentity(string cartId, CartItem cartItem)
         {
             var cart = await GetCartAsync(cartId);
             if (cart == null) return null;

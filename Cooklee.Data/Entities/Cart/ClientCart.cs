@@ -6,18 +6,11 @@ using System.Threading.Tasks;
 
 namespace Cooklee.Data.Entities.Cart
 {
-    public class CustomerCart
+    public class ClientCart
     {
         public string Id { get; set; }
         public List<CartItem> Items { get; set; }
-        #region Extra
-        //public int? DeliveryMethodId { get; set; }
-        //public decimal ShippingPrice { get; set; }
-        //public string? PaymentIntentId { get; set; }
-        //public string? ClientSecret { get; set; } 
-        #endregion
-
-        public CustomerCart(string id)
+        public ClientCart(string id)
         {
             Id = id;
             Items = new List<CartItem>();

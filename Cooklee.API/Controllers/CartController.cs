@@ -23,12 +23,12 @@ namespace Cooklee.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<CustomerCart>> GetCart(string id)
+        public async Task<ActionResult<ClientCart>> GetCart(string id)
         {
             var cart = await _unit.CartRepo.GetCartAsync(id);
             if (cart == null)
             {
-                cart = new CustomerCart(id);
+                cart = new ClientCart(id);
                 var savedCart = await _unit.CartRepo.UpdateCartAsync(cart);
                 return Ok(savedCart);
             }
@@ -36,10 +36,10 @@ namespace Cooklee.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CustomerCart>> UpdateCart(CustomerCartDto cart)
+        public async Task<ActionResult<ClientCart>> UpdateCart(ClientCartDto cart)
         {
-            var MappedCart = _mapper.Map<CustomerCartDto, CustomerCart>(cart);
-            var createdOrUpdatedCart = await _unit.CartRepo.UpdateCartAsync(MappedCart);
+            var mappedCart = _mapper.Map<ClientCartDto, ClientCart>(cart);
+            var createdOrUpdatedCart = await _unit.CartRepo.UpdateCartAsync(mappedCart);
             if (createdOrUpdatedCart == null)
             {
                 return BadRequest(new ApiResponse(400));
