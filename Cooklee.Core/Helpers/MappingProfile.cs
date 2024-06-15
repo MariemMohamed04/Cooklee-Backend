@@ -50,7 +50,10 @@ namespace Cooklee.Core.Helpers
 
             CreateMap<Review, ReviewDto>();
             CreateMap<ReviewDto, Review>();
-
+            CreateMap<Meal, MealDto>()
+                .ForMember(d => d.chefPageName, m => m.MapFrom(m => m.ChefPage.DisplayName));
+            CreateMap<MealDto, Meal>()
+                .ForMember(m => m.ChefPage.DisplayName, d => d.MapFrom(m => m.chefPageName));
 
         }
     }
