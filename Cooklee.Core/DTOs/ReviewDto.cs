@@ -9,11 +9,11 @@ namespace Cooklee.Core.DTOs
 {
     public class ReviewDto
     {
-        public int? Id { get; set; }
         public string? Comment { get; set; }
 
-        [AllowedValues(1, 2, 3, 4, 5)]
+        [Range(1, 5)]
         public int Rate { get; set; } = 1;
-
+        public int ClientId { get; set; }
+        public int MealId { get; set; }
     }
 }

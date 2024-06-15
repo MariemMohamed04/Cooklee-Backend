@@ -14,7 +14,8 @@ namespace Cooklee.Data.Entities
     public enum Tag 
 	{ 
 		EASTERN_FOOD, 
-		WESTERN_FOODD, 
+		WE
+            STERN_FOODD, 
 		VEGETABLES, 
 		MEATS, 
 		GRAINS_AND_PASTA, 
@@ -37,7 +38,7 @@ namespace Cooklee.Data.Entities
         public float Price { get; set; }
         public float? Rate { get; set; }
         public string Image { get; set; }
-        public List<Tag>? Tags { get; set; }
+        public List<string>? Tags { get; set; }
 
         public List<Review>? Reviews { get; set; }
 
@@ -48,14 +49,12 @@ namespace Cooklee.Data.Entities
         [ForeignKey(nameof(ChefPage))]
         public int ChefPageId { get; set; }
         public ChefPage ChefPage { get; set; }
-
-
         public List<Client>? clients { get; set; }
 
         public Meal()
         {
             clients = new List<Client>();
-            Tags = new List<Tag>();
+            Tags = new List<string>();
         }
 
     }

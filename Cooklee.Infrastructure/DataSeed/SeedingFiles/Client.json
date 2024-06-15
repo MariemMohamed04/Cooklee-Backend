@@ -1,10 +1,20 @@
 [
   {
-    "DisplayName": "Mariem",
+    "FirstName": "Mariem",
+    "LastName": "Mohamed",
     "Email": "mariem@gmail.com",
     "ImgURL": "https://cdn-icons-png.freepik.com/512/4515/4515630.png",
     "PhoneNumber": "333-333-333-33",
     "Address": "123 Main St, Anytown, USA",
-    "AppUserId": "76a97ffa-cf9c-4b92-8083-b9d01cee4df3"
+    "AppUserId": "dd3e223e-dc55-402f-8479-d5fa762f32ca"
+  } ,
+  {
+    "FirstName": "Dalia",
+    "LastName": "Mansour",
+    "Email": "dalia@gmail.com",
+    "ImgURL": "https://cdn-icons-png.freepik.com/512/4515/4515630.png",
+    "PhoneNumber": "333-333-333-33",
+    "Address": "123 Main St, Anytown, USA",
+    "AppUserId": "5375e974-b160-4181-bcc5-0d9dffd31b6b"
   }
 ]

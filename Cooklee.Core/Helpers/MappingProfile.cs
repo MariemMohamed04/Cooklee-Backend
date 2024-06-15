@@ -28,17 +28,18 @@ namespace Cooklee.Core.Helpers
                 .ForMember(d => d.Password, o => o.MapFrom(S => S.PasswordHash));
 
             CreateMap<Client, ClientProfileDto>()
-                .ForMember(d => d.Id, o => o.MapFrom(S => S.Id))
-                .ForMember(d => d.DisplayName, o => o.MapFrom(S => S.DisplayName))
-                .ForMember(d => d.Email, o => o.MapFrom(S => S.Email))
-                .ForMember(d => d.ImgURL, o => o.MapFrom(S => S.ImgURL))
-                .ForMember(d => d.PhoneNumber, o => o.MapFrom(S => S.PhoneNumber))
-                .ForMember(d => d.Address, o => o.MapFrom(S => S.Address));
+.ForMember(d => d.FirstName, o => o.MapFrom(S => S.FirstName))
+
+            .ForMember(d => d.LastName, o => o.MapFrom(S => S.LastName))
+            .ForMember(d => d.Email, o => o.MapFrom(S => S.Email))
+             .ForMember(d => d.ImgURL, o => o.MapFrom(S => S.ImgURL))
+             .ForMember(d => d.PhoneNumber, o => o.MapFrom(S => S.PhoneNumber))
+              .ForMember(d => d.Address, o => o.MapFrom(S => S.Address));
+
             CreateMap<ClientProfileDto, Client>();
 
             CreateMap<ChefPage, ChefPageDto>()
-                .ForMember(d => d.Id, o => o.MapFrom(S => S.Id))
-                .ForMember(d => d.DisplayName, o => o.MapFrom(S => S.DisplayName));
+            .ForMember(d => d.DisplayName, o => o.MapFrom(S => S.DisplayName));
             CreateMap<ChefPageDto, ChefPage>();
 
             CreateMap<ClientCartDto, ClientCart>();
@@ -52,6 +53,7 @@ namespace Cooklee.Core.Helpers
 
             CreateMap<Order, OrderDto>();
             CreateMap<ShipmentDetailsDto, ShipmentDetails>();
+
         }
     }
 }
