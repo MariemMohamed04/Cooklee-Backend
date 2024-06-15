@@ -17,6 +17,9 @@ namespace Cooklee.Infrastructure.Repositories
         public IAuthService AuthService { get; set; }
         public ICartRepository CartRepo { get; set; }
         public IMealRepository MealRepository { get; set; }
+        public IOrderRepository OrderRepository { get; set; }
+        public IFavouriteRepository FavoriteRepository { get; set; }
+
         public UnitOfWork
             (
             IUserRepository<AppUser> userRepo,
@@ -24,9 +27,11 @@ namespace Cooklee.Infrastructure.Repositories
             IChefPageRepo chefPageRepo,
             IAuthService authService,
             ICartRepository cartRepository,
-            IMealRepository mealRepository
-            IMealRepository mealRepo
-            )  
+            IMealRepository mealRepository,
+            IOrderRepository orderRepository,
+            IFavouriteRepository favouriteRepository
+            )     
+
         {
             UserRepo = userRepo;
             ClientProfileRepo = clientProfileRepo;
@@ -34,7 +39,9 @@ namespace Cooklee.Infrastructure.Repositories
             AuthService = authService;
             CartRepo = cartRepository;
             MealRepository = mealRepository;
-            MealRepo = mealRepo;
+            OrderRepository = orderRepository;
+            FavoriteRepository = favouriteRepository;
+
         }
     }
 }

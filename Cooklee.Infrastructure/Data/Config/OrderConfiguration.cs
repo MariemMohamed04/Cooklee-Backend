@@ -13,7 +13,7 @@ namespace Cooklee.Infrastructure.Data.Config
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
-            builder.OwnsOne(O => O.ShippingAddress, ShippingAddress => ShippingAddress.WithOwner());
+            builder.OwnsOne(O => O.ShipmentDetails, ShipmentDetails => ShipmentDetails.WithOwner());
             builder.Property(O => O.Status).HasConversion
              (
                 OrderStatus => OrderStatus.ToString(),

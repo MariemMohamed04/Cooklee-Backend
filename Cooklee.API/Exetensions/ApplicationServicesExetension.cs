@@ -21,13 +21,17 @@ namespace Cooklee.API.Exetensions
             services.AddScoped(typeof(IUserRepository<>), typeof(UserRepository<>));
             services.AddScoped<IMealRepository, MealRepository>();
             services.AddScoped<IMealService, MealService>();
-            services.AddAutoMapper(typeof(MappingProfile));
             services.AddScoped(typeof(IClientProfileRepo), typeof(ClientProfileRepo));
             services.AddScoped(typeof(IChefPageRepo), typeof(ChefPageRepo));
             services.AddScoped(typeof(ICartRepository), typeof(CartRepository));
+            services.AddScoped<IReviewRepository, ReviewRepository>();
+            services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository));
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped(typeof(IOrderService), typeof(OrderService));
+            services.AddScoped(typeof(IFavouriteRepository), typeof(FavouriteRepository));
             services.AddCoreDependencies();
             services.AddScoped<MappingProfile>();
-            services.AddScoped<IReviewRepository, ReviewRepository>();
+            services.AddAutoMapper(typeof(MappingProfile)); 
 
 
 
