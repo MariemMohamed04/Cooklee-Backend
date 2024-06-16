@@ -1,4 +1,5 @@
 ﻿using Cooklee.Data.Entities;
+using Cooklee.Data.Entities.Order;
 using Cooklee.Infrastructure.Data;
 using CookLeeProject.Data.Entities;
 using System;
@@ -61,7 +62,11 @@ namespace Cooklee.Infrastructure.DataSeed
             if (context.Meals.Count() == 0)
             {
                 var mealData = File.ReadAllText("../Cooklee.Infrastructure/DataSeed/SeedingFiles/Meal.json");
-                var meals = JsonSerializer.Deserialize<List<Meal>>(mealData);
+                var options = new JsonSerializerOptions
+                {
+                    Converters = { new TagEnumConverter() }
+                };
+                var meals = JsonSerializer.Deserialize<List<Meal>>(mealData, options);
 
                 if (meals?.Count() > 0)
                 {
@@ -72,7 +77,8 @@ namespace Cooklee.Infrastructure.DataSeed
                     await context.SaveChangesAsync();
                 }
             }
-            // Seed Reviews
+
+  // Seed Reviews
             if (context.Reviews.Count() == 0)
             {
                 var reviewsData = File.ReadAllText("../Cooklee.Infrastructure/DataSeed/SeedingFiles/Review.json");
@@ -87,6 +93,7 @@ namespace Cooklee.Infrastructure.DataSeed
                     await context.SaveChangesAsync();
                 }
             }
+
         }
     }
 }

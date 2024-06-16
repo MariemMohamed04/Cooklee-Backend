@@ -27,7 +27,6 @@ namespace Cooklee.Infrastructure.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<DeliveryMethod> DeliveryMethods { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -38,9 +37,9 @@ namespace Cooklee.Infrastructure.Data
             modelBuilder.Entity<Address>().ToTable("Addresses");
         }
 
-        internal Task FindAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+        //internal Task FindAsync(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

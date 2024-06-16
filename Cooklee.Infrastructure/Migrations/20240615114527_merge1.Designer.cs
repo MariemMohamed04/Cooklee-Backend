@@ -4,6 +4,7 @@ using Cooklee.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cooklee.Infrastructure.Migrations
 {
     [DbContext(typeof(CookleeDbContext))]
-    partial class CookleeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240615114527_merge1")]
+    partial class merge1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -311,7 +314,7 @@ namespace Cooklee.Infrastructure.Migrations
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
-                    b.Property<float?>("Rate")
+                    b.Property<float>("Rate")
                         .HasColumnType("real");
 
                     b.Property<string>("Tags")
@@ -322,6 +325,34 @@ namespace Cooklee.Infrastructure.Migrations
                     b.HasIndex("ChefPageId");
 
                     b.ToTable("Meals");
+                });
+
+            modelBuilder.Entity("Cooklee.Data.Entities.Order.DeliveryMethod", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
+
+                    b.Property<string>("DeliveryTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShortName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DeliveryMethods");
                 });
 
             modelBuilder.Entity("Cooklee.Data.Entities.Order.Order", b =>
@@ -336,6 +367,9 @@ namespace Cooklee.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("DeliveryMethodId")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset>("OrderDate")
                         .HasColumnType("datetimeoffset");
 
@@ -347,6 +381,8 @@ namespace Cooklee.Infrastructure.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DeliveryMethodId");
 
                     b.ToTable("Orders");
                 });
@@ -637,24 +673,30 @@ namespace Cooklee.Infrastructure.Migrations
 
             modelBuilder.Entity("Cooklee.Data.Entities.Order.Order", b =>
                 {
-                    b.OwnsOne("Cooklee.Data.Entities.Order.ShipmentDetails", "ShipmentDetails", b1 =>
+                    b.HasOne("Cooklee.Data.Entities.Order.DeliveryMethod", "DeliveryMethod")
+                        .WithMany()
+                        .HasForeignKey("DeliveryMethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("Cooklee.Data.Entities.Order.OrderAddress", "ShippingAddress", b1 =>
                         {
                             b1.Property<int>("OrderId")
                                 .HasColumnType("int");
 
-                            b1.Property<string>("Area")
+                            b1.Property<string>("City")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<string>("FirstName")
+                            b1.Property<string>("Country")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<string>("LastName")
+                            b1.Property<string>("FName")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<string>("PhoneNumber")
+                            b1.Property<string>("LName")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
@@ -670,7 +712,9 @@ namespace Cooklee.Infrastructure.Migrations
                                 .HasForeignKey("OrderId");
                         });
 
-                    b.Navigation("ShipmentDetails")
+                    b.Navigation("DeliveryMethod");
+
+                    b.Navigation("ShippingAddress")
                         .IsRequired();
                 });
 

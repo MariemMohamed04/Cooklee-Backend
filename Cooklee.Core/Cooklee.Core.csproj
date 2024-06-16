@@ -9,10 +9,13 @@
   <ItemGroup>
     <Compile Remove="Features\**" />
     <Compile Remove="Mapping\**" />
+    <Compile Remove="Meals\Commands\**" />
     <EmbeddedResource Remove="Features\**" />
     <EmbeddedResource Remove="Mapping\**" />
+    <EmbeddedResource Remove="Meals\Commands\**" />
     <None Remove="Features\**" />
     <None Remove="Mapping\**" />
+    <None Remove="Meals\Commands\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,12 +27,6 @@
     <ProjectReference Include="..\Cooklee.Data\Cooklee.Data.csproj" />
     <ProjectReference Include="..\Cooklee.Infrastructure\Cooklee.Infrastructure.csproj" />
     <ProjectReference Include="..\Cooklee.Service\Cooklee.Service.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Meals\Commands\Handlers\" />
-    <Folder Include="Meals\Commands\Models\" />
-    <Folder Include="Meals\Commands\Validations\" />
   </ItemGroup>
 
 </Project>

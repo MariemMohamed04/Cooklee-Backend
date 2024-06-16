@@ -2,7 +2,14 @@
   {
     "Comment": "Good taste, but could be better.",
     "Rate": 4,
-    "ClientId": 5,
-    "MealId": 2
+    "ClientId": 6,
+    "MealId": 13
+  },
+  {
+    "Comment": "Delicious and satisfying!",
+    "Rate": 5,
+    "ClientId": 7,
+    "MealId": 14
+
   }
 ]
