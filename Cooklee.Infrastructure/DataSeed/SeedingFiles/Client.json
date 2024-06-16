@@ -1,10 +1,11 @@
 [
   {
-    "DisplayName": "Mariem",
+    "FirstName": "Mariem",
+    "LastName": "Mohamed",
     "Email": "mariem@gmail.com",
     "ImgURL": "https://cdn-icons-png.freepik.com/512/4515/4515630.png",
     "PhoneNumber": "333-333-333-33",
     "Address": "123 Main St, Anytown, USA",
-    "AppUserId": "06be2974-c253-4864-abca-8c1acaaec552"
+    "AppUserId": "39455c43-2313-4722-b154-65d887a0dc4d"
   }
 ]
