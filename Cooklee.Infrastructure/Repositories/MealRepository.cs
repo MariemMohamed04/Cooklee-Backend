@@ -22,9 +22,10 @@ namespace Cooklee.Infrastructure.Repositories
 		{
 			_dbContext = dbContext;
 		}
+		#endregion
 
-        #region Handel function
-        //public async Task<List<Meal>> GetAllMealAsync()
+		#region Handel function
+		//public async Task<List<Meal>> GetAllMealAsync()
 		public async Task<IEnumerable<Meal>> GetMealsOrderedByRateAsync()
 		{
 			return await _dbContext.Set<Meal>()
@@ -43,23 +44,13 @@ namespace Cooklee.Infrastructure.Repositories
 
 		public async Task<IEnumerable<Meal>?> GetMealByNameAsync(string MealName)
 		{
-			var meal = await _dbContext.Set<Meal>().Where(m => m.MealName == MealName).ToListAsync();
+			var meal = await _dbContext.Set<Meal>()
+										.Where(m => m.MealName == MealName)
+										.OrderByDescending(m => m.Rate)
+										.ToListAsync();
 			return meal;
 		}
 		#endregion
-
-
-        //public async Task<Meal?> GetAsync(int id)
-        //{
-        //    return await _dbContext.Set<Meal>().FindAsync(id);
-        //}
-
-
-        /*public Task<List<Meal>> GetAllMealAsync()
-{
-    throw new NotImplementedException();
-}*/
-        #endregion
 
     }
 }
