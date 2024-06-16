@@ -21,6 +21,7 @@ namespace Cooklee.API.Exetensions
             services.AddScoped(typeof(IUserRepository<>), typeof(UserRepository<>));
             services.AddScoped<IMealRepository, MealRepository>();
             services.AddScoped<IMealService, MealService>();
+            services.AddAutoMapper(typeof(MappingProfile));
             services.AddScoped(typeof(IClientProfileRepo), typeof(ClientProfileRepo));
             services.AddScoped(typeof(IChefPageRepo), typeof(ChefPageRepo));
             services.AddScoped(typeof(ICartRepository), typeof(CartRepository));
@@ -31,11 +32,9 @@ namespace Cooklee.API.Exetensions
             services.AddScoped(typeof(IFavouriteRepository), typeof(FavouriteRepository));
             services.AddCoreDependencies();
             services.AddScoped<MappingProfile>();
-            services.AddAutoMapper(typeof(MappingProfile)); 
-
-
-
-            services.Configure<ApiBehaviorOptions>(options =>
+            services.AddScoped<IReviewRepository, ReviewRepository>();
+	       		services.AddScoped(typeof(IGenericRepo<>), typeof(GenericRepo<>));
+		      	services.Configure<ApiBehaviorOptions>(options =>
             {
                 // State for model so we're changing its default state from invalid to this
                 options.InvalidModelStateResponseFactory = (actionContext) =>

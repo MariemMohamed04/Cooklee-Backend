@@ -1,7 +1,7 @@
 ﻿using Cooklee.Data.Entities;
 using Cooklee.Data.Repository.Contract;
 using Cooklee.Infrastructure.Data;
-using CookLeeProject.Data.Entities;
+
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -46,7 +46,7 @@ namespace Cooklee.Infrastructure.Repositories
         #endregion
 
         #region Handel function
-        public async Task<List<Meal>> GetAllMealAsync()
+        //public async Task<List<Meal>> GetAllMealAsync()
 		public async Task<IEnumerable<Meal>> GetMealsOrderedByRateAsync()
 		{
 			return await _dbContext.Set<Meal>()
@@ -54,34 +54,13 @@ namespace Cooklee.Infrastructure.Repositories
 								 .ToListAsync();
 		}
 
-
 		public async Task<IEnumerable<Meal>> GetAllChefMealsAsync(int id)
 		{
 			return await _dbContext.Set<Meal>()
 									.Where(m=> m.ChefPageId == id)
+									.OrderByDescending(m => m.Rate)
 									.ToListAsync();
 		}
 		#endregion
-
-        public async Task<Meal?> GetAsync(int id)
-        {
-            return await _dbContext.Set<Meal>().FindAsync(id);
-        }
-
-        public Task<int> SaveChanges()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Meal?> UpdateAsync(int id, Meal entityToUpdate)
-        {
-            throw new NotImplementedException();
-        }
-        /*public Task<List<Meal>> GetAllMealAsync()
-{
-    throw new NotImplementedException();
-}*/
-        #endregion
-
     }
 }

@@ -32,6 +32,7 @@ namespace Cooklee.Infrastructure.Repositories
             IFavouriteRepository favouriteRepository
             )     
 
+
         {
             UserRepo = userRepo;
             ClientProfileRepo = clientProfileRepo;
@@ -41,7 +42,6 @@ namespace Cooklee.Infrastructure.Repositories
             MealRepository = mealRepository;
             OrderRepository = orderRepository;
             FavoriteRepository = favouriteRepository;
-
         }
     }
 }

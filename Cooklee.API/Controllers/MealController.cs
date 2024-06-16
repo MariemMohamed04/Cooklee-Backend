@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.NetworkInformation;
+using System.Collections.Generic;
 
 namespace Cooklee.API.Controllers
 {
@@ -16,7 +17,6 @@ namespace Cooklee.API.Controllers
 	public class MealController : ControllerBase
 	{
 		#region fields 
-		/*private readonly IMediator _mediator;*/
 		private readonly IUnitOfWork _unit;
 		private readonly IMapper _mapper;
 		private readonly IGenericRepo<Meal> _genericMealRepo;// here give me error of <meal> why 
@@ -61,7 +61,7 @@ namespace Cooklee.API.Controllers
 			{
 				return NotFound();
 			}
-			var chefMealsDto = _mapper.Map<MealDto>(chefMeals);
+			var chefMealsDto = _mapper.Map<IEnumerable<MealDto>> (chefMeals);
 			return Ok(chefMealsDto);	
 		}
 		[HttpDelete]
@@ -74,6 +74,33 @@ namespace Cooklee.API.Controllers
 			}
 			return Ok();
 		}
-	
+
+	/*	[HttpPost]
+		public async Task<ActionResult<AddMealDto>> AddMeal(AddMealDto addMeal)
+		{
+			Meal meal = _mapper.Map<Meal>(addMeal);
+			
+		}*/
+		/*[HttpPut("{id}")]
+		public async Task<ActionResult<AddMealDto>> UpdateMeal(int id, [FromBody] AddMealDto mealDto)
+		{
+			Meal meal = _mapper.Map<Meal>(mealDto);
+
+			try
+			{
+				var updatedMealDto = await _genericMealRepo.UpdateAsync(id, meal);
+
+				if (updatedMealDto == null)
+				{
+					return NotFound();
+				}
+				return Ok(updatedMealDto);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, "An error occurred while updating the meal.");
+			}
+
+		}*/
 	}
 }
