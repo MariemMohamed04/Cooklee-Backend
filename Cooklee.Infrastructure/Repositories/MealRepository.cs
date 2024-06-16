@@ -1,7 +1,6 @@
 ﻿using Cooklee.Data.Entities;
 using Cooklee.Data.Repository.Contract;
 using Cooklee.Infrastructure.Data;
-
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -37,9 +36,15 @@ namespace Cooklee.Infrastructure.Repositories
 		public async Task<IEnumerable<Meal>> GetAllChefMealsAsync(int id)
 		{
 			return await _dbContext.Set<Meal>()
-									.Where(m=> m.ChefPageId == id)
+									.Where(m	=> m.ChefPageId == id)
 									.OrderByDescending(m => m.Rate)
 									.ToListAsync();
+		}
+
+		public async Task<IEnumerable<Meal>?> GetMealByNameAsync(string MealName)
+		{
+			var meal = await _dbContext.Set<Meal>().Where(m => m.MealName == MealName).ToListAsync();
+			return meal;
 		}
 		#endregion
 

@@ -29,7 +29,7 @@ namespace Cooklee.API.Controllers
 			_genericMealRepo = genericMealRepo;
 			_myMealRepo = myMealRepo;
         }
-		[HttpGet("/meals/list")]
+		[HttpGet("api/meals/list")]
 		public async Task<ActionResult<IEnumerable<MealDto>>> GetMealsOrderedByRate()
 		{
 			var mealsList = await _myMealRepo.GetMealsOrderedByRateAsync();
@@ -41,7 +41,7 @@ namespace Cooklee.API.Controllers
 			return Ok(mealsDto); 
 		}
 
-		[HttpGet("/meal/{id}")]
+		[HttpGet("/api/meal/{id}")]
 		public async Task<ActionResult<MealDto>> GetMealById(int id)
 		{
 			var meal =await _genericMealRepo.GetAsync(id);
@@ -52,8 +52,21 @@ namespace Cooklee.API.Controllers
 			var mealDto = _mapper.Map<MealDto>(meal);
 			return Ok(mealDto);
 		}
+		//========================================
+		[HttpPost("api/meals/mealsearchByName")]
+		public async Task<ActionResult<IEnumerable<MealDto>>> GetMealByName([FromBody]string mealName)
+		{
+			var meals = await _myMealRepo.GetMealByNameAsync(mealName);
+			if (meals == null)
+			{
+				return NotFound();
+			}
+			var mealDto = _mapper.Map<IEnumerable<MealDto>>(meals);
+			return Ok(mealDto);
+		}
+		//========================================
 
-		[HttpGet("/chefmeal/{id}")]
+		[HttpGet("/api/chefmeals/{id}")]
 		public async Task<ActionResult<IEnumerable<MealDto>>> GetAllChefMeals(int id)
 		{
 			var chefMeals = await _myMealRepo.GetAllChefMealsAsync(id);
@@ -64,6 +77,7 @@ namespace Cooklee.API.Controllers
 			var chefMealsDto = _mapper.Map<IEnumerable<MealDto>> (chefMeals);
 			return Ok(chefMealsDto);	
 		}
+
 		[HttpDelete]
 		public async Task<IActionResult> DeleteMealAsync(int id)
 		{
@@ -75,32 +89,39 @@ namespace Cooklee.API.Controllers
 			return Ok();
 		}
 
-	/*	[HttpPost]
-		public async Task<ActionResult<AddMealDto>> AddMeal(AddMealDto addMeal)
+		[HttpPost("/api/addmeal")]
+		public async Task<ActionResult<AddMealDto>> AddMeal([FromBody]AddMealDto addMeal)
 		{
 			Meal meal = _mapper.Map<Meal>(addMeal);
-			
-		}*/
-		/*[HttpPut("{id}")]
+
+
+			var mealAdded =await _genericMealRepo.AddAsync(meal);
+			if (mealAdded==null) 
+			{
+				BadRequest(addMeal);
+			}
+			int x = await _genericMealRepo.SaveChanges();
+			return Ok(mealAdded);
+		}
+		[HttpPut("{id}")]
 		public async Task<ActionResult<AddMealDto>> UpdateMeal(int id, [FromBody] AddMealDto mealDto)
 		{
-			Meal meal = _mapper.Map<Meal>(mealDto);
-
+			var meal = await _genericMealRepo.GetAsync(id);
+			if (meal == null)
+			{
+				return NotFound();
+			}
+			_mapper.Map(mealDto, meal);
 			try
 			{
-				var updatedMealDto = await _genericMealRepo.UpdateAsync(id, meal);
-
-				if (updatedMealDto == null)
-				{
-					return NotFound();
-				}
+				await _genericMealRepo.SaveChanges();
+				var updatedMealDto = _mapper.Map<AddMealDto>(meal);
 				return Ok(updatedMealDto);
 			}
 			catch (Exception ex)
 			{
 				return StatusCode(500, "An error occurred while updating the meal.");
 			}
-
-		}*/
+		}
 	}
 }
