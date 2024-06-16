@@ -1,4 +1,5 @@
-﻿using Cooklee.Data.Entities.Identity;
+﻿using Cooklee.Data.Entities;
+using Cooklee.Data.Entities.Identity;
 using Cooklee.Data.Service.Contract;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,6 @@ namespace Cooklee.Data.Repository.Contract
         IMealRepository MealRepository { get; set; }
         IOrderRepository OrderRepository { get; set; }
         IFavouriteRepository FavoriteRepository { get; set; }
+        ISpecialMealRepo SpecialMealRepo { get; set; }
     }
 }

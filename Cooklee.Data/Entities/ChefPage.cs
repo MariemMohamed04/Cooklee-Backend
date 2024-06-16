@@ -25,6 +25,7 @@ namespace Cooklee.Data.Entities
         //public AppUser AppUser { get; set; }
 
         public ICollection<Meal> Meals { get; set; }
+        public List<SpecialMeal> SpecialMeals { get; set; }
         public ChefPage()
         {
             Meals = new List<Meal>();

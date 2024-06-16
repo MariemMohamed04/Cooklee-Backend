@@ -311,7 +311,7 @@ namespace Cooklee.Infrastructure.Migrations
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
-                    b.Property<float?>("Rate")
+                    b.Property<float>("Rate")
                         .HasColumnType("real");
 
                     b.Property<string>("Tags")
@@ -383,6 +383,9 @@ namespace Cooklee.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ChefPageId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
@@ -393,6 +396,9 @@ namespace Cooklee.Infrastructure.Migrations
                     b.Property<int>("MaxPrice")
                         .HasColumnType("int");
 
+                    b.Property<int?>("MealStatus")
+                        .HasColumnType("int");
+
                     b.Property<int>("MinPrice")
                         .HasColumnType("int");
 
@@ -401,6 +407,8 @@ namespace Cooklee.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ChefPageId");
 
                     b.HasIndex("ClientId");
 
@@ -710,11 +718,19 @@ namespace Cooklee.Infrastructure.Migrations
 
             modelBuilder.Entity("Cooklee.Data.Entities.SpecialMeal", b =>
                 {
+                    b.HasOne("Cooklee.Data.Entities.ChefPage", "ChefPage")
+                        .WithMany("SpecialMeals")
+                        .HasForeignKey("ChefPageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Cooklee.Data.Entities.Client", "Client")
                         .WithMany("SpecialMeals")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ChefPage");
 
                     b.Navigation("Client");
                 });
@@ -773,6 +789,8 @@ namespace Cooklee.Infrastructure.Migrations
             modelBuilder.Entity("Cooklee.Data.Entities.ChefPage", b =>
                 {
                     b.Navigation("Meals");
+
+                    b.Navigation("SpecialMeals");
                 });
 
             modelBuilder.Entity("Cooklee.Data.Entities.Client", b =>

@@ -29,21 +29,6 @@ namespace Cooklee.Infrastructure.DataSeed
                     await context.SaveChangesAsync();
                 }
             }
-
-            if (context.SpecialMeals.Count() == 0)
-            {
-                var specialMealData = File.ReadAllText("../Cooklee.Infrastructure/DataSeed/SeedingFiles/SpecialMeal.json");
-                var specialMeals = JsonSerializer.Deserialize<List<SpecialMeal>>(specialMealData);
-
-                if (specialMeals?.Count() > 0)
-                {
-                    foreach (var specialMeal in specialMeals)
-                    {
-                        context.Set<SpecialMeal>().Add(specialMeal);
-                    }
-                    await context.SaveChangesAsync();
-                }
-            }
             if (context.ChefPage.Count() == 0)
             {
                 var chifPageData = File.ReadAllText("../Cooklee.Infrastructure/DataSeed/SeedingFiles/ChefPage.json");
@@ -58,7 +43,6 @@ namespace Cooklee.Infrastructure.DataSeed
                     await context.SaveChangesAsync();
                 }
             }
-
             if (context.Meals.Count() == 0)
             {
                 var mealData = File.ReadAllText("../Cooklee.Infrastructure/DataSeed/SeedingFiles/Meal.json");
@@ -77,8 +61,20 @@ namespace Cooklee.Infrastructure.DataSeed
                     await context.SaveChangesAsync();
                 }
             }
+            if (context.SpecialMeals.Count() == 0)
+            {
+                var specialMealData = File.ReadAllText("../Cooklee.Infrastructure/DataSeed/SeedingFiles/SpecialMeal.json");
+                var specialMeals = JsonSerializer.Deserialize<List<SpecialMeal>>(specialMealData);
 
-  // Seed Reviews
+                if (specialMeals?.Count() > 0)
+                {
+                    foreach (var specialMeal in specialMeals)
+                    {
+                        context.Set<SpecialMeal>().Add(specialMeal);
+                    }
+                    await context.SaveChangesAsync();
+                }
+            }
             if (context.Reviews.Count() == 0)
             {
                 var reviewsData = File.ReadAllText("../Cooklee.Infrastructure/DataSeed/SeedingFiles/Review.json");
@@ -93,7 +89,6 @@ namespace Cooklee.Infrastructure.DataSeed
                     await context.SaveChangesAsync();
                 }
             }
-
         }
     }
 }

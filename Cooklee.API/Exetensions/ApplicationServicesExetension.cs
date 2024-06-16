@@ -20,7 +20,7 @@ namespace Cooklee.API.Exetensions
             services.AddScoped(typeof(IAuthService), typeof(AuthService));
             services.AddScoped(typeof(IUserRepository<>), typeof(UserRepository<>));
             services.AddScoped<IMealRepository, MealRepository>();
-            services.AddScoped<IMealService, MealService>();
+            //services.AddScoped<IMealService, MealService>();
             services.AddAutoMapper(typeof(MappingProfile));
             services.AddScoped(typeof(IClientProfileRepo), typeof(ClientProfileRepo));
             services.AddScoped(typeof(IChefPageRepo), typeof(ChefPageRepo));
@@ -33,14 +33,12 @@ namespace Cooklee.API.Exetensions
             services.AddCoreDependencies();
             services.AddScoped<MappingProfile>();
             services.AddScoped<IReviewRepository, ReviewRepository>();
-	       		services.AddScoped(typeof(IGenericRepo<>), typeof(GenericRepo<>));
-		      	services.Configure<ApiBehaviorOptions>(options =>
+            services.AddScoped<ISpecialMealRepo, SpecialMealRepo>();
+
+            services.Configure<ApiBehaviorOptions>(options =>
             {
-                // State for model so we're changing its default state from invalid to this
                 options.InvalidModelStateResponseFactory = (actionContext) =>
                 {
-                    // get dictionary ModelState key : name of parameter, value : array of errors
-                    // 
                     var errors = actionContext.ModelState
                         .Where(p => p.Value.Errors.Count() > 0) // key value pair, not valid state parameters
                         .SelectMany(p => p.Value.Errors) // from each parameter array of errors, el error 3obara 3n object
@@ -51,11 +49,13 @@ namespace Cooklee.API.Exetensions
                     {
                         Errors = errors
                     };
-                    // BadRequest() won't work so we are talknig to helper methods
+                    // BadRequest() won't work so we are talking to helper methods
                     return new BadRequestObjectResult(validationErrorResponse);
                 };
             });
+
             return services;
+
         }
     }
 }

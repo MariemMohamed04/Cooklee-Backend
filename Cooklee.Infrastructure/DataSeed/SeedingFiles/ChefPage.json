@@ -1,12 +1,7 @@
 [
   {
     "DisplayName": "Mariem",
-    "ClientId": 6,
-    "IsActive": true
-  },
-  {
-    "DisplayName": "Dalia",
-    "ClientId": 7,
+    "ClientId": 2,
     "IsActive": true
   }
 ]

@@ -1,25 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cooklee.Data.Entities
+namespace Cooklee.Core.DTOs
 {
-    public class SpecialMeal : BaseEntity
+    public class SpecialMealDto
     {
         public string S_MealName { get; set; }
         public string Description { get; set; }
         public int MinPrice { get; set; }
         public int MaxPrice { get; set; }
-        public Status? MealStatus { get; set; }
-        [ForeignKey(nameof(Client))]
+        public Status MealStatus { get; set; }
         public int ClientId { get; set; }
-        public Client? Client { get; set; }
         public int ChefPageId { get; set; }
-        public ChefPage ChefPage { get; set; }
 
         public enum Status
         {
