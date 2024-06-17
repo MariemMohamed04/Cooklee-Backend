@@ -97,6 +97,45 @@ namespace Cooklee.API.Controllers
 
         #region Register
         [HttpPost("register")]
+        //public async Task<ActionResult<UserDto>> Register(RegisterDto model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(new ApiValidationErrorResponse
+        //        {
+        //            Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToArray()
+        //        });
+        //    }
+
+        //    if (CheckEmailExists(model.Email).Result.Value)
+        //    {
+        //        return BadRequest(new ApiValidationErrorResponse
+        //        {
+        //            Errors = new string[] { "This email is already in use!!" }
+        //        });
+        //    }
+
+        //    if (model.Password != model.ConfirmPassword)
+        //    {
+        //        return BadRequest(new ApiValidationErrorResponse
+        //        {
+        //            Errors = new string[] { "The password and confirmation password do not match." }
+        //        });
+        //    }
+
+        //    var user = new AppUser
+        //    {
+        //        Email = model.Email,
+        //        UserName = model.Email.Split("@")[0]
+        //    };
+
+        //    var result = await _userManager.CreateAsync(user, model.Password);
+        //    if (!result.Succeeded)
+        //    {
+        //        return BadRequest(new ApiResponse(400));
+        //    }
+        //    return Ok(await _authService.CreatTokenAsync(user, _userManager));
+        //}
         public async Task<ActionResult<UserDto>> Register(RegisterDto model)
         {
             if (!ModelState.IsValid)
@@ -111,7 +150,7 @@ namespace Cooklee.API.Controllers
             {
                 return BadRequest(new ApiValidationErrorResponse
                 {
-                    Errors = new string[] { "This email is already in use!!" }
+                    Errors = new string[] { "This email is already in use!" }
                 });
             }
 
@@ -134,8 +173,11 @@ namespace Cooklee.API.Controllers
             {
                 return BadRequest(new ApiResponse(400));
             }
-            return Ok(await _authService.CreatTokenAsync(user, _userManager));
+
+            var token = await _authService.CreatTokenAsync(user, _userManager);
+            return Ok(new { token });
         }
+
         #endregion
 
         #region Logout
