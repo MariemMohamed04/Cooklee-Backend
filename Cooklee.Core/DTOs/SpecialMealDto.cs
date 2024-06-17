@@ -14,7 +14,7 @@ namespace Cooklee.Core.DTOs
         public int MaxPrice { get; set; }
         public Status? MealStatus { get; set; }
         public int ClientId { get; set; }
-        public string Client { get; set; }
+        public string? Client { get; set; }
         public int ChefPageId { get; set; }
         public string? ChefPage { get; set; }
 
@@ -25,4 +25,5 @@ namespace Cooklee.Core.DTOs
             Done
         }
     }
+
 }

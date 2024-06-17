@@ -61,20 +61,32 @@ namespace Cooklee.API.Controllers
         {
             try
             {
+                // Map SpecialMealDto to SpecialMeal entity
                 var specialMeal = _mapper.Map<SpecialMealDto, SpecialMeal>(specialMealDto);
-                var clientExists = await _unit.ClientProfileRepo.CheckIfExistsAsync(specialMeal.ClientId);
-                var chefPageExists = await _unit.ChefPageRepo.CheckIfExistsAsync(specialMeal.ChefPageId);
 
-                if (!clientExists || !chefPageExists)
+                // Check if ClientId exists
+                var clientExists = await _unit.ClientProfileRepo.CheckIfExistsAsync(specialMeal.ClientId);
+                if (!clientExists)
                 {
-                    return BadRequest(new ApiResponse(400, "Invalid ClientId or ChefPageId"));
+                    return BadRequest(new ApiResponse(400, "Invalid ClientId"));
                 }
 
+                // Check if ChefPageId exists
+                var chefPageExists = await _unit.ChefPageRepo.CheckIfExistsAsync(specialMeal.ChefPageId);
+                if (!chefPageExists)
+                {
+                    return BadRequest(new ApiResponse(400, "Invalid ChefPageId"));
+                }
+
+                // Add the SpecialMeal entity to repository
                 await _unit.SpecialMealRepo.AddAsync(specialMeal);
                 await _unit.SpecialMealRepo.SaveChanges();
 
-                var createdSpecialMeal = _mapper.Map<SpecialMeal, SpecialMealDto>(specialMeal);
-                return CreatedAtAction(nameof(GetSpecialMealById), new { id = specialMeal.Id }, createdSpecialMeal);
+                // Map the created SpecialMeal back to SpecialMealDto
+                var createdSpecialMealDto = _mapper.Map<SpecialMeal, SpecialMealDto>(specialMeal);
+
+                // Return successful response with created SpecialMealDto
+                return CreatedAtAction(nameof(GetSpecialMealById), new { id = specialMeal.Id }, createdSpecialMealDto);
             }
             catch (Exception ex)
             {
@@ -82,6 +94,7 @@ namespace Cooklee.API.Controllers
                 return StatusCode(500, new ApiResponse(500, "An error occurred while processing your request"));
             }
         }
+
 
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateSpecialMeal(int id, SpecialMealDto specialMealDto)
