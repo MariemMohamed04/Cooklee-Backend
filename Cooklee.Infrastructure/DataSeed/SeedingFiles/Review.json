@@ -2,14 +2,37 @@
   {
     "Comment": "Good taste, but could be better.",
     "Rate": 4,
-    "ClientId": 6,
-    "MealId": 13
+    "ClientId": 2,
+    "MealId": 1
+  },
+  {
+    "Comment": "Perfectly cooked and flavorful.",
+    "Rate": 5,
+    "ClientId": 2,
+    "MealId": 1
   },
   {
     "Comment": "Delicious and satisfying!",
     "Rate": 5,
-    "ClientId": 7,
-    "MealId": 14
-
+    "ClientId": 3,
+    "MealId": 2
+  },
+  {
+    "Comment": "Too salty for my liking.",
+    "Rate": 3,
+    "ClientId": 2,
+    "MealId": 5
+  },
+  {
+    "Comment": "Not as fresh as expected.",
+    "Rate": 2,
+    "ClientId": 3,
+    "MealId": 4
+  },
+  {
+    "Comment": "Just okay, nothing special.",
+    "Rate": 3,
+    "ClientId": 3,
+    "MealId": 4
   }
 ]

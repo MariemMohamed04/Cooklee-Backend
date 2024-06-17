@@ -41,7 +41,7 @@ namespace Cooklee.API.Controllers
 			return Ok(mealsDto); 
 		}
 
-		[HttpGet("/meal/{id}")]
+		[HttpGet("/api/Meal/{id}")]
 		public async Task<ActionResult<MealDto>> GetMealById(int id)
 		{
 			var meal =await _genericMealRepo.GetAsync(id);

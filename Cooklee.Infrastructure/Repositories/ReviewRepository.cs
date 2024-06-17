@@ -75,9 +75,14 @@ namespace Cooklee.Infrastructure.Repositories
                     throw;
                 }
             }
+
+        }
+        public async Task<IEnumerable<Review>> GetReviewsByMealIdAsync(int mealId)
+        {
+            return await _dbcontext.Reviews.Where(r => r.MealId == mealId).ToListAsync();
         }
 
-        
+
 
         #endregion
     }

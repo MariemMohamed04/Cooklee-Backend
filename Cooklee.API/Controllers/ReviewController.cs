@@ -15,49 +15,88 @@ namespace Cooklee.API.Controllers
     public class ReviewController : ControllerBase
     {
         private readonly IReviewRepository _reviewRepository;
+        private readonly IClientProfileRepo _clientProfileRepository;
         private readonly IMapper _mapper;
 
 
-        public ReviewController(IReviewRepository reviewRepository,IMapper mapper)
+        public ReviewController(IReviewRepository reviewRepository,IMapper mapper,IClientProfileRepo clientProfileRepo)
         {
             _reviewRepository = reviewRepository;
+            _clientProfileRepository = clientProfileRepo;
            _mapper = mapper;
         }
-        [HttpPost]
-        public async Task<IActionResult> PostReview([FromBody] ReviewDto reviewDto)
+        [HttpGet("/api/Review/{mealId}")]
+        public async Task<ActionResult<IEnumerable<ReviewDto>>> GetReviewsByMealId(int mealId)
         {
-            if (!ModelState.IsValid)
+            var reviews = await _reviewRepository.GetReviewsByMealIdAsync(mealId);
+            if (reviews == null || !reviews.Any())
             {
-                return BadRequest(ModelState);
+                return NotFound(new ApiResponse(404, "No reviews found for this meal."));
             }
 
-            var review = new Review
+            var reviewsDto = _mapper.Map<IEnumerable<ReviewDto>>(reviews);
+            return Ok(reviewsDto);
+        }
+        [HttpPost("/api/Review")]
+        public async Task<IActionResult> AddReview([FromBody] ReviewDto reviewDto)
+        {
+            try
             {
-                Comment = reviewDto.Comment,
-                Rate = reviewDto.Rate,
-                ClientId = reviewDto.ClientId,
-                MealId = reviewDto.MealId,
-            };
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
-            await _reviewRepository.AddAsync(review);
-            if (await _reviewRepository.SaveChanges()>0)
-            {
-                return CreatedAtAction(nameof(GetReview), new { id = review.Id }, review);
+                // Validate that the client exists
+                var client = await _clientProfileRepository.GetAsync(reviewDto.ClientId);
+                if (client == null)
+                {
+                    return BadRequest("Invalid client specified for the review.");
+                }
+
+                var review = new Review
+                {
+                    Comment = reviewDto.Comment,
+                    Rate = reviewDto.Rate,
+                    ClientId = reviewDto.ClientId,
+                    MealId = reviewDto.MealId
+                };
+
+                await _reviewRepository.AddAsync(review);
+
+                if (await _reviewRepository.SaveChanges() > 0)
+                {
+                    var mappedReviewDto = _mapper.Map<ReviewDto>(review);
+                    return CreatedAtAction(nameof(GetReviewById), new { id = review.Id }, mappedReviewDto);
+                }
+                else
+                {
+                    return StatusCode(500, "Failed to add review. Please try again later.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return StatusCode(500, "A problem happened while handling your request.");
+                // Log the exception including inner exceptions
+                Console.WriteLine(ex.ToString());
+
+                // Return an error response to the client
+                return StatusCode(500, "An error occurred while saving the entity changes. Please try again later.");
             }
         }
-        //[HttpPost]
-        //public async Task<ActionResult<ReviewDto>> CreateReview(ReviewDto reviewDto)
-        //{
-        //    var review = _mapper.Map<Review>(reviewDto);
-        //    await _reviewRepository.AddAsync(review);
-        //    return CreatedAtAction(nameof(GetReview), new { id = review.Id }, new ApiResponse(201, "Review created successfully."));
-        //}
 
 
+        [HttpGet("/api/Reviews/{id}", Name = "GetReviewById")]
+        public async Task<ActionResult<ReviewDto>> GetReviewById(int id)
+        {
+            var review = await _reviewRepository.GetAsync(id);
+            if (review == null)
+            {
+                return NotFound(new ApiResponse(404, "Review not found."));
+            }
+
+            var reviewDto = _mapper.Map<ReviewDto>(review);
+            return reviewDto;
+        }
 
         [HttpGet("reviews")]
         public async Task<ActionResult<IEnumerable<ReviewDto>>> GetAllReviews()
@@ -67,51 +106,16 @@ namespace Cooklee.API.Controllers
             return Ok(reviewsDto);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ReviewDto>> GetReview(int id)
-        {
-            var review = await _reviewRepository.GetAsync(id);
-            if (review == null)
-            {
-                return NotFound(new ApiResponse(404));
-            }
-
-            var reviewDto = _mapper.Map<ReviewDto>(review);
-            return reviewDto;
-        }
-
-
-
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> UpdateReview(int id, ReviewDto reviewDto)
+        //[HttpDelete("{id}/reviews")]
+        //public async Task<IActionResult> DeleteReview(int id)
         //{
-        //    if (id != reviewDto.Id)
-        //    {
-        //        return BadRequest(new ApiResponse(400, "Review ID mismatch."));
-        //    }
-
-        //    var existingReview = await _reviewRepository.GetAsync(id);
-        //    if (existingReview == null)
+        //    var result = await _reviewRepository.DeleteAsync(id);
+        //    if (!result)
         //    {
         //        return NotFound(new ApiResponse(404, "Review not found."));
         //    }
 
-        //    var updatedReview = _mapper.Map(reviewDto, existingReview);
-        //    await _reviewRepository.UpdateAsync(id, updatedReview);
-        //    return Ok(new ApiResponse(200, "Review updated successfully."));
+        //    return NoContent();
         //}
-
-
-        [HttpDelete("{id}/reviews")]
-        public async Task<IActionResult> DeleteReview(int id)
-        {
-            var result = await _reviewRepository.DeleteAsync(id);
-            if (!result)
-            {
-                return NotFound(new ApiResponse(404, "Review not found."));
-            }
-
-            return NoContent();
-        }
     }
 }

@@ -311,7 +311,7 @@ namespace Cooklee.Infrastructure.Migrations
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
-                    b.Property<float?>("Rate")
+                    b.Property<float>("Rate")
                         .HasColumnType("real");
 
                     b.Property<string>("Tags")

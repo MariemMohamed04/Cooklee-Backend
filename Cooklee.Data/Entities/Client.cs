@@ -29,7 +29,7 @@ namespace Cooklee.Data.Entities
         public ChefPage? Chef { get; set; }
         public List<SpecialMeal>? SpecialMeals { get; set; }
 
-        public List<Review>? reviews { get; set; }
+        public List<Review>? Reviews { get; set; }
         public Client()
         {
             SpecialMeals = new List<SpecialMeal>();
