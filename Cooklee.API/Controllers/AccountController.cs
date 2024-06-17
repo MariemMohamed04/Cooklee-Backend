@@ -12,7 +12,7 @@ namespace Cooklee.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : BaseApiController
-    {
+    {//
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
