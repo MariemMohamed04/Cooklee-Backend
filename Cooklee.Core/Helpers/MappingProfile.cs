@@ -58,7 +58,10 @@ namespace Cooklee.Core.Helpers
                 .ForMember(d => d.chefPageName, m => m.MapFrom(m => m.ChefPage.DisplayName));
             CreateMap<AddMealDto, Meal>();
 
-            CreateMap<SpecialMeal, SpecialMealDto>().ReverseMap();
+            CreateMap<SpecialMeal, SpecialMealDto>()
+                .ForMember(d => d.ChefPage, o => o.MapFrom(src => src.ChefPage.DisplayName))
+                .ForMember(d => d.Client, o => o.MapFrom(src => src.Client.FirstName))
+                .ReverseMap();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Cooklee.Data.Entities
         public int ClientId { get; set; }
         public Client? Client { get; set; }
         public int ChefPageId { get; set; }
-        public ChefPage ChefPage { get; set; }
+        public ChefPage? ChefPage { get; set; }
 
         public enum Status
         {
