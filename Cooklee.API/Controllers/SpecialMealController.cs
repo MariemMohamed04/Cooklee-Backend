@@ -20,7 +20,7 @@ namespace Cooklee.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("SpecialMeals")]
         public async Task<ActionResult<IEnumerable<SpecialMealDto>>> GetAllSpecialMeals()
         {
             var specialMeals = await _unit.SpecialMealRepo.GetAllAsync();
@@ -46,6 +46,14 @@ namespace Cooklee.API.Controllers
             var specialMeals = await _unit.SpecialMealRepo.FindAsync(m => m.ChefPageId == chefPageId);
             var mappedSpecialMeals = _mapper.Map<IEnumerable<SpecialMeal>, IEnumerable<SpecialMealDto>>(specialMeals);
             return Ok(mappedSpecialMeals);
+        }
+
+        [HttpGet("Chefs")]
+        public async Task<ActionResult<IEnumerable<SpecialMealDto>>> GetAllChefs()
+        {
+            var chefs = await _unit.ChefPageRepo.GetAllAsync();
+            var mappedChefs = _mapper.Map<IEnumerable<ChefPage>, IEnumerable<ChefPageDto>>(chefs);
+            return Ok(mappedChefs);
         }
 
         [HttpPost]
