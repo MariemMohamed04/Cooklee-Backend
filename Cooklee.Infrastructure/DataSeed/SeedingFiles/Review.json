@@ -2,13 +2,13 @@
   {
     "Comment": "Good taste, but could be better.",
     "Rate": 4,
-    "ClientId": 2,
-    "MealId": 1
+    "ClientId": 3,
+    "MealId": 2
   },
   {
     "Comment": "Perfectly cooked and flavorful.",
     "Rate": 5,
-    "ClientId": 2,
+    "ClientId": 3,
     "MealId": 1
   },
   {
@@ -20,7 +20,7 @@
   {
     "Comment": "Too salty for my liking.",
     "Rate": 3,
-    "ClientId": 2,
+    "ClientId": 3,
     "MealId": 5
   },
   {

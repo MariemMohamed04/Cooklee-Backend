@@ -12,7 +12,7 @@ namespace Cooklee.Data.Entities
 {
 	public class ChefPage : BaseEntity
 	{
-        public string DisplayName { get; set; }
+        public string? DisplayName { get; set; }
 
         [ForeignKey(nameof(Client))]
         public int ClientId { get; set; }
@@ -25,6 +25,7 @@ namespace Cooklee.Data.Entities
         //public AppUser AppUser { get; set; }
 
         public ICollection<Meal> Meals { get; set; }
+        public List<SpecialMeal> SpecialMeals { get; set; }
         public ChefPage()
         {
             Meals = new List<Meal>();
