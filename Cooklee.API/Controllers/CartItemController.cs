@@ -19,7 +19,7 @@ namespace Cooklee.API.Controllers
             _unit = unit;
         }
 
-        [HttpPost("{cartId}")]
+        [HttpPost]
         public async Task<ActionResult<ClientCart>> AddCartItem(string cartId, CartItem item)
         {
             if(_unit.MealRepository.GetAsync(item.Id) != null)
