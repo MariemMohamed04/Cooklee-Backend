@@ -565,7 +565,7 @@ namespace Cooklee.Infrastructure.Migrations
             modelBuilder.Entity("CookLeeProject.Data.Entities.Review", b =>
                 {
                     b.HasOne("Cooklee.Data.Entities.Client", "Client")
-                        .WithMany("reviews")
+                        .WithMany("Reviews")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -796,9 +796,9 @@ namespace Cooklee.Infrastructure.Migrations
                 {
                     b.Navigation("Chef");
 
-                    b.Navigation("SpecialMeals");
+                    b.Navigation("Reviews");
 
-                    b.Navigation("reviews");
+                    b.Navigation("SpecialMeals");
                 });
 
             modelBuilder.Entity("Cooklee.Data.Entities.Identity.AppUser", b =>

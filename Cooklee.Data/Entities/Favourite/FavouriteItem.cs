@@ -10,7 +10,7 @@ namespace Cooklee.Data.Entities.Favourite
     {
         public int Id { get; set; }
         public string MealName { get; set; }
-        public string PictureUrl { get; set; }
+        public string Image { get; set; }
         public float Price { get; set; }
     }
 }

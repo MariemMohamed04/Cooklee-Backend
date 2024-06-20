@@ -13,7 +13,7 @@ namespace Cooklee.Infrastructure.Repositories
     public class CartRepository : ICartRepository
     {
         private readonly IDatabase _db;
-        public CartRepository(IConnectionMultiplexer redis) 
+        public CartRepository(IConnectionMultiplexer redis)
         {
             _db = redis.GetDatabase();
         }
@@ -42,7 +42,7 @@ namespace Cooklee.Infrastructure.Repositories
             var existingItem = cart.Items.FirstOrDefault(i => i.Id == item.Id);
             if (existingItem != null)
             {
-                if (item.Quantity == 10)
+                if (existingItem.Quantity + item.Quantity > 10)
                 {
                     return null;
                 }
@@ -95,4 +95,5 @@ namespace Cooklee.Infrastructure.Repositories
             return null;
         }
     }
+
 }

@@ -19,12 +19,17 @@ namespace Cooklee.API.Controllers
             _unit = unit;
         }
 
-        [HttpPost]
+        [HttpPost("{cartId}")]
         public async Task<ActionResult<ClientCart>> AddCartItem(string cartId, CartItem item)
         {
-            if (_unit.MealRepository.GetAsync(item.Id) != null)
+            if(_unit.MealRepository.GetAsync(item.Id) != null)
             {
                 var cart = await _unit.CartRepo.AddCartItem(cartId, item);
+                if (cart.Items.Any(i => i.Id == item.Id))
+                {
+                    return BadRequest("Item already exists in Carts.");
+                }
+
                 if (cart != null)
                 {
                     return Ok(cart);
@@ -45,7 +50,7 @@ namespace Cooklee.API.Controllers
             {
                 return Ok(cart);
             }
-            return BadRequest(new ApiResponse(400));
+            return BadRequest(new ApiResponse(400, "Failed to update item quantity."));
         }
 
         [HttpDelete("{cartId}")]
@@ -56,7 +61,9 @@ namespace Cooklee.API.Controllers
             {
                 return Ok(cart);
             }
-            return BadRequest(new ApiResponse(400));
+            return BadRequest(new ApiResponse(400, "Failed to delete item from cart."));
         }
     }
+
+
 }

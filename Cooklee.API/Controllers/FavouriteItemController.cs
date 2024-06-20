@@ -23,6 +23,11 @@ namespace Cooklee.API.Controllers
             if (_unit.MealRepository.GetAsync(item.Id) != null)
             {
                 var favourite = await _unit.FavoriteRepository.AddFavouriteItem(favouriteId, item);
+                if (favourite.Items.Any(i => i.Id == item.Id))
+                {
+                    return BadRequest("Item already exists in favorites.");
+                }
+
                 if (favourite != null)
                 {
                     return Ok(favourite);
@@ -34,6 +39,7 @@ namespace Cooklee.API.Controllers
                 return BadRequest("You cannot add a meal that does not exist!!!");
             }
         }
+
 
         [HttpDelete("{favouriteId}")]
         public async Task<ActionResult<ClientFavourite>> DeleteFavouriteItem(string favouriteId, [FromBody] FavouriteItem item)
