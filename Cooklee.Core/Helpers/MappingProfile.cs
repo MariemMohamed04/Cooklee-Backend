@@ -52,16 +52,29 @@ namespace Cooklee.Core.Helpers
             CreateMap<ReviewDto, Review>();
             CreateMap<Meal, MealDto>()
                 .ForMember(d => d.chefPageName, m => m.MapFrom(m => m.ChefPage.DisplayName));
-            CreateMap<AddMealDto, Meal>();
-               /* .ForMember(m => m.MealName, d => d.MapFrom(d => d.MealName))
-                .ForMember(m => m.MealDescription, d => d.MapFrom(d => d.MealDescription))
-                .ForMember(m => m.IsHealthy, d => d.MapFrom(d => d.IsHealthy))
-                .ForMember(m => m.IsSpecial, d => d.MapFrom(d => d.IsSpecial))
-                .ForMember(m => m.Price, d => d.MapFrom(d => d.Price))
-                .ForMember(m => m.Image, d => d.MapFrom(d => d.Image))
-                .ForMember(m => m.Tags, d => d.MapFrom(d => d.tags))
-                .ForMember(m => m.ChefPageId,  d => d.MapFrom(d => d.ChefPageId));*/
+           /* CreateMap<Meal, MealDto>()
+                .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.Tags)) // Assuming Tags is a List<string>
+                .ForMember(dest => dest.chefPageName, opt => opt.MapFrom(src => src.ChefPage.DisplayName));
+*/
+			CreateMap<MealDto, Meal>()
+   .ForMember(dest => dest.MealName, opt => opt.MapFrom(src => src.MealName))
+   .ForMember(dest => dest.MealDescription, opt => opt.MapFrom(src => src.MealDescription))
+   .ForMember(dest => dest.IsHealthy, opt => opt.MapFrom(src => src.IsHealthy))
+   .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+   .ForMember(dest => dest.Rate, opt => opt.MapFrom(src => src.Rate))
+   .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image))
+   .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.Tags))
+   .ForMember(dest => dest.ChefPageId, opt => opt.MapFrom(src => src.ChefPageId))
+   .ForMember(dest => dest.ChefPage, opt => opt.MapFrom(src => src.ChefPageId));
 
-        }
+			CreateMap<AddMealDto, Meal>();
+            CreateMap<AddMealDto, Meal>()
+           .ForMember(dest => dest.ChefPageId, opt => opt.MapFrom(src => src.ChefPageId));
+		   
+		   
+
+
+
+		}
     }
 }

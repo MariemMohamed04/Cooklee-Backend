@@ -4,6 +4,7 @@ using Cooklee.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,6 +49,12 @@ namespace Cooklee.Infrastructure.Repositories
 										.Where(m => m.MealName == MealName)
 										.OrderByDescending(m => m.Rate)
 										.ToListAsync();
+			return meal;
+		}
+		public async Task<Meal> UpdateMeal( Meal meal)
+		{
+			_dbContext.Entry(meal).State = EntityState.Modified;
+			//await _dbContext.SaveChangesAsync();
 			return meal;
 		}
 		#endregion
