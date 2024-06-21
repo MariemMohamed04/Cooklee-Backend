@@ -19,17 +19,44 @@ namespace Cooklee.API.Controllers
             _unit = unit;
         }
 
+        //[HttpPost("{cartId}")]
+        //public async Task<ActionResult<ClientCart>> AddCartItem(string cartId, CartItem item)
+        //{
+        //    // Check if the meal exists
+        //    var meal = await _unit.MealRepository.GetAsync(item.Id);
+        //    if (meal == null)
+        //    {
+        //        return BadRequest("You cannot add a meal that does not exist!!!");
+        //    }
+
+        //    // Proceed with adding the item to the cart
+        //    var cart = await _unit.CartRepo.AddCartItem(cartId, item);
+        //    if (cart == null)
+        //    {
+        //        return BadRequest("Failed to add item to the cart.");
+        //    }
+
+        //    // Check if the item already exists in the cart
+        //    if (cart.Items.Any(i => i.Id == item.Id))
+        //    {
+        //        return BadRequest("Item already exists in the cart.");
+        //    }
+
+        //    // Optionally, check if adding the item would exceed a certain limit (e.g., 10 items)
+        //    if (cart.Items.Count >= 10)
+        //    {
+        //        return BadRequest("You cannot add more than 10 items to the cart.");
+        //    }
+
+        //    return Ok(cart);
+        //}
+
         [HttpPost]
         public async Task<ActionResult<ClientCart>> AddCartItem(string cartId, CartItem item)
         {
-            if(_unit.MealRepository.GetAsync(item.Id) != null)
+            if (_unit.MealRepository.GetAsync(item.Id) != null)
             {
                 var cart = await _unit.CartRepo.AddCartItem(cartId, item);
-                if (cart.Items.Any(i => i.Id == item.Id))
-                {
-                    return BadRequest("Item already exists in Carts.");
-                }
-
                 if (cart != null)
                 {
                     return Ok(cart);
@@ -41,6 +68,7 @@ namespace Cooklee.API.Controllers
                 return BadRequest("You cannot add a meal that does not exist!!!");
             }
         }
+
 
         [HttpPatch("{cartId}")]
         public async Task<ActionResult<ClientCart>> UpdateCartItemQuentity(string cartId, CartItem item)

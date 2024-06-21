@@ -42,7 +42,7 @@ namespace Cooklee.Infrastructure.Repositories
             var existingItem = cart.Items.FirstOrDefault(i => i.Id == item.Id);
             if (existingItem != null)
             {
-                if (existingItem.Quantity + item.Quantity > 10)
+                if (item.Quantity == 10)
                 {
                     return null;
                 }

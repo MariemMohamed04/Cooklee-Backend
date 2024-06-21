@@ -11,7 +11,7 @@ namespace Cooklee.Core.DTOs
 {
 	public class MealDto
 	{
-		public string Id {  get; set; }
+		public int Id {  get; set; }
 		public string MealName { get; set; }
 		public string MealDescription { get; set; }
 		[DefaultValue(false)]
