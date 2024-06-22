@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Cooklee.Core.DTOs
 {
-	internal class MealDto
+	public class MealDto
 	{
 		public string Id {  get; set; }
 		public string MealName { get; set; }
