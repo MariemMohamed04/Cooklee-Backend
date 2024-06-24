@@ -13,7 +13,7 @@ namespace Cooklee.Infrastructure.DataSeed
     {
         public static async Task SeedUserAsync(UserManager<AppUser> userManager)
         {
-            if (userManager.Users.Count() == 0)
+            if (userManager.Users.Count() == 3)
             {
                 var users = new List<AppUser>
                     { new AppUser{
@@ -36,9 +36,9 @@ namespace Cooklee.Infrastructure.DataSeed
 
                 //var user = new AppUser()
                 //{
-                //    DisplayName = "Mariem",
+                //    DisplayName = "omnia",
                 //    Email = "mariem@gmail.com",
-                //    UserName = "Mariem.Mohamed",
+                //    UserName = "omnia.khalil",
                 //    PhoneNumber = "333-333-333-33",
 
                 //};
