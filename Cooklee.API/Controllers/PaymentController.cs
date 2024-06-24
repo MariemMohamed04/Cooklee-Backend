@@ -10,19 +10,22 @@ namespace Cooklee.API.Controllers
     public class PaymentController : BaseApiController
     {
         private readonly IPaymentService _paymentService;
+        
 
         public PaymentController(IPaymentService paymentService)
         {
             _paymentService = paymentService;
         }
         [HttpGet("")]
-        public async Task<ActionResult<IEnumerable<string>>> PaymentData()
+        public async Task<ActionResult<IEnumerable<string>>> PaymentData( string cartid , string orderEmail)
         {
 
             var  auth_token= await _paymentService.GetAuthTokenAsync();
+            var amount = await _paymentService.GetAmountAsync(cartid);
 
-            var orderId = await _paymentService.GeteOrderIdAsync(auth_token, 1000);
-            var payment_key = await _paymentService.GetRequestPaymentKeyAsync(auth_token, orderId, 1000);
+            var PayOrderId = await _paymentService.GeteOrderIdAsync(auth_token, amount);
+
+            var payment_key = await _paymentService.GetRequestPaymentKeyAsync(auth_token, PayOrderId, 1000 , orderEmail);
 
             if (payment_key == null)
             {

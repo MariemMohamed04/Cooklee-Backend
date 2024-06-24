@@ -25,8 +25,8 @@ namespace Cooklee.API.Controllers
             SignInManager<AppUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             IAuthService authService,
-            IEmailService emailService,
-            IEmailSender
+            IEmailService emailService
+
             )
         {
             _userManager = userManager;
@@ -214,58 +214,58 @@ namespace Cooklee.API.Controllers
         #endregion
 
         #region Forgot Password
-        [HttpPost]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordDto forgotPasswordDto)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
+        // [HttpPost]
+        //public async Task<IActionResult> ForgotPassword(ForgotPasswordDto forgotPasswordDto)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
 
-                if (user != null)
-                {
-                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                    var resetPasswordLink = Url.Action("ResetPassword", "Account", new { Email = forgotPasswordDto.Email, Token = token }, Request.Scheme);
-                    var email = new Email
-                    {
-                        To = forgotPasswordDto.Email,
-                        Subject = "Reset Your Password",
-                        Body = resetPasswordLink
-                    };
-                    EmailSetting.SendEmail(email);
-                    return RedirectToAction("CompleteForgetPassword");
-                }
+        //        if (user != null)
+        //        {
+        //            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        //            var resetPasswordLink = Url.Action("ResetPassword", "Account", new { Email = forgotPasswordDto.Email, Token = token }, Request.Scheme);
+        //            var email = new Email
+        //            {
+        //                To = forgotPasswordDto.Email,
+        //                Subject = "Reset Your Password",
+        //                Body = resetPasswordLink
+        //            };
+        //            EmailSetting.SendEmail(email);
+        //            return RedirectToAction("CompleteForgetPassword");
+        //        }
 
-                ModelState.AddModelError("", "Invalid Email");
-            }
-            //return View();
-        }
+        //        ModelState.AddModelError("", "Invalid Email");
+        //    }
+        //    //return View();
+        //}
         #endregion
 
         #region Reset Password
-        [HttpPost]
-        public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
+       // [HttpPost]
+        //public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
 
-                if (user != null)
-                {
-                    var result = await _userManager.ResetPasswordAsync(user, resetPasswordDto.Token, resetPasswordDto.Password);
+        //        if (user != null)
+        //        {
+        //            var result = await _userManager.ResetPasswordAsync(user, resetPasswordDto.Token, resetPasswordDto.Password);
 
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction(nameof(Login));
-                    }
+        //            if (result.Succeeded)
+        //            {
+        //                return RedirectToAction(nameof(Login));
+        //            }
 
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-                }
-            }
-            //return View(model);
-        }
+        //            foreach (var error in result.Errors)
+        //            {
+        //                ModelState.AddModelError(string.Empty, error.Description);
+        //            }
+        //        }
+        //    }
+        //    //return View(model);
+        //}
         #endregion
-    }
+    } 
 }
