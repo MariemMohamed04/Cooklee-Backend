@@ -43,6 +43,7 @@ namespace Cooklee.API
             builder.Services.AddApplicationServices();
             builder.Services.AddIdentityServices();
             builder.Services.AddAccountServices(configuration);
+            builder.Services.AddMailServices(configuration);
 
             #region CORS
             builder.Services.AddCors(options =>

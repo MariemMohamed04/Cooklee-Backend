@@ -28,8 +28,6 @@ namespace Cooklee.Core.DTOs
         [Required]
         public string PhoneNumber { get; set; }
         [Required]
-        public string Area { get; set; }
-        [Required]
         public string Street { get; set; }
         [Required]
 
