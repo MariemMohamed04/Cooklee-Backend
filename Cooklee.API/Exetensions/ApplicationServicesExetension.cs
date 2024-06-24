@@ -35,6 +35,7 @@ namespace Cooklee.API.Exetensions
             services.AddScoped<MappingProfile>();
             services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddScoped<ISpecialMealRepo, SpecialMealRepo>();
+            services.AddScoped(typeof(IGenericRepo<>), typeof(GenericRepo<>));
 
             services.Configure<ApiBehaviorOptions>(options =>
             {

@@ -111,5 +111,33 @@
     "ChefPageId": 1,
     "Clients": []
 
+  },
+  {
+    "MealName": "Om Ali",
+    "MealDescription": "A traditional Egyptian bread pudding dessert made with puff pastry, milk, nuts, and raisins.",
+    "IsHealthy": false,
+    "IsAvailable": true,
+    "IsSpecial": true,
+    "Price": 9.50,
+    "Rate": 0,
+    "Image": "https://imagevars.gulfnews.com/2021/06/15/Umm-Ali-_17a10413252_large.jpg",
+    "Tags": [ "EASTERN_FOOD", "DESSERTS" ],
+    "Reviews": [],
+    "ChefPageId": 1,
+    "Clients": []
+  },
+  {
+    "MealName": "Basbousa",
+    "MealDescription": "A traditional Egyptian semolina cake soaked in syrup, often garnished with almonds.",
+    "IsHealthy": false,
+    "IsAvailable": true,
+    "IsSpecial": false,
+    "Price": 7.50,
+    "Rate": 0,
+    "Image": "https://amiraspantry.com/wp-content/uploads/2020/04/basbousa-1-1024x1024.jpg",
+    "Tags": [ "EASTERN_FOOD", "DESSERTS" ],
+    "Reviews": [],
+    "ChefPageId": 1,
+    "Clients": []
   }
 ]

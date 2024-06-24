@@ -16,7 +16,7 @@ namespace Cooklee.API.Controllers
         private readonly IUnitOfWork _unit;
         private readonly IMapper _mapper;
 
-        public CartController(IUnitOfWork unit, IMapper mapper) 
+        public CartController(IUnitOfWork unit, IMapper mapper)
         {
             _unit = unit;
             _mapper = mapper;
@@ -47,10 +47,11 @@ namespace Cooklee.API.Controllers
             return Ok(createdOrUpdatedCart);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task DeleteCart(string id)
         {
             await _unit.CartRepo.DeleteCartAsync(id);
         }
     }
+
 }

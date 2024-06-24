@@ -13,7 +13,7 @@ namespace Cooklee.Infrastructure.Repositories
     public class CartRepository : ICartRepository
     {
         private readonly IDatabase _db;
-        public CartRepository(IConnectionMultiplexer redis) 
+        public CartRepository(IConnectionMultiplexer redis)
         {
             _db = redis.GetDatabase();
         }
@@ -95,4 +95,5 @@ namespace Cooklee.Infrastructure.Repositories
             return null;
         }
     }
+
 }

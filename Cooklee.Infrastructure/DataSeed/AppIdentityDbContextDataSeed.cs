@@ -15,26 +15,34 @@ namespace Cooklee.Infrastructure.DataSeed
         {
             if (userManager.Users.Count() == 0)
             {
-                var users = new List<AppUser>
-                { new AppUser{
+                //    var users = new List<AppUser>
+                //    { new AppUser{
+                //        DisplayName = "Mariem",
+                //        Email = "mariem@gmail.com",
+                //        UserName = "Mariem.Mohamed",
+                //        PhoneNumber = "333-333-333-33"
+                //        },
+                //  new AppUser{
+                //    DisplayName = "Dalia",
+                //    Email = "dalia@gmail.com",
+                //    UserName = "Dalia.Mansour",
+                //    PhoneNumber = "333-333-333-33", }
+
+                //};
+                //    foreach (var user in users)
+                //    {
+                //        await userManager.CreateAsync(user, "Pa$$w0rd");
+                //    }
+
+                var user = new AppUser()
+                {
                     DisplayName = "Mariem",
                     Email = "mariem@gmail.com",
                     UserName = "Mariem.Mohamed",
-                    PhoneNumber = "333-333-333-33"
-                    },
-              new AppUser{
-                DisplayName = "Dalia",
-                Email = "dalia@gmail.com",
-                UserName = "Dalia.Mansour",
-                PhoneNumber = "333-333-333-33", }
+                    PhoneNumber = "333-333-333-33",
 
-            };
-                foreach (var user in users)
-                {
-                    await userManager.CreateAsync(user, "Pa$$w0rd");
-                }
-
-
+                };
+                await userManager.CreateAsync(user, "Pa$$w0rd");
 
             }
 
