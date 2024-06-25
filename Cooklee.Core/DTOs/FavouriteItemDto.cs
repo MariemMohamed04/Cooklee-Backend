@@ -14,7 +14,7 @@ namespace Cooklee.Core.DTOs
         [Required]
         public string MealName { get; set; }
         [Required]
-        public string PictureUrl { get; set; }
+        public string Image { get; set; }
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Price must be greater than 0!!!")]
         public float Price { get; set; }

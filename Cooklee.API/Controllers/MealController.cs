@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.NetworkInformation;
 using System.Collections.Generic;
+using AutoMapper.Configuration.Conventions;
 
 namespace Cooklee.API.Controllers
 {
@@ -22,6 +23,8 @@ namespace Cooklee.API.Controllers
 		private readonly IGenericRepo<Meal> _genericMealRepo;// here give me error of <meal> why 
 		private readonly IMealRepository _myMealRepo;
 		#endregion
+
+		#region constructor
 		public MealController(IUnitOfWork unit, IMapper mapper,IGenericRepo<Meal> genericMealRepo,IMealRepository myMealRepo)
         {
 			_unit = unit;
@@ -29,7 +32,11 @@ namespace Cooklee.API.Controllers
 			_genericMealRepo = genericMealRepo;
 			_myMealRepo = myMealRepo;
         }
-		[HttpGet("/meals/list")]
+		#endregion
+
+		#region endPoints
+
+		[HttpGet]
 		public async Task<ActionResult<IEnumerable<MealDto>>> GetMealsOrderedByRate()
 		{
 			var mealsList = await _myMealRepo.GetMealsOrderedByRateAsync();
@@ -41,7 +48,7 @@ namespace Cooklee.API.Controllers
 			return Ok(mealsDto); 
 		}
 
-		[HttpGet("/meal/{id}")]
+		[HttpGet("{id}")]
 		public async Task<ActionResult<MealDto>> GetMealById(int id)
 		{
 			var meal =await _genericMealRepo.GetAsync(id);
@@ -53,7 +60,21 @@ namespace Cooklee.API.Controllers
 			return Ok(mealDto);
 		}
 
-		[HttpGet("/chefmeal/{id}")]
+
+		[HttpPost("mealsearchByName")]
+		public async Task<ActionResult<IEnumerable<MealDto>>> GetMealByName([FromBody]string mealName)
+		{
+			var meals = await _myMealRepo.GetMealByNameAsync(mealName);
+			if (meals == null)
+			{
+				return NotFound();
+			}
+			var mealDto = _mapper.Map<IEnumerable<MealDto>>(meals);
+			return Ok(mealDto);
+		}
+		
+
+		[HttpGet("chefmeals/{id}")]
 		public async Task<ActionResult<IEnumerable<MealDto>>> GetAllChefMeals(int id)
 		{
 			var chefMeals = await _myMealRepo.GetAllChefMealsAsync(id);
@@ -64,7 +85,9 @@ namespace Cooklee.API.Controllers
 			var chefMealsDto = _mapper.Map<IEnumerable<MealDto>> (chefMeals);
 			return Ok(chefMealsDto);	
 		}
-		[HttpDelete]
+
+
+		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteMealAsync(int id)
 		{
 			bool deleted = await _genericMealRepo.DeleteAsync(id);
@@ -75,32 +98,57 @@ namespace Cooklee.API.Controllers
 			return Ok();
 		}
 
-	/*	[HttpPost]
-		public async Task<ActionResult<AddMealDto>> AddMeal(AddMealDto addMeal)
+		[HttpPost]
+		public async Task<ActionResult<AddMealDto>> AddMeal([FromBody]AddMealDto addMeal)
 		{
 			Meal meal = _mapper.Map<Meal>(addMeal);
-			
-		}*/
-		/*[HttpPut("{id}")]
-		public async Task<ActionResult<AddMealDto>> UpdateMeal(int id, [FromBody] AddMealDto mealDto)
-		{
-			Meal meal = _mapper.Map<Meal>(mealDto);
 
+
+			var mealAdded =await _genericMealRepo.AddAsync(meal);
+			if (mealAdded==null) 
+			{
+				BadRequest(addMeal);
+			}
+			int x = await _genericMealRepo.SaveChanges();
+			return Ok(mealAdded);
+		}
+
+
+		[HttpPut("{id}")]
+		public async Task<ActionResult<MealDto>> UpdateMeal(int id, [FromBody]AddMealDto mealDto)
+		{
+			/*if(mealDto.Id !=id)
+			{
+				return BadRequest();
+			}*/
+			var meal = await _genericMealRepo.GetAsync(id);
+			if (meal==null)
+			{
+				return NotFound();
+			}
+			//_mapper.Map(source,destination)
+			Meal mappermeal =_mapper.Map<Meal>(mealDto);
 			try
 			{
-				var updatedMealDto = await _genericMealRepo.UpdateAsync(id, meal);
+				var mealToUpdate = _mapper.Map<Meal>(mealDto);
 
-				if (updatedMealDto == null)
-				{
-					return NotFound();
-				}
+				// Update the meal in the repository
+				var updatedMeal = await _myMealRepo.UpdateMeal(mealToUpdate);
+				_genericMealRepo.SaveChanges();
+
+				// Map the updated domain model back to DTO for response
+				var updatedMealDto = _mapper.Map<MealDto>(updatedMeal);
+				/*mappermeal =await _myMealRepo.UpdateMeal(mappermeal);//here give me exception why 
+				//_mapper.Map<destination>(source)
+				var updatedMealDto = _mapper.Map<MealDto>(meal);*/
+
 				return Ok(updatedMealDto);
 			}
 			catch (Exception ex)
 			{
 				return StatusCode(500, "An error occurred while updating the meal.");
 			}
-
-		}*/
+		}
+		#endregion
 	}
 }

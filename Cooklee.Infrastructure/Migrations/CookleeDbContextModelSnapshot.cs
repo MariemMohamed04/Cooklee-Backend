@@ -81,8 +81,23 @@ namespace Cooklee.Infrastructure.Migrations
                     b.Property<string>("DisplayName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FullAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdImgURL")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WalletNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("paymentMethod")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -565,7 +580,7 @@ namespace Cooklee.Infrastructure.Migrations
             modelBuilder.Entity("CookLeeProject.Data.Entities.Review", b =>
                 {
                     b.HasOne("Cooklee.Data.Entities.Client", "Client")
-                        .WithMany("reviews")
+                        .WithMany("Reviews")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -649,11 +664,31 @@ namespace Cooklee.Infrastructure.Migrations
                             b1.Property<int>("OrderId")
                                 .HasColumnType("int");
 
-                            b1.Property<string>("Area")
+                            b1.Property<string>("Apartment")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Building")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Email")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
                             b1.Property<string>("FirstName")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Floor")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
@@ -662,6 +697,18 @@ namespace Cooklee.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(max)");
 
                             b1.Property<string>("PhoneNumber")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("PostalCode")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("ShippingMethod")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("State")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
@@ -796,9 +843,9 @@ namespace Cooklee.Infrastructure.Migrations
                 {
                     b.Navigation("Chef");
 
-                    b.Navigation("SpecialMeals");
+                    b.Navigation("Reviews");
 
-                    b.Navigation("reviews");
+                    b.Navigation("SpecialMeals");
                 });
 
             modelBuilder.Entity("Cooklee.Data.Entities.Identity.AppUser", b =>

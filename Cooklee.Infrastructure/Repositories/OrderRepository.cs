@@ -21,12 +21,17 @@ namespace Cooklee.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<Order>> GetOrdersByEmailAsync(string email)
         {
-            return await dbcontext.Orders.Include(O => O.Items).Where(O => O.ClientEmail == email).ToListAsync();
+            return await dbcontext.Orders.Include(O => O.Items).Include(o=>o.ShipmentDetails).Where(O => O.ClientEmail == email).ToListAsync();
         }
 
         public async Task<Order> GetOrderByIdForClientAsync(int orderId, string clientEmail)
         {
             return await dbcontext.Orders.Include(O => O.Items).SingleOrDefaultAsync(O => O.Id == orderId && O.ClientEmail == clientEmail);
+        }
+
+        public async Task<Order> GetOrderByEmail(string userEmail)
+        {
+            return await dbcontext.Orders.Include(O => O.Items).FirstOrDefaultAsync(o=>o.ClientEmail== userEmail);
         }
     }
 }

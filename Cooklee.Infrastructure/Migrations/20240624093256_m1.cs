@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cooklee.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class CreatingFinalDatabase : Migration
+    public partial class m1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,9 +63,17 @@ namespace Cooklee.Infrastructure.Migrations
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ShipmentDetails_FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ShipmentDetails_LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShipmentDetails_Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ShipmentDetails_PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ShipmentDetails_Area = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShipmentDetails_Building = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ShipmentDetails_Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShipmentDetails_Apartment = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShipmentDetails_Floor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShipmentDetails_City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShipmentDetails_Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShipmentDetails_State = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShipmentDetails_ShippingMethod = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShipmentDetails_PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SubTotal = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
@@ -91,7 +99,7 @@ namespace Cooklee.Infrastructure.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -115,7 +123,7 @@ namespace Cooklee.Infrastructure.Migrations
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -136,7 +144,7 @@ namespace Cooklee.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,7 +164,7 @@ namespace Cooklee.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -174,13 +182,13 @@ namespace Cooklee.Infrastructure.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -200,7 +208,7 @@ namespace Cooklee.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -226,7 +234,7 @@ namespace Cooklee.Infrastructure.Migrations
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -258,7 +266,7 @@ namespace Cooklee.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClientId = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -270,7 +278,7 @@ namespace Cooklee.Infrastructure.Migrations
                         column: x => x.ClientId,
                         principalTable: "Clients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -298,7 +306,7 @@ namespace Cooklee.Infrastructure.Migrations
                         column: x => x.ChefPageId,
                         principalTable: "ChefPage",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -323,7 +331,7 @@ namespace Cooklee.Infrastructure.Migrations
                         column: x => x.ChefPageId,
                         principalTable: "ChefPage",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_SpecialMeals_Clients_ClientId",
                         column: x => x.ClientId,
@@ -347,7 +355,7 @@ namespace Cooklee.Infrastructure.Migrations
                         column: x => x.clientsId,
                         principalTable: "Clients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_ClientMeal_Meals_MealsId",
                         column: x => x.MealsId,
@@ -375,7 +383,7 @@ namespace Cooklee.Infrastructure.Migrations
                         column: x => x.ClientId,
                         principalTable: "Clients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_ClientMeals_Meals_MealId",
                         column: x => x.MealId,
@@ -403,7 +411,7 @@ namespace Cooklee.Infrastructure.Migrations
                         column: x => x.ClientId,
                         principalTable: "Clients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Reviews_Meals_MealId",
                         column: x => x.MealId,
