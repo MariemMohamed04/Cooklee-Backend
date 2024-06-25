@@ -25,7 +25,7 @@ namespace Cooklee.API.Controllers
 
             var mealsResult = meals.Select(m => new MealDto
             {
-                Id = m.Id + "",
+                Id = m.Id,
                 IsHealthy = m.IsHealthy,
                 MealDescription = m.MealDescription,
                 MealName = m.MealName,
