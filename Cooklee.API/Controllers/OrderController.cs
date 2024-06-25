@@ -2,7 +2,9 @@
 using Cooklee.API.Errors;
 using Cooklee.Core.DTOs;
 using Cooklee.Data.Entities.Order;
+using Cooklee.Data.Repository.Contract;
 using Cooklee.Data.Service.Contract;
+using Cooklee.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +19,13 @@ namespace Cooklee.API.Controllers
     {
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unit;
 
-        public OrderController(IOrderService orderService, IMapper mapper)
+        public OrderController(IOrderService orderService, IMapper mapper, IUnitOfWork unitOfWork)
         {
             _orderService = orderService;
             _mapper = mapper;
+            _unit = unitOfWork;
         }
 
         [ProducesResponseType(typeof(Order), StatusCodes.Status200OK)]
@@ -83,6 +87,21 @@ namespace Cooklee.API.Controllers
                 return NotFound(new ApiResponse(404, "Order not found"));
             }
             return Ok(order);
+        }
+
+
+
+        [HttpGet("ShipmentDetails")]
+        public async Task<ActionResult<ShipmentDetails>> GetShipmentDet(string email)
+        {
+            var order = await _unit.OrderRepository.GetOrderByEmail(email);
+            if (order == null)
+            {
+                return NotFound(404);
+            }
+
+            return Ok(order.ShipmentDetails);
+
         }
     }
 }

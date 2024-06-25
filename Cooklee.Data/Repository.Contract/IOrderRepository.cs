@@ -11,5 +11,6 @@ namespace Cooklee.Data.Repository.Contract
     {
         Task<IReadOnlyList<Order>> GetOrdersByEmailAsync(string email);
         Task<Order> GetOrderByIdForClientAsync(int orderId, string clientEmail);
+        Task<Order> GetOrderByEmail(string userEmail);
     }
 }

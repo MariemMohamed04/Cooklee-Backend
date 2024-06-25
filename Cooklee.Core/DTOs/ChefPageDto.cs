@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cooklee.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +9,12 @@ namespace Cooklee.Core.DTOs
 {
     public class ChefPageDto
     {
-     
-        public string DisplayName { get; set; }
-
-        public bool IsActive { get; set; }
-
+        public int? id { get; set; }
+        public string? DisplayName { get; set; }
+        public string? IdImgURL { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? WalletNumber { get; set; }
+        public string? FullAddress { get; set; }
+        public ChefPaymentMethod? paymentMethod { get; set; } = ChefPaymentMethod.Cash;
     }
 }

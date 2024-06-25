@@ -1,7 +1,6 @@
 ﻿using Cooklee.Data.Entities;
-using Cooklee.Data.Entities.Order;
 using Cooklee.Infrastructure.Data;
-using CookLeeProject.Data.Entities;
+using Cooklee.Data.Entities.Order;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,7 +49,7 @@ namespace Cooklee.Infrastructure.DataSeed
                 {
                     Converters = { new TagEnumConverter() }
                 };
-                var meals = JsonSerializer.Deserialize<List<Meal>>(mealData, options);
+               var meals = JsonSerializer.Deserialize<List<Meal>>(mealData, options);
 
                 if (meals?.Count() > 0)
                 {

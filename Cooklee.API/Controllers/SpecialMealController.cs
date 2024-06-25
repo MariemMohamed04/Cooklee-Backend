@@ -49,7 +49,7 @@ namespace Cooklee.API.Controllers
         }
 
         [HttpGet("Chefs")]
-        public async Task<ActionResult<IEnumerable<SpecialMealDto>>> GetAllChefs()
+        public async Task<ActionResult<IEnumerable<ChefPageDto>>> GetAllChefs()
         {
             var chefs = await _unit.ChefPageRepo.GetAllAsync();
             var mappedChefs = _mapper.Map<IEnumerable<ChefPage>, IEnumerable<ChefPageDto>>(chefs);
@@ -84,7 +84,7 @@ namespace Cooklee.API.Controllers
 
                 // Map the created SpecialMeal back to SpecialMealDto
                 var createdSpecialMealDto = _mapper.Map<SpecialMeal, SpecialMealDto>(specialMeal);
-
+               
                 // Return successful response with created SpecialMealDto
                 return CreatedAtAction(nameof(GetSpecialMealById), new { id = specialMeal.Id }, createdSpecialMealDto);
             }
@@ -124,25 +124,55 @@ namespace Cooklee.API.Controllers
             }
         }
 
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult> DeleteSpecialMeal(int id)
+        //{
+        //    try
+        //    {
+        //        var result = await _unit.SpecialMealRepo.DeleteAsync(id);
+        //        if (!result)
+        //        {
+        //            return NotFound(new ApiResponse(404, "SpecialMeal not found"));
+        //        }
+        //        await _unit.SpecialMealRepo.SaveChanges();
+        //        return NoContent();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //        return StatusCode(500, new ApiResponse(500, "An error occurred while processing your request"));
+        //    }
+        //}
+
+        ////chat
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult> DeleteSpecialMeal(int id)
+        //{
+        //    var existingSpecialMeal = await _unit.SpecialMealRepo.GetAsync(id);
+        //    if (existingSpecialMeal == null)
+        //    {
+        //        return NotFound(new ApiResponse(404, "SpecialMeal not found"));
+        //    }
+
+        //    await _unit.SpecialMealRepo.DeleteAsync(id);
+        //    await _unit.SpecialMealRepo.SaveChanges();
+        //    return NoContent();
+        //}
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteSpecialMeal(int id)
         {
-            try
+            var existingSpecialMeal = await _unit.SpecialMealRepo.GetAsync(id);
+            if (existingSpecialMeal == null)
             {
-                var result = await _unit.SpecialMealRepo.DeleteAsync(id);
-                if (!result)
-                {
-                    return NotFound(new ApiResponse(404, "SpecialMeal not found"));
-                }
-                await _unit.SpecialMealRepo.SaveChanges();
-                return NoContent();
+                return NotFound(new ApiResponse(404, "SpecialMeal not found"));
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return StatusCode(500, new ApiResponse(500, "An error occurred while processing your request"));
-            }
+
+            await _unit.SpecialMealRepo.DeleteAsync(id);
+            await _unit.SpecialMealRepo.SaveChanges();
+            return NoContent();
         }
+
 
     }
 }

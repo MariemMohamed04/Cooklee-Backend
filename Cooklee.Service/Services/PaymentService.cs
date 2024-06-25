@@ -1,4 +1,5 @@
-﻿using Cooklee.Data.Repository.Contract;
+﻿using Cooklee.Data.Entities.Order;
+using Cooklee.Data.Repository.Contract;
 using Cooklee.Data.Service.Contract;
 using Cooklee.Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
@@ -109,34 +110,36 @@ namespace Cooklee.Service.Services
         }
 
 
-        public async Task<string> GetRequestPaymentKeyAsync(string AuthToken, string orderId, decimal amount)
+        public async Task<string> GetRequestPaymentKeyAsync(string AuthToken, string PayOrderId, decimal amount , string orderEmail )
         {
+            var order = await _unitOfWork.OrderRepository.GetOrderByEmail(orderEmail);
             using (HttpClient client = new HttpClient())
             {
                // client.BaseAddress = new Uri(apiUrl);
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthToken);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
+
                 var requestBody = new
                 {
                     auth_token = AuthToken,
                     amount_cents = (int)(amount * 100), // Convert amount to cents
-                    order_id = orderId,
+                    order_id = PayOrderId,
                     billing_data = new
                     {
-                        apartment = "803",
-                        email = "example@gmail.com", //
-                        floor = "42",
-                        first_name = "John", //
-                        street = "Sample Street",
-                        building = "123",
-                        phone_number = "1234567890", //
-                        shipping_method = "PKG",
-                        postal_code = "12345", //
-                        city = "Cairo",
-                        country = "EGY",
-                        last_name = "Doe",
-                        state = "CA"
+                        apartment = order.ShipmentDetails.Apartment,
+                        email = order.ShipmentDetails.Email, //
+                        floor = order.ShipmentDetails.Floor,
+                        first_name = order.ShipmentDetails.FirstName, //
+                        street = order.ShipmentDetails.Street,
+                        building = order.ShipmentDetails.Building,
+                        phone_number = order.ShipmentDetails.PhoneNumber, //
+                        shipping_method = order.ShipmentDetails.ShippingMethod,
+                        postal_code = order.ShipmentDetails.PostalCode, //
+                        city = order.ShipmentDetails.City,
+                        country = order.ShipmentDetails.Country,
+                        last_name = order.ShipmentDetails.LastName,
+                        state = order.ShipmentDetails.State
                     },
                     currency = "EGP",
                     integration_id = _configuration["Payment:integration_id"]

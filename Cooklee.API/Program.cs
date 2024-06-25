@@ -2,9 +2,11 @@
 using Cooklee.API.Exetensions;
 using Cooklee.API.Middlewares;
 using Cooklee.Data.Entities.Identity;
+using Cooklee.Data.Service.Contract;
 using Cooklee.Infrastructure.Data;
 using Cooklee.Infrastructure.DataSeed;
 using Cooklee.Infrastructure.Repositories;
+using Cooklee.Service.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
@@ -62,6 +64,13 @@ namespace Cooklee.API
 
             // Register the services
             builder.Services.AddScoped<IHomePageMealsService, MealsService>();
+            builder.Services.AddSingleton<IEmailService>(provider =>
+            new EmailService(
+                builder.Configuration["Email:SmtpServer"],
+                int.Parse(builder.Configuration["Email:SmtpPort"]),
+                builder.Configuration["Email:SmtpUser"],
+                builder.Configuration["Email:SmtpPass"]
+            ));
 
             var app = builder.Build();
 
