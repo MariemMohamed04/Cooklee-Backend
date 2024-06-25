@@ -22,5 +22,6 @@ namespace Cooklee.Core.DTOs
         [Compare(nameof(Password), ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
         public string Token { get; set; }
+        public string ResetCode { get; set; }
     }
 }
