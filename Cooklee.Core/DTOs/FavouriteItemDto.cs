@@ -7,17 +7,16 @@ using System.Threading.Tasks;
 
 namespace Cooklee.Core.DTOs
 {
-    public class AddressDto
+    public class FavouriteItemDto
     {
         [Required]
-        public string FirstName { get; set; }
+        public int Id { get; set; }
         [Required]
-        public string LastName { get; set; }
+        public string MealName { get; set; }
         [Required]
-        public string Street { get; set; }
+        public string Image { get; set; }
         [Required]
-        public string City { get; set; }
-        [Required]
-        public string Country { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Price must be greater than 0!!!")]
+        public float Price { get; set; }
     }
 }

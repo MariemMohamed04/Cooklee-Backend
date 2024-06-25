@@ -27,13 +27,13 @@ namespace Cooklee.Infrastructure.Repositories
 
 		#region Handel function
 		//public async Task<List<Meal>> GetAllMealAsync()
+
 		public async Task<IEnumerable<Meal>> GetMealsOrderedByRateAsync()
 		{
 			return await _dbContext.Set<Meal>()
 								 .OrderByDescending(m => m.Rate)
 								 .ToListAsync();
 		}
-
 
 		public async Task<IEnumerable<Meal>> GetAllChefMealsAsync(int id)
 		{

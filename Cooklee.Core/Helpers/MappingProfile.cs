@@ -2,7 +2,9 @@
 using Cooklee.Core.DTOs;
 using Cooklee.Data.Entities;
 using Cooklee.Data.Entities.Cart;
+using Cooklee.Data.Entities.Favourite;
 using Cooklee.Data.Entities.Identity;
+using Cooklee.Data.Entities.Order;
 using CookLeeProject.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -16,19 +18,17 @@ namespace Cooklee.Core.Helpers
     {
         public MappingProfile()
         {
-                CreateMap<AppUser, UserDto>()
+            CreateMap<AppUser, UserDto>()
                 .ForMember(d => d.Id, o => o.MapFrom(s => s.Id))
                 .ForMember(d => d.Email, o => o.MapFrom(S => S.Email))
                 .ForMember(d => d.Password, o => o.MapFrom(S => S.PasswordHash));
 
             CreateMap<AppUser, UserToReturnDto>()
-
-             .ForMember(d => d.Email, o => o.MapFrom(S => S.Email))
-              .ForMember(d => d.Password, o => o.MapFrom(S => S.PasswordHash));
+                .ForMember(d => d.Email, o => o.MapFrom(S => S.Email))
+                .ForMember(d => d.Password, o => o.MapFrom(S => S.PasswordHash));
 
             CreateMap<Client, ClientProfileDto>()
-
-            .ForMember(d => d.FirstName, o => o.MapFrom(S => S.FirstName))
+.ForMember(d => d.FirstName, o => o.MapFrom(S => S.FirstName))
 
             .ForMember(d => d.LastName, o => o.MapFrom(S => S.LastName))
             .ForMember(d => d.Email, o => o.MapFrom(S => S.Email))
@@ -40,22 +40,23 @@ namespace Cooklee.Core.Helpers
 
             CreateMap<ChefPage, ChefPageDto>()
             .ForMember(d => d.DisplayName, o => o.MapFrom(S => S.DisplayName));
-       
             CreateMap<ChefPageDto, ChefPage>();
 
-
-            CreateMap<CustomerCartDto, CustomerCart>();
-
+            CreateMap<ClientCartDto, ClientCart>();
             CreateMap<CartItemDto, CartItem>();
+
+            CreateMap<ClientFavouriteDto, ClientFavourite>();
+            CreateMap<FavouriteItemDto, FavouriteItem>();
 
             CreateMap<Review, ReviewDto>();
             CreateMap<ReviewDto, Review>();
+
+            CreateMap<Order, OrderDto>();
+            CreateMap<ShipmentDetailsDto, ShipmentDetails>();
+
             CreateMap<Meal, MealDto>()
                 .ForMember(d => d.chefPageName, m => m.MapFrom(m => m.ChefPage.DisplayName));
-           /* CreateMap<Meal, MealDto>()
-                .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.Tags)) // Assuming Tags is a List<string>
-                .ForMember(dest => dest.chefPageName, opt => opt.MapFrom(src => src.ChefPage.DisplayName));
-*/
+
 			CreateMap<MealDto, Meal>()
    .ForMember(dest => dest.MealName, opt => opt.MapFrom(src => src.MealName))
    .ForMember(dest => dest.MealDescription, opt => opt.MapFrom(src => src.MealDescription))
@@ -71,10 +72,14 @@ namespace Cooklee.Core.Helpers
             CreateMap<AddMealDto, Meal>()
            .ForMember(dest => dest.ChefPageId, opt => opt.MapFrom(src => src.ChefPageId));
 		   
-		   
+		  
 
-
-
-		}
+            CreateMap<SpecialMeal, SpecialMealDto>()
+                .ForMember(d => d.ChefPage, o => o.MapFrom(src => src.ChefPage.DisplayName))
+                .ForMember(d => d.Client, o => o.MapFrom(src => src.Client.FirstName))
+                .ReverseMap();
+        }
     }
 }
+
+

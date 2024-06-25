@@ -6,6 +6,15 @@
     "ImgURL": "https://cdn-icons-png.freepik.com/512/4515/4515630.png",
     "PhoneNumber": "333-333-333-33",
     "Address": "123 Main St, Anytown, USA",
-    "AppUserId": "39455c43-2313-4722-b154-65d887a0dc4d"
+    "AppUserId": "dbdcec58-07da-412f-8b56-f01eb35e71f6"
+  } ,
+  {
+    "FirstName": "Dalia",
+    "LastName": "Mansour",
+    "Email": "dalia@gmail.com",
+    "ImgURL": "https://cdn-icons-png.freepik.com/512/4515/4515630.png",
+    "PhoneNumber": "333-333-333-33",
+    "Address": "123 Main St, Anytown, USA",
+    "AppUserId": "46e32f1a-e78f-4c01-8b4c-2da5a4f3750f"
   }
 ]

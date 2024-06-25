@@ -39,13 +39,7 @@ namespace Cooklee.Data.Entities
         public float Rate { get; set; }
         public string Image { get; set; }
         public List<string>? Tags { get; set; }
-
         public List<Review>? Reviews { get; set; }
-
-        // [ForeignKey(nameof(chief))]
-        //  public int chiefId { get; set; }
-        //  public Chef chief { get; set; }
-
         [ForeignKey(nameof(ChefPage))]
         public int ChefPageId { get; set; }
         public ChefPage ChefPage { get; set; }
@@ -56,6 +50,5 @@ namespace Cooklee.Data.Entities
             clients = new List<Client>();
             Tags = new List<string>();
         }
-
     }
 }

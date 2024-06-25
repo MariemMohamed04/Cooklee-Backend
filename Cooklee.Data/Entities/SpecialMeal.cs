@@ -14,9 +14,18 @@ namespace Cooklee.Data.Entities
         public string Description { get; set; }
         public int MinPrice { get; set; }
         public int MaxPrice { get; set; }
-        public enum Status { Request, Wait, Done }
+        public Status? MealStatus { get; set; }
         [ForeignKey(nameof(Client))]
         public int ClientId { get; set; }
         public Client? Client { get; set; }
+        public int ChefPageId { get; set; }
+        public ChefPage? ChefPage { get; set; }
+
+        public enum Status
+        {
+            Request,
+            Wait,
+            Done
+        }
     }
 }
