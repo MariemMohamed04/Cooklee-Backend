@@ -79,11 +79,25 @@ namespace Cooklee.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("DisplayName")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdImgURL")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WalletNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("paymentMethod")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -111,15 +125,19 @@ namespace Cooklee.Infrastructure.Migrations
                     b.Property<int?>("ChefId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ImgURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
@@ -320,6 +338,57 @@ namespace Cooklee.Infrastructure.Migrations
                     b.ToTable("Meals");
                 });
 
+            modelBuilder.Entity("Cooklee.Data.Entities.Order.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClientEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("OrderDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("SubTotal")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Cooklee.Data.Entities.Order.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItems");
+                });
+
             modelBuilder.Entity("Cooklee.Data.Entities.SpecialMeal", b =>
                 {
                     b.Property<int>("Id")
@@ -327,6 +396,9 @@ namespace Cooklee.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ChefPageId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
@@ -338,6 +410,9 @@ namespace Cooklee.Infrastructure.Migrations
                     b.Property<int>("MaxPrice")
                         .HasColumnType("int");
 
+                    b.Property<int?>("MealStatus")
+                        .HasColumnType("int");
+
                     b.Property<int>("MinPrice")
                         .HasColumnType("int");
 
@@ -346,6 +421,8 @@ namespace Cooklee.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ChefPageId");
 
                     b.HasIndex("ClientId");
 
@@ -503,7 +580,7 @@ namespace Cooklee.Infrastructure.Migrations
             modelBuilder.Entity("CookLeeProject.Data.Entities.Review", b =>
                 {
                     b.HasOne("Cooklee.Data.Entities.Client", "Client")
-                        .WithMany("reviews")
+                        .WithMany("Reviews")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -580,13 +657,126 @@ namespace Cooklee.Infrastructure.Migrations
                     b.Navigation("ChefPage");
                 });
 
+            modelBuilder.Entity("Cooklee.Data.Entities.Order.Order", b =>
+                {
+                    b.OwnsOne("Cooklee.Data.Entities.Order.ShipmentDetails", "ShipmentDetails", b1 =>
+                        {
+                            b1.Property<int>("OrderId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Apartment")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Building")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Email")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("FirstName")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Floor")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("LastName")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("PhoneNumber")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("PostalCode")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("ShippingMethod")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("OrderId");
+
+                            b1.ToTable("Orders");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderId");
+                        });
+
+                    b.Navigation("ShipmentDetails")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Cooklee.Data.Entities.Order.OrderItem", b =>
+                {
+                    b.HasOne("Cooklee.Data.Entities.Order.Order", null)
+                        .WithMany("Items")
+                        .HasForeignKey("OrderId");
+
+                    b.OwnsOne("Cooklee.Data.Entities.Order.MealItemOrder", "Meal", b1 =>
+                        {
+                            b1.Property<int>("OrderItemId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("MealId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("MealName")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("PictureUrl")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("OrderItemId");
+
+                            b1.ToTable("OrderItems");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderItemId");
+                        });
+
+                    b.Navigation("Meal")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Cooklee.Data.Entities.SpecialMeal", b =>
                 {
+                    b.HasOne("Cooklee.Data.Entities.ChefPage", "ChefPage")
+                        .WithMany("SpecialMeals")
+                        .HasForeignKey("ChefPageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Cooklee.Data.Entities.Client", "Client")
                         .WithMany("SpecialMeals")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ChefPage");
 
                     b.Navigation("Client");
                 });
@@ -645,15 +835,17 @@ namespace Cooklee.Infrastructure.Migrations
             modelBuilder.Entity("Cooklee.Data.Entities.ChefPage", b =>
                 {
                     b.Navigation("Meals");
+
+                    b.Navigation("SpecialMeals");
                 });
 
             modelBuilder.Entity("Cooklee.Data.Entities.Client", b =>
                 {
                     b.Navigation("Chef");
 
-                    b.Navigation("SpecialMeals");
+                    b.Navigation("Reviews");
 
-                    b.Navigation("reviews");
+                    b.Navigation("SpecialMeals");
                 });
 
             modelBuilder.Entity("Cooklee.Data.Entities.Identity.AppUser", b =>
@@ -666,6 +858,11 @@ namespace Cooklee.Infrastructure.Migrations
             modelBuilder.Entity("Cooklee.Data.Entities.Meal", b =>
                 {
                     b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("Cooklee.Data.Entities.Order.Order", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

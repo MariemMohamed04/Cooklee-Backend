@@ -22,6 +22,7 @@ namespace Cooklee.Infrastructure.Repositories
         public async Task<Client?> UpdateProfileAsync(string id, Client updatedClient)
         {
             Client client = await _dbcontext.Clients.SingleOrDefaultAsync(c  => c.AppUserId==id);
+            updatedClient.AppUserId = id;
             updatedClient.Id = client.Id;
 
             if (client != null)

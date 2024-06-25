@@ -35,22 +35,14 @@ namespace Cooklee.Data.Entities
         [DefaultValue("false")]
         public bool IsSpecial { get; set; }
         public float Price { get; set; }
+        [DefaultValue(0)]
         public float Rate { get; set; }
         public string Image { get; set; }
         public List<string>? Tags { get; set; }
-
-
         public List<Review>? Reviews { get; set; }
-
-        // [ForeignKey(nameof(chief))]
-        //  public int chiefId { get; set; }
-        //  public Chef chief { get; set; }
-
         [ForeignKey(nameof(ChefPage))]
         public int ChefPageId { get; set; }
         public ChefPage ChefPage { get; set; }
-
-
         public List<Client>? clients { get; set; }
 
         public Meal()
@@ -58,6 +50,5 @@ namespace Cooklee.Data.Entities
             clients = new List<Client>();
             Tags = new List<string>();
         }
-
     }
 }

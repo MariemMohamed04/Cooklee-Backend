@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace Cooklee.Data.Repository.Contract
 {
-	public interface IMealRepository : IGenericRepo<Meal>
+	public interface IMealRepository:IGenericRepo<Meal>
 	{
-		public Task<List<Meal>> GetAllMealAsync();
+		Task<IEnumerable<Meal>> GetMealsOrderedByRateAsync();
+		Task<IEnumerable<Meal>> GetAllChefMealsAsync(int id);
+		Task<IEnumerable<Meal>?> GetMealByNameAsync(string MealName);
+		Task<Meal> UpdateMeal(Meal meal);
 	}
+	
 }

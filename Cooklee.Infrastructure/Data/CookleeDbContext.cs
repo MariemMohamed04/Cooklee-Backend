@@ -25,8 +25,8 @@ namespace Cooklee.Infrastructure.Data
         public DbSet<ClientMeal> ClientMeals { get; set; }
         public DbSet<SpecialMeal> SpecialMeals { get; set; }
         public DbSet<Review> Reviews { get; set; }
-        //public DbSet<Order> Orders { get; set; }
-        //public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,5 +36,10 @@ namespace Cooklee.Infrastructure.Data
             modelBuilder.Entity<ClientMeal>().HasKey(C => new { C.ClientId, C.MealId, C.Id });
             modelBuilder.Entity<Address>().ToTable("Addresses");
         }
+
+        //internal Task FindAsync(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

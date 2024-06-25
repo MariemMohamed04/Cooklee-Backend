@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cooklee.Core.Helpers
+namespace Cooklee.Service.Implemetaions
 {
-    public class EmailSettings
+    internal class ReviewService
     {
+
     }
 }
