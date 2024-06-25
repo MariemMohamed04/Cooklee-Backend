@@ -9,13 +9,12 @@ namespace Cooklee.Core.DTOs
 {
     public class ChefPageDto
     {
+        public int? id { get; set; }
         public string? DisplayName { get; set; }
-
         public string? IdImgURL { get; set; }
         public string? PhoneNumber { get; set; }
         public string? WalletNumber { get; set; }
         public string? FullAddress { get; set; }
         public ChefPaymentMethod? paymentMethod { get; set; } = ChefPaymentMethod.Cash;
-
     }
 }

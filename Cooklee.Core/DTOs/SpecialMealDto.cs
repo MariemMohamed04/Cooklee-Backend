@@ -8,6 +8,7 @@ namespace Cooklee.Core.DTOs
 {
     public class SpecialMealDto
     {
+        public int id { get; set; }
         public string S_MealName { get; set; }
         public string Description { get; set; }
         public int MinPrice { get; set; }
