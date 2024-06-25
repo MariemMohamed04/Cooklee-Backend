@@ -8,8 +8,9 @@ namespace Cooklee.Core.DTOs
 {
     public class ChefPageDto
     {
-     
+        public int id { get; set; }
         public string DisplayName { get; set; }
+        
 
         public bool IsActive { get; set; }
 
