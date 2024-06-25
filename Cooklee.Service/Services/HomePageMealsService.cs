@@ -1,4 +1,5 @@
 ﻿using Cooklee.Data.Entities;
+using Cooklee.Data.Service.Contract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,7 @@ namespace Cooklee.Service.Services
 {
     public class HomePageMealsService
     {
-            public interface IHomePageMealsService
-            {
-                Task<IEnumerable<Meal>> GetAllMealsAsync();
-            }
+            
 
             public class MealsService : IHomePageMealsService
             {
