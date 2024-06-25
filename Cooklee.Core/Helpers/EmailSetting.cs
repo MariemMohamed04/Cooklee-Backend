@@ -22,36 +22,48 @@ namespace Cooklee.Core.Helpers
         {
             _options = options.Value;
         }
+
         public void SendEmail(Email email)
         {
-            // Sender
-            var mail = new MimeMessage
+            try
             {
-                Sender = MailboxAddress.Parse(_options.Email),
-                Subject = email.Subject
-            };
+                // Sender
+                var mail = new MimeMessage
+                {
+                    Sender = MailboxAddress.Parse(_options.Email),
+                    Subject = email.Subject
+                };
 
-            // Send to Who?
-            mail.To.Add(MailboxAddress.Parse(email.To));
+                // Send to Who?
+                mail.To.Add(MailboxAddress.Parse(email.To));
 
-            // Body
-            var builder = new BodyBuilder();
-            builder.TextBody = email.Body;
-            mail.Body = builder.ToMessageBody();
+                // Body
+                var builder = new BodyBuilder();
+                builder.TextBody = email.Body;
+                mail.Body = builder.ToMessageBody();
 
-            // From
-            mail.From.Add(new MailboxAddress(_options.DisplayName, _options.Email));
+                // From
+                mail.From.Add(new MailboxAddress(_options.DisplayName, _options.Email));
 
-            // Open Connection
-            using var smtp = new MailKit.Net.Smtp.SmtpClient();
+                // Open Connection
+                using var smtp = new MailKit.Net.Smtp.SmtpClient();
 
-            smtp.Connect(_options.Host, _options.Port, MailKit.Security.SecureSocketOptions.StartTls);
+                smtp.Connect(_options.Host, _options.Port, MailKit.Security.SecureSocketOptions.StartTls);
 
-            smtp.Authenticate(_options.Email, _options.Password);
+                smtp.Authenticate(_options.Email, _options.Password);
 
-            smtp.Send(mail);
+                smtp.Send(mail);
 
-            smtp.Disconnect(true);
+                smtp.Disconnect(true);
+
+                Console.WriteLine("Email sent successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error sending email: {ex.Message}");
+                throw; // Re-throw the exception to be handled by the global exception handler
+            }
         }
     }
+
 }

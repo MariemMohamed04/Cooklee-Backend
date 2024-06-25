@@ -19,20 +19,21 @@ namespace Cooklee.API.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IAuthService _authService;
-
+        private readonly IEmailService _emailService;
+        private static readonly Dictionary<string, string> ResetCodes = new();
         public AccountController(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             IAuthService authService,
-            IEmailService emailService,
-            IEmailSender
+            IEmailService emailService
             )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _authService = authService;
+            _emailService = emailService;
         }
 
         #region Login
@@ -214,7 +215,7 @@ namespace Cooklee.API.Controllers
         #endregion
 
         #region Forgot Password
-        [HttpPost]
+        [HttpPost("forgotpassword")]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordDto forgotPasswordDto)
         {
             if (ModelState.IsValid)
@@ -223,48 +224,56 @@ namespace Cooklee.API.Controllers
 
                 if (user != null)
                 {
-                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                    var resetPasswordLink = Url.Action("ResetPassword", "Account", new { Email = forgotPasswordDto.Email, Token = token }, Request.Scheme);
+                    var resetCode = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 6); // Generate a 6-digit code
+                    ResetCodes[forgotPasswordDto.Email] = resetCode;
+
                     var email = new Email
                     {
                         To = forgotPasswordDto.Email,
                         Subject = "Reset Your Password",
-                        Body = resetPasswordLink
+                        Body = $"Your password reset code is: {resetCode}"
                     };
-                    EmailSetting.SendEmail(email);
-                    return RedirectToAction("CompleteForgetPassword");
+                    _emailService.SendEmail(email);
+                    return Ok(new { Message = "Reset password code has been sent to your email." });
                 }
 
-                ModelState.AddModelError("", "Invalid Email");
+                return BadRequest(new { Error = "Invalid Email" });
             }
-            //return View();
+
+            return BadRequest(ModelState);
         }
         #endregion
 
         #region Reset Password
-        [HttpPost]
+        [HttpPost("resetpassword")]
         public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
-
-                if (user != null)
+                if (ResetCodes.TryGetValue(resetPasswordDto.Email, out var storedResetCode) && storedResetCode == resetPasswordDto.ResetCode)
                 {
-                    var result = await _userManager.ResetPasswordAsync(user, resetPasswordDto.Token, resetPasswordDto.Password);
+                    var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
 
-                    if (result.Succeeded)
+                    if (user != null)
                     {
-                        return RedirectToAction(nameof(Login));
+                        var result = await _userManager.ResetPasswordAsync(user, await _userManager.GeneratePasswordResetTokenAsync(user), resetPasswordDto.Password);
+
+                        if (result.Succeeded)
+                        {
+                            ResetCodes.Remove(resetPasswordDto.Email); // Remove the reset code after successful reset
+                            return Ok(new { Message = "Password has been reset successfully." });
+                        }
+
+                        return BadRequest(new { Errors = result.Errors.Select(e => e.Description) });
                     }
 
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
+                    return BadRequest(new { Error = "Invalid Email" });
                 }
+
+                return BadRequest(new { Error = "Invalid reset code." });
             }
-            //return View(model);
+
+            return BadRequest(ModelState);
         }
         #endregion
     }
