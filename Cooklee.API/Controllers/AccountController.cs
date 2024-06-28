@@ -19,14 +19,14 @@ namespace Cooklee.API.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IAuthService _authService;
-        private readonly IEmailService _emailService;
+        private readonly IEmailSetting _emailService;
         private static readonly Dictionary<string, string> ResetCodes = new();
         public AccountController(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             IAuthService authService,
-            IEmailService emailService
+            IEmailSetting emailService
             )
         {
             _userManager = userManager;
@@ -205,7 +205,6 @@ namespace Cooklee.API.Controllers
         }
         #endregion
 
-
         #region CheckEmailExists
         [HttpGet("emailexists")]
         public async Task<ActionResult<bool>> CheckEmailExists(string email)
@@ -233,7 +232,7 @@ namespace Cooklee.API.Controllers
                         Subject = "Reset Your Password",
                         Body = $"Your password reset code is: {resetCode}"
                     };
-                    _emailService.SendEmail(email);
+                    _emailService.SendEmailAsync(email);
                     return Ok(new { Message = "Reset password code has been sent to your email." });
                 }
 
@@ -246,36 +245,41 @@ namespace Cooklee.API.Controllers
 
         #region Reset Password
         [HttpPost("resetpassword")]
-        public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
         {
             if (ModelState.IsValid)
             {
                 if (ResetCodes.TryGetValue(resetPasswordDto.Email, out var storedResetCode) && storedResetCode == resetPasswordDto.ResetCode)
                 {
                     var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
-
                     if (user != null)
                     {
-                        var result = await _userManager.ResetPasswordAsync(user, await _userManager.GeneratePasswordResetTokenAsync(user), resetPasswordDto.Password);
+                        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                        var result = await _userManager.ResetPasswordAsync(user, token, resetPasswordDto.Password);
 
                         if (result.Succeeded)
                         {
-                            ResetCodes.Remove(resetPasswordDto.Email); // Remove the reset code after successful reset
+                            ResetCodes.Remove(resetPasswordDto.Email);
                             return Ok(new { Message = "Password has been reset successfully." });
                         }
-
-                        return BadRequest(new { Errors = result.Errors.Select(e => e.Description) });
+                        else
+                        {
+                            return BadRequest(new { Errors = result.Errors.Select(e => e.Description) });
+                        }
                     }
-
-                    return BadRequest(new { Error = "Invalid Email" });
+                    else
+                    {
+                        return BadRequest(new { Error = "Invalid Email" });
+                    }
                 }
-
-                return BadRequest(new { Error = "Invalid reset code." });
+                else
+                {
+                    return BadRequest(new { Error = "Invalid reset code." });
+                }
             }
 
             return BadRequest(ModelState);
         }
-
         #endregion
-    } 
+    }
 }

@@ -13,8 +13,10 @@ namespace Cooklee.API.Exetensions
             services.AddScoped(typeof(IAuthService), typeof(AuthService));
             services.AddIdentity<AppUser, IdentityRole>(options =>
             {
-
-            }).AddEntityFrameworkStores<CookleeDbContext>();
+                options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultProvider;
+            })
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<CookleeDbContext>();
 
             //// Schema = Bearer
             //services.AddAuthentication("Bearer")
