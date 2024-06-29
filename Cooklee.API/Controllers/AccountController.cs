@@ -180,7 +180,7 @@ namespace Cooklee.API.Controllers
             }
 
             var token = await _authService.CreatTokenAsync(user, _userManager);
-            return Ok(new { token });
+            return Ok(token );
         }
 
         #endregion

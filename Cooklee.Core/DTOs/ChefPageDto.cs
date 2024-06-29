@@ -10,8 +10,10 @@ namespace Cooklee.Core.DTOs
 {
     public class ChefPageDto
     {
-        public int? id { get; set; }
+        public int Id { get; set; }
         public string? DisplayName { get; set; }
+
+        public string Email { get; set; }
         public string? IdImgURL { get; set; }
         public string? PhoneNumber { get; set; }
         public string? WalletNumber { get; set; }
