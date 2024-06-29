@@ -10,6 +10,7 @@ namespace Cooklee.Data.Repository.Contract
     public interface IClientProfileRepo : IGenericRepo<Client>
     {
         Task<Client?> GetProfileAsync(string id);
+        Task<Client?> GetClientBychefAsync(int id);
         Task<Client?> UpdateProfileAsync(string id,  Client updatedClient);
     }
 }

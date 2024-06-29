@@ -42,5 +42,34 @@ namespace Cooklee.Infrastructure.Repositories
             }
             return updatedChefPage;
         }
+
+        public async Task<List<ChefPage>>? GetUnActiveChefPages()
+        {
+            var unActivePages = await _dbcontext.ChefPage.Where(p => p.IsActive == false).ToListAsync();
+            return unActivePages;
+        }
+
+        public async Task<bool> ActivatePage(int chefId)
+        {
+            var unActiveChefpage = await _dbcontext.ChefPage.SingleOrDefaultAsync(cp => cp.Id == chefId);
+            if (unActiveChefpage != null)
+            {
+                unActiveChefpage.IsActive = true;
+
+                _dbcontext.Update(unActiveChefpage);
+
+               var resut=  await _dbcontext.SaveChangesAsync();
+                if(resut >0)
+                {
+                    return true;
+                }
+
+                return false;
+                
+            }
+
+            return true;
+
+        }
     }
 }

@@ -12,6 +12,10 @@ namespace Cooklee.Data.Repository.Contract
         Task<ChefPage?> GetPageByUser(string userId);
         Task<ChefPage?> UpdatePageAsync(int ClientId, ChefPage updatedChefPage);
 
+        Task<List<ChefPage>>? GetUnActiveChefPages();
+
+        Task<bool> ActivatePage(int chefId);
+
 
     }
 }

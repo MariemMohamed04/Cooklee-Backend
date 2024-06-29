@@ -57,7 +57,13 @@ namespace Cooklee.Infrastructure.Repositories
 			//await _dbContext.SaveChangesAsync();
 			return meal;
 		}
-		#endregion
+
+        public async Task<IEnumerable<Meal>> GetUnAcceptedMeals()
+        {
+            var unAcceptedMeals = await _dbContext.Meals.Where(m => m.IsAccepeted == false).ToListAsync();
+            return unAcceptedMeals;
+        }
+        #endregion
 
     }
 }
