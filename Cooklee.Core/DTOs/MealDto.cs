@@ -21,7 +21,7 @@ namespace Cooklee.Core.DTOs
 		public float Rate { get; set; }
 		public string Image {  get; set; }
 		public List<string> Tags {  get; set; }
-		public string chefPageName { get; set; }
+		public string? chefPageName { get; set; }
 		public int ChefPageId { get; set; }
 	}
 }

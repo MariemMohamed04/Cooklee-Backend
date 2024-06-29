@@ -2,6 +2,7 @@
 
 using Cooklee.Core.Helpers;
 using Cooklee.Data.Service.Contract;
+using Cooklee.Service.Services;
 
 namespace Cooklee.API.Exetensions
 {
@@ -10,7 +11,6 @@ namespace Cooklee.API.Exetensions
         public static IServiceCollection AddMailServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<MailSetting>(configuration.GetSection("MailSetting"));
-            services.AddTransient<IEmailService, EmailSetting>();
             return services;
         }
     }

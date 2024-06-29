@@ -22,6 +22,5 @@ namespace Cooklee.Core.DTOs
 
         [DefaultValue(false)]
         public bool IsActive { get; set; }
-
     }
 }

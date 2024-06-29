@@ -1,10 +1,10 @@
 ﻿using Cooklee.Data.Entities;
 using Cooklee.Data.Repository.Contract;
 using Cooklee.Infrastructure.Data;
-
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,30 +23,11 @@ namespace Cooklee.Infrastructure.Repositories
 		{
 			_dbContext = dbContext;
 		}
+		#endregion
 
-        public Task<Meal?> AddAsync(Meal entity)
-        {
-            throw new NotImplementedException();
-        }
+		#region Handel function
+		//public async Task<List<Meal>> GetAllMealAsync()
 
-        public Task<bool> CheckIfExistsAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IReadOnlyList<Meal>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region Handel function
-        //public async Task<List<Meal>> GetAllMealAsync()
 		public async Task<IEnumerable<Meal>> GetMealsOrderedByRateAsync()
 		{
 			return await _dbContext.Set<Meal>()
@@ -57,10 +38,26 @@ namespace Cooklee.Infrastructure.Repositories
 		public async Task<IEnumerable<Meal>> GetAllChefMealsAsync(int id)
 		{
 			return await _dbContext.Set<Meal>()
-									.Where(m=> m.ChefPageId == id)
+									.Where(m	=> m.ChefPageId == id)
 									.OrderByDescending(m => m.Rate)
 									.ToListAsync();
 		}
+
+		public async Task<IEnumerable<Meal>?> GetMealByNameAsync(string MealName)
+		{
+			var meal = await _dbContext.Set<Meal>()
+										.Where(m => m.MealName == MealName)
+										.OrderByDescending(m => m.Rate)
+										.ToListAsync();
+			return meal;
+		}
+		public async Task<Meal> UpdateMeal( Meal meal)
+		{
+			_dbContext.Entry(meal).State = EntityState.Modified;
+			//await _dbContext.SaveChangesAsync();
+			return meal;
+		}
 		#endregion
+
     }
 }

@@ -19,20 +19,21 @@ namespace Cooklee.API.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IAuthService _authService;
-
+        private readonly IEmailSetting _emailService;
+        private static readonly Dictionary<string, string> ResetCodes = new();
         public AccountController(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             IAuthService authService,
-            IEmailService emailService
-
+            IEmailSetting emailService
             )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _authService = authService;
+            _emailService = emailService;
         }
 
         #region Login
@@ -204,7 +205,6 @@ namespace Cooklee.API.Controllers
         }
         #endregion
 
-
         #region CheckEmailExists
         [HttpGet("emailexists")]
         public async Task<ActionResult<bool>> CheckEmailExists(string email)
@@ -214,58 +214,72 @@ namespace Cooklee.API.Controllers
         #endregion
 
         #region Forgot Password
-        // [HttpPost]
-        //public async Task<IActionResult> ForgotPassword(ForgotPasswordDto forgotPasswordDto)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
+        [HttpPost("forgotpassword")]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordDto forgotPasswordDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
 
-        //        if (user != null)
-        //        {
-        //            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        //            var resetPasswordLink = Url.Action("ResetPassword", "Account", new { Email = forgotPasswordDto.Email, Token = token }, Request.Scheme);
-        //            var email = new Email
-        //            {
-        //                To = forgotPasswordDto.Email,
-        //                Subject = "Reset Your Password",
-        //                Body = resetPasswordLink
-        //            };
-        //            EmailSetting.SendEmail(email);
-        //            return RedirectToAction("CompleteForgetPassword");
-        //        }
+                if (user != null)
+                {
+                    var resetCode = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 6); // Generate a 6-digit code
+                    ResetCodes[forgotPasswordDto.Email] = resetCode;
 
-        //        ModelState.AddModelError("", "Invalid Email");
-        //    }
-        //    //return View();
-        //}
+                    var email = new Email
+                    {
+                        To = forgotPasswordDto.Email,
+                        Subject = "Reset Your Password",
+                        Body = $"Your password reset code is: {resetCode}"
+                    };
+                    _emailService.SendEmailAsync(email);
+                    return Ok(new { Message = "Reset password code has been sent to your email." });
+                }
+
+                return BadRequest(new { Error = "Invalid Email" });
+            }
+
+            return BadRequest(ModelState);
+        }
         #endregion
 
         #region Reset Password
-       // [HttpPost]
-        //public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
+        [HttpPost("resetpassword")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
+        {
+            if (ModelState.IsValid)
+            {
+                if (ResetCodes.TryGetValue(resetPasswordDto.Email, out var storedResetCode) && storedResetCode == resetPasswordDto.ResetCode)
+                {
+                    var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
+                    if (user != null)
+                    {
+                        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                        var result = await _userManager.ResetPasswordAsync(user, token, resetPasswordDto.Password);
 
-        //        if (user != null)
-        //        {
-        //            var result = await _userManager.ResetPasswordAsync(user, resetPasswordDto.Token, resetPasswordDto.Password);
+                        if (result.Succeeded)
+                        {
+                            ResetCodes.Remove(resetPasswordDto.Email);
+                            return Ok(new { Message = "Password has been reset successfully." });
+                        }
+                        else
+                        {
+                            return BadRequest(new { Errors = result.Errors.Select(e => e.Description) });
+                        }
+                    }
+                    else
+                    {
+                        return BadRequest(new { Error = "Invalid Email" });
+                    }
+                }
+                else
+                {
+                    return BadRequest(new { Error = "Invalid reset code." });
+                }
+            }
 
-        //            if (result.Succeeded)
-        //            {
-        //                return RedirectToAction(nameof(Login));
-        //            }
-
-        //            foreach (var error in result.Errors)
-        //            {
-        //                ModelState.AddModelError(string.Empty, error.Description);
-        //            }
-        //        }
-        //    }
-        //    //return View(model);
-        //}
+            return BadRequest(ModelState);
+        }
         #endregion
-    } 
+    }
 }
