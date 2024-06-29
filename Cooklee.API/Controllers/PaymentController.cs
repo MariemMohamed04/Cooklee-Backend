@@ -16,7 +16,9 @@ namespace Cooklee.API.Controllers
         {
             _paymentService = paymentService;
         }
+
         [HttpGet("")]
+        [Produces("application/json")]
         public async Task<ActionResult<IEnumerable<string>>> PaymentData( string cartid , string orderEmail)
         {
 
