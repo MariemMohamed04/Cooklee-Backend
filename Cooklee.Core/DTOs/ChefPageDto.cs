@@ -1,6 +1,7 @@
 ﻿using Cooklee.Data.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,5 +17,8 @@ namespace Cooklee.Core.DTOs
         public string? WalletNumber { get; set; }
         public string? FullAddress { get; set; }
         public ChefPaymentMethod? paymentMethod { get; set; } = ChefPaymentMethod.Cash;
+
+        [DefaultValue(false)]
+        public bool IsActive { get; set; }
     }
 }

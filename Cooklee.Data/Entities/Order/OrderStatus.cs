@@ -12,10 +12,10 @@ namespace Cooklee.Data.Entities.Order
         [EnumMember(Value = "Pending")]
         Pending,
 
-        [EnumMember(Value = "Payment Received")]
-        PaymentReceived,
+        [EnumMember(Value = "Out for Delivery")]
+        OutforDelivery,
 
-        [EnumMember(Value = "Payment Failed")]
-        PaymentFailed,
+        [EnumMember(Value = "Deliverd")]
+        Deliverd,
     }
 }
