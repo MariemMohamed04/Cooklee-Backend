@@ -1,4 +1,6 @@
-﻿using Cooklee.API.Errors;
+﻿using AutoMapper;
+using Cooklee.API.Errors;
+using Cooklee.Core.DTOs;
 using Cooklee.Core.Helpers;
 using Cooklee.Data.Entities;
 using Cooklee.Data.Repository.Contract;
@@ -11,11 +13,15 @@ namespace Cooklee.API.Controllers.Admin
     [ApiController]
     public class AdminMealController : BaseApiController
     {
-        private readonly IUnitOfWork _unit;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
         private readonly IEmailSetting _emailSetting;
-        public AdminMealController(IUnitOfWork unit, IEmailSetting emailSetting)
+
+        public AdminMealController(IUnitOfWork unitOfWork, IMapper mapper, IEmailSetting emailSetting)
+
         {
-            _unit = unit;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
             _emailSetting = emailSetting;
         }
 
@@ -85,5 +91,46 @@ namespace Cooklee.API.Controllers.Admin
                 return BadRequest(new ApiResponse(400, "Failed to send email."));
             }
         }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<MealDto>>> GetAllmeals()
+        {
+
+            var allMeals = await _unitOfWork.MealRepository.GetAllAsync();
+            List<MealDto> allMealsDto = new List<MealDto>();
+
+            foreach (var meal in allMeals)
+            {
+                var mealDto = _mapper.Map<Meal,MealDto>(meal);
+                allMealsDto.Add(mealDto);
+            }
+
+            return Ok(allMealsDto);
+        }
+
+
+
+
+
+        //get unActive chefs
+
+
+
+        [HttpGet("UnAcceptedMeals")]
+        public async Task<ActionResult<IEnumerable<MealDto>>> GetUnAcceptedMeals()
+        {
+            var unAcceptedMeals = await _unitOfWork.MealRepository.GetUnAcceptedMeals();
+            List<MealDto> unAcceptedMealsDto = new List<MealDto>();
+
+            foreach (var meal in unAcceptedMeals)
+            {
+                var mealDto = _mapper.Map<Meal, MealDto>(meal);
+                unAcceptedMealsDto.Add(mealDto);
+            }
+
+            return Ok(unAcceptedMealsDto);
+        }
+
+
     }
 }

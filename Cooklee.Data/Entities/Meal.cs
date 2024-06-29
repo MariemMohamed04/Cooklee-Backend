@@ -30,6 +30,7 @@ namespace Cooklee.Data.Entities
         public string MealDescription { get; set; }
         [DefaultValue("false")]
         public bool IsHealthy { get; set; }
+
         [DefaultValue("true")]
         public bool IsAvailable { get; set; }
         [DefaultValue("false")]
@@ -41,6 +42,9 @@ namespace Cooklee.Data.Entities
         public float Rate { get; set; }
         public string Image { get; set; }
         public List<string>? Tags { get; set; }
+
+
+
         public List<Review>? Reviews { get; set; }
         [ForeignKey(nameof(ChefPage))]
         public int ChefPageId { get; set; }

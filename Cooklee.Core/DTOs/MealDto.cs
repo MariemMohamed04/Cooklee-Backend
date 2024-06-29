@@ -16,12 +16,10 @@ namespace Cooklee.Core.DTOs
         public string MealDescription { get; set; }
         [DefaultValue("false")]
         public bool IsHealthy { get; set; }
-
         [DefaultValue("true")]
         public bool IsAvailable { get; set; }
         [DefaultValue("false")]
         public bool IsSpecial { get; set; }
-
         [DefaultValue("false")]
         public bool IsAccepeted { get; set; }
 

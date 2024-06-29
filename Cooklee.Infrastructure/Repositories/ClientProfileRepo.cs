@@ -41,7 +41,7 @@ namespace Cooklee.Infrastructure.Repositories
             return client;
         }
 
-        public async Task<Client?> GetClientBychefAsync(int id)
+        public async Task<Client?> GetClientBychefAsync(int  id)
         {
             Client client = await _dbcontext.Clients.FirstOrDefaultAsync(c => c.ChefId == id);
 

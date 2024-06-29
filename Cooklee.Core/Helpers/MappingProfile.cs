@@ -69,7 +69,9 @@ namespace Cooklee.Core.Helpers
    .ForMember(dest => dest.ChefPageId, opt => opt.MapFrom(src => src.ChefPageId))
    .ForMember(dest => dest.ChefPage, opt => opt.MapFrom(src => src.ChefPageId));
 
-			CreateMap<AddMealDto, Meal>();
+            CreateMap<Meal, MealDto>();
+
+            CreateMap<AddMealDto, Meal>();
             CreateMap<AddMealDto, Meal>()
            .ForMember(dest => dest.ChefPageId, opt => opt.MapFrom(src => src.ChefPageId));
 		   
