@@ -7,6 +7,6 @@ namespace Cooklee.API.Controllers.Admin
     [ApiController]
     public class AdminChefController : BaseApiController
     {
-        //
+        
     }
 }
