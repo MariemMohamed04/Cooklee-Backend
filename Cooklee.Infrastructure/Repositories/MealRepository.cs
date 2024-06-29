@@ -78,10 +78,9 @@ namespace Cooklee.Infrastructure.Repositories
 
         public async Task<IEnumerable<Meal>> GetUnAcceptedMeals()
         {
-            var unAcceptedMeals = await _dbContext.Meals.Where(m => m.IsAccepeted == false).ToListAsync();
+            var unAcceptedMeals = await _dbContext.Meals.Where(m => m.IsAccepted == false).ToListAsync();
             return unAcceptedMeals;
         }
-        #endregion
 
     }
 }

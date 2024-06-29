@@ -13,14 +13,14 @@ namespace Cooklee.API.Controllers.Admin
     [ApiController]
     public class AdminMealController : BaseApiController
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unit;
         private readonly IMapper _mapper;
         private readonly IEmailSetting _emailSetting;
 
         public AdminMealController(IUnitOfWork unitOfWork, IMapper mapper, IEmailSetting emailSetting)
 
         {
-            _unitOfWork = unitOfWork;
+            _unit = unitOfWork;
             _mapper = mapper;
             _emailSetting = emailSetting;
         }
@@ -39,10 +39,10 @@ namespace Cooklee.API.Controllers.Admin
 
             if (result == true)
             {
-                var email = new Email
+                var email = new Email()
                 {
                     To = chef.Email,
-                    Subject = $"{meal.MealName} has bee accepted",
+                    Subject = $"{meal.MealName} has been accepted",
                     Body = $"Dear {client.FirstName},  your meal has been accepted."
                 };
 
@@ -51,9 +51,9 @@ namespace Cooklee.API.Controllers.Admin
                     _emailSetting.SendEmailAsync(email);
                     return Ok(true);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    return BadRequest(new ApiResponse(400, "Failed to send email."));
+                    return Ok(false);
                 }
             }
             return Ok(false);
@@ -96,7 +96,7 @@ namespace Cooklee.API.Controllers.Admin
         public async Task<ActionResult<IEnumerable<MealDto>>> GetAllmeals()
         {
 
-            var allMeals = await _unitOfWork.MealRepository.GetAllAsync();
+            var allMeals = await _unit.MealRepository.GetAllAsync();
             List<MealDto> allMealsDto = new List<MealDto>();
 
             foreach (var meal in allMeals)
@@ -119,7 +119,7 @@ namespace Cooklee.API.Controllers.Admin
         [HttpGet("UnAcceptedMeals")]
         public async Task<ActionResult<IEnumerable<MealDto>>> GetUnAcceptedMeals()
         {
-            var unAcceptedMeals = await _unitOfWork.MealRepository.GetUnAcceptedMeals();
+            var unAcceptedMeals = await _unit.MealRepository.GetUnAcceptedMeals();
             List<MealDto> unAcceptedMealsDto = new List<MealDto>();
 
             foreach (var meal in unAcceptedMeals)

@@ -12,6 +12,5 @@ namespace Cooklee.Data.Repository.Contract
         Task<Client?> GetProfileAsync(string id);
         Task<Client?> GetClientBychefAsync(int id);
         Task<Client?> UpdateProfileAsync(string id,  Client updatedClient);
-        Task<Client?> GetClientBychefAsync(int id);
     }
 }

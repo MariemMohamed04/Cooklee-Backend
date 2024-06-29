@@ -15,14 +15,14 @@ namespace Cooklee.API.Controllers.Admin
     [ApiController]
     public class AdminChefController : BaseApiController
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unit;
         private readonly IMapper _mapper;
         private readonly IEmailSetting _emailSetting;
 
         public AdminChefController(IUnitOfWork unitOfWork, IMapper mapper , IEmailSetting emailSetting)
 
         {
-            _unitOfWork = unitOfWork;
+            _unit = unitOfWork;
             _mapper = mapper;
             _emailSetting = emailSetting;
         }
@@ -54,15 +54,12 @@ namespace Cooklee.API.Controllers.Admin
             }
         }
 
-    }
-
-
         // get all chefs
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ChefPageDto>>> GetAllChefPages()
         {
 
-            var allChefPages = await _unitOfWork.ChefPageRepo.GetAllAsync();
+            var allChefPages = await _unit.ChefPageRepo.GetAllAsync();
             List< ChefPageDto> allChefPagesDto = new List<ChefPageDto>();
 
             foreach (var page in allChefPages)
@@ -75,9 +72,6 @@ namespace Cooklee.API.Controllers.Admin
         }
 
 
-
-
-
         //get unActive chefs
 
 
@@ -85,7 +79,7 @@ namespace Cooklee.API.Controllers.Admin
         [HttpGet("UnActivePages")]
         public async Task<ActionResult<IEnumerable<ChefPageDto>>> GetUnActivePages()
         {
-            var unActivePages = await _unitOfWork.ChefPageRepo.GetUnActiveChefPages();
+            var unActivePages = await _unit.ChefPageRepo.GetUnActiveChefPages();
             List<ChefPageDto> unActivePagesDto = new List<ChefPageDto>();
 
             foreach (var page in unActivePages)
@@ -102,8 +96,8 @@ namespace Cooklee.API.Controllers.Admin
         public async Task<ActionResult<bool>> ActivatePage( int chefId)
         {
 
-            var result = await _unitOfWork.ChefPageRepo.ActivatePage(chefId);
-            var client = await _unitOfWork.ClientProfileRepo.GetClientBychefAsync(chefId);
+            var result = await _unit.ChefPageRepo.ActivatePage(chefId);
+            var client = await _unit.ClientProfileRepo.GetClientBychefAsync(chefId);
             
 
 
