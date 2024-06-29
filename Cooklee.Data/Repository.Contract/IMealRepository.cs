@@ -13,6 +13,8 @@ namespace Cooklee.Data.Repository.Contract
 		Task<IEnumerable<Meal>> GetAllChefMealsAsync(int id);
 		Task<IEnumerable<Meal>?> GetMealByNameAsync(string MealName);
 		Task<Meal> UpdateMeal(Meal meal);
-	}
+		Task<bool> AcceptMeal(int mealId);
+
+    }
 	
 }

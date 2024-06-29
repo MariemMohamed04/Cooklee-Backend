@@ -40,7 +40,7 @@ namespace Cooklee.Core.Helpers
 
             CreateMap<ChefPage, ChefPageDto>()
             .ForMember(d => d.DisplayName, o => o.MapFrom(S => S.DisplayName))
-             .ForMember(d => d.id, o => o.MapFrom(S => S.Id));
+             .ForMember(d => d.Id, o => o.MapFrom(S => S.Id));
             CreateMap<ChefPageDto, ChefPage>();
 
             CreateMap<ClientCartDto, ClientCart>();

@@ -34,6 +34,8 @@ namespace Cooklee.Data.Entities
         public bool IsAvailable { get; set; }
         [DefaultValue("false")]
         public bool IsSpecial { get; set; }
+        [DefaultValue("false")]
+        public bool IsAccepted { get; set; }
         public float Price { get; set; }
         [DefaultValue(0)]
         public float Rate { get; set; }
