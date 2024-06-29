@@ -1,7 +1,8 @@
 [
   {
     "DisplayName": "Mariem",
-    "ClientId": 3,
-    "IsActive": true
+    "ClientId": 2,
+    "Email": "mariem@gmail.com",
+    "IsActive": false
   }
 ]
