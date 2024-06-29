@@ -57,6 +57,24 @@ namespace Cooklee.Infrastructure.Repositories
 			//await _dbContext.SaveChangesAsync();
 			return meal;
 		}
+        #endregion
+
+        public async Task<bool> AcceptMeal(int mealId)
+        {
+            var unAcceptedMeal = await _dbContext.Meals.SingleOrDefaultAsync(m => m.Id == mealId);
+            if (unAcceptedMeal != null)
+            {
+                unAcceptedMeal.IsAccepted = true;
+                _dbContext.Update(unAcceptedMeal);
+                var resut = await _dbContext.SaveChangesAsync();
+                if (resut > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+            return true;
+        }
 
         public async Task<IEnumerable<Meal>> GetUnAcceptedMeals()
         {
