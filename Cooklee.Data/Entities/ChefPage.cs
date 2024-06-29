@@ -26,8 +26,8 @@ namespace Cooklee.Data.Entities
 
     public class ChefPage : BaseEntity
 	{
-        public string? DisplayName { get; set; }
-
+        public string DisplayName { get; set; }
+        public string Email { get; set; }
         public string? IdImgURL { get; set; }
         public string? PhoneNumber { get; set; }
         public string? WalletNumber { get; set; }
