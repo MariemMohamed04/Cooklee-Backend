@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cooklee.Infrastructure.Migrations
 {
     [DbContext(typeof(CookleeDbContext))]
-    [Migration("20240624183849_updateChefModel")]
-    partial class updateChefModel
+    [Migration("20240627184642_m1")]
+    partial class m1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -570,13 +570,13 @@ namespace Cooklee.Infrastructure.Migrations
                     b.HasOne("Cooklee.Data.Entities.Meal", null)
                         .WithMany()
                         .HasForeignKey("MealsId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Cooklee.Data.Entities.Client", null)
                         .WithMany()
                         .HasForeignKey("clientsId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -585,13 +585,13 @@ namespace Cooklee.Infrastructure.Migrations
                     b.HasOne("Cooklee.Data.Entities.Client", "Client")
                         .WithMany("Reviews")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Cooklee.Data.Entities.Meal", "Meal")
                         .WithMany("Reviews")
                         .HasForeignKey("MealId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Client");
@@ -604,7 +604,7 @@ namespace Cooklee.Infrastructure.Migrations
                     b.HasOne("Cooklee.Data.Entities.Client", "Client")
                         .WithOne("Chef")
                         .HasForeignKey("Cooklee.Data.Entities.ChefPage", "ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Client");
@@ -615,7 +615,7 @@ namespace Cooklee.Infrastructure.Migrations
                     b.HasOne("Cooklee.Data.Entities.Identity.AppUser", "AppUser")
                         .WithOne("Client")
                         .HasForeignKey("Cooklee.Data.Entities.Client", "AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("AppUser");
@@ -626,13 +626,13 @@ namespace Cooklee.Infrastructure.Migrations
                     b.HasOne("Cooklee.Data.Entities.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Cooklee.Data.Entities.Meal", "Meal")
                         .WithMany()
                         .HasForeignKey("MealId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Client");
@@ -645,7 +645,7 @@ namespace Cooklee.Infrastructure.Migrations
                     b.HasOne("Cooklee.Data.Entities.Identity.AppUser", null)
                         .WithOne("Address")
                         .HasForeignKey("Cooklee.Data.Entities.Identity.Address", "AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -654,7 +654,7 @@ namespace Cooklee.Infrastructure.Migrations
                     b.HasOne("Cooklee.Data.Entities.ChefPage", "ChefPage")
                         .WithMany("Meals")
                         .HasForeignKey("ChefPageId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("ChefPage");
@@ -770,13 +770,13 @@ namespace Cooklee.Infrastructure.Migrations
                     b.HasOne("Cooklee.Data.Entities.ChefPage", "ChefPage")
                         .WithMany("SpecialMeals")
                         .HasForeignKey("ChefPageId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Cooklee.Data.Entities.Client", "Client")
                         .WithMany("SpecialMeals")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("ChefPage");
@@ -789,7 +789,7 @@ namespace Cooklee.Infrastructure.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -798,7 +798,7 @@ namespace Cooklee.Infrastructure.Migrations
                     b.HasOne("Cooklee.Data.Entities.Identity.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -807,7 +807,7 @@ namespace Cooklee.Infrastructure.Migrations
                     b.HasOne("Cooklee.Data.Entities.Identity.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -816,13 +816,13 @@ namespace Cooklee.Infrastructure.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Cooklee.Data.Entities.Identity.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -831,7 +831,7 @@ namespace Cooklee.Infrastructure.Migrations
                     b.HasOne("Cooklee.Data.Entities.Identity.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 

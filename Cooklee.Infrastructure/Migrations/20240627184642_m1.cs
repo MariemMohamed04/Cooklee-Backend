@@ -267,8 +267,13 @@ namespace Cooklee.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClientId = table.Column<int>(type: "int", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    IdImgURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WalletNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FullAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    paymentMethod = table.Column<int>(type: "int", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    ClientId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -216,32 +216,32 @@ namespace Cooklee.API.Controllers
 
         #region Forgot Password
         [HttpPost("forgotpassword")]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordDto forgotPasswordDto)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
+        //public async Task<IActionResult> ForgotPassword(ForgotPasswordDto forgotPasswordDto)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
 
-                if (user != null)
-                {
-                    var resetCode = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 6); // Generate a 6-digit code
-                    ResetCodes[forgotPasswordDto.Email] = resetCode;
+        //        if (user != null)
+        //        {
+        //            var resetCode = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 6); // Generate a 6-digit code
+        //            ResetCodes[forgotPasswordDto.Email] = resetCode;
 
-                    var email = new Email
-                    {
-                        To = forgotPasswordDto.Email,
-                        Subject = "Reset Your Password",
-                        Body = $"Your password reset code is: {resetCode}"
-                    };
-                    _emailService.SendEmail(email);
-                    return Ok(new { Message = "Reset password code has been sent to your email." });
-                }
+        //            var email = new Email
+        //            {
+        //                To = forgotPasswordDto.Email,
+        //                Subject = "Reset Your Password",
+        //                Body = $"Your password reset code is: {resetCode}"
+        //            };
+        //            _emailService.SendEmail(email);
+        //            return Ok(new { Message = "Reset password code has been sent to your email." });
+        //        }
 
-                return BadRequest(new { Error = "Invalid Email" });
-            }
+        //        return BadRequest(new { Error = "Invalid Email" });
+        //    }
 
-            return BadRequest(ModelState);
-        }
+        //    return BadRequest(ModelState);
+        //}
         #endregion
 
         #region Reset Password

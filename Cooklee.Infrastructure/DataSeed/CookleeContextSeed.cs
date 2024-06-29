@@ -90,5 +90,6 @@ namespace Cooklee.Infrastructure.DataSeed
                 }
             }
         }
+
     }
 }

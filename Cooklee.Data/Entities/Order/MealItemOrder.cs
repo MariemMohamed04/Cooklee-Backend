@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace Cooklee.Data.Entities.Order
             MealName = mealName;
             PictureUrl = pictureUrl;
         }
-
+        //public int Id { get; set; }
         public int MealId { get; set; }
         public string MealName { get; set; }
         public string PictureUrl { get; set; }

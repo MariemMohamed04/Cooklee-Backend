@@ -2,6 +2,7 @@
 using Cooklee.API.Exetensions;
 using Cooklee.API.Middlewares;
 using Cooklee.Data.Entities.Identity;
+using Cooklee.Data.Repository.Contract;
 using Cooklee.Data.Service.Contract;
 using Cooklee.Infrastructure.Data;
 using Cooklee.Infrastructure.DataSeed;
@@ -10,6 +11,7 @@ using Cooklee.Service.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
+using static Cooklee.Data.Repository.Contract.IChefsWithTopRatedMealsRepo;
 using static Cooklee.Data.Repository.Contract.IHomePageMealsRep;
 using static Cooklee.Service.Services.HomePageMealsService;
 
@@ -31,7 +33,8 @@ namespace Cooklee.API
             {
                 op.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
-            #endregion
+            #endregion.'
+
 
             #region Redis
             builder.Services.AddSingleton<IConnectionMultiplexer>(option =>
@@ -45,7 +48,7 @@ namespace Cooklee.API
             builder.Services.AddApplicationServices();
             builder.Services.AddIdentityServices();
             builder.Services.AddAccountServices(configuration);
-            builder.Services.AddMailServices(configuration);
+            //builder.Services.AddMailServices(configuration);
 
             #region CORS
             builder.Services.AddCors(options =>
@@ -71,6 +74,9 @@ namespace Cooklee.API
                 builder.Configuration["Email:SmtpUser"],
                 builder.Configuration["Email:SmtpPass"]
             ));
+
+            builder.Services.AddScoped<IChefsWithMealsRepo, ChefsWithTopRatedMealsRepo>();
+            builder.Services.AddScoped<IChefsWithTopRatedMealsService, ChefsWithTopRatedMealsService>();
 
             var app = builder.Build();
 
