@@ -14,5 +14,6 @@ namespace Cooklee.Data.Repository.Contract
         //Task<ChefPage?> GetChefByAsync(int id);
         Task<List<ChefPage>>? GetUnActiveChefPages();
         Task<bool> ActivatePage(int chefId);
+        Task<bool> SendFeedback(int chefId);
     }
 }

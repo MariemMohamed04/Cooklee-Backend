@@ -27,32 +27,32 @@ namespace Cooklee.API.Controllers.Admin
             _emailSetting = emailSetting;
         }
 
-        [HttpPost("SendFeedback")]
-        public async Task<IActionResult> SendFeedback([FromQuery] int chefId, [FromBody] string body)
-        {
-            var chef = await _unit.ChefPageRepo.GetAsync(chefId);
-            if (chef == null)
-            {
-                return BadRequest(new ApiResponse(404, "Chef not found."));
-            }
+        //[HttpPost("SendFeedback")]
+        //public async Task<IActionResult> SendFeedback(ChefFeedbackDto chefFeedbackDto)
+        //{
+        //    var chef = await _unit.ChefPageRepo.GetAsync(chefFeedbackDto.ChefId);
+        //    if (chef == null)
+        //    {
+        //        return BadRequest(new ApiResponse(404, "Chef not found."));
+        //    }
 
-            var email = new Email
-            {
-                To = chef.Email,
-                Subject = "Invalid Chef Details",
-                Body = body
-            };
+        //    var email = new Email
+        //    {
+        //        To = chef.Email,
+        //        Subject = "Invalid Chef Details",
+        //        Body = chefFeedbackDto.Body
+        //    };
 
-            try
-            {
-                _emailSetting.SendEmailAsync(email);
-                return Ok(new { Message = "Feedback has been sent to the chef's email." });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ApiResponse(400, "Failed to send email."));
-            }
-        }
+        //    try
+        //    {
+        //        _emailSetting.SendEmailAsync(email);
+        //        return Ok(new { Message = "Feedback has been sent to the chef's email." });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(new ApiResponse(400, "Failed to send email."));
+        //    }
+        //}
 
         // get all chefs
         [HttpGet]
@@ -95,12 +95,8 @@ namespace Cooklee.API.Controllers.Admin
         [HttpPut("ActivatePage")]
         public async Task<ActionResult<bool>> ActivatePage( int chefId)
         {
-
             var result = await _unit.ChefPageRepo.ActivatePage(chefId);
-            var client = await _unit.ClientProfileRepo.GetClientBychefAsync(chefId);
-            
-
-
+            var client = await _unit.ClientProfileRepo.GetClientBychefAsync(chefId);          
             if (result == true)
             {
                 Email email = new Email()
@@ -108,37 +104,57 @@ namespace Cooklee.API.Controllers.Admin
                     To= client.Email,
                     Subject= "Page Accepted",
                     Body = $"Dear {client.FirstName}, Your Chef Page request has been Accepted.",
+                };
+                try
+                {
+                    _emailSetting.SendEmailAsync(email);
+                    return Ok(true);
+                }
+                catch (Exception)
+                {
+                    return Ok(false);
+                }
+            }
+            else 
+                return BadRequest(new ApiResponse(400));
+        }
 
 
+        [HttpPost("SendFeedback")]
+        public async Task<ActionResult<bool>> SendFeedback(int chefId, ChefFeedbackDto chefFeedbackDto)
+        {
+            var result = await _unit.ChefPageRepo.SendFeedback(chefId);
+            var chef = await _unit.ChefPageRepo.GetAsync(chefId);
+            if (chef == null)
+            {
+                return Ok(false);
+            }
+            if (result == true)
+            {
+                var email = new Email
+                {
+                    To = chef.Email,
+                    Subject = "Invalid Chef Details",
+                    Body = chefFeedbackDto.Body
                 };
 
                 try
                 {
                     _emailSetting.SendEmailAsync(email);
-
-
                     return Ok(true);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
                     return Ok(false);
                 }
             }
-
-            else 
-
-                return BadRequest(new ApiResponse(400));
-        
-        
+            else
+                return Ok(false);
         }
 
 
 
 
 
-
-
-
-        }
+    }
 }

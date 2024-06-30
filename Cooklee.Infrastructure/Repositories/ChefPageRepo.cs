@@ -71,5 +71,15 @@ namespace Cooklee.Infrastructure.Repositories
             return true;
 
         }
+
+        public async Task<bool> SendFeedback(int chefId)
+        {
+            var unActiveChefpage = await _dbcontext.ChefPage.SingleOrDefaultAsync(cp => cp.Id == chefId);
+            if (unActiveChefpage.IsActive == false)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
