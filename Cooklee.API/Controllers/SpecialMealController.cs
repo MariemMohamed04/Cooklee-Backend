@@ -43,7 +43,7 @@ namespace Cooklee.API.Controllers
         [HttpGet("byChefPage/{chefPageId}")]
         public async Task<ActionResult<IEnumerable<SpecialMealDto>>> GetSpecialMealByChefPageId(int chefPageId)
         {
-            var specialMeals = await _unit.SpecialMealRepo.FindAsync(m => m.ChefPageId == chefPageId);
+            var specialMeals = await _unit.SpecialMealRepo.FindAsync(m => m.ChefId == chefPageId);
             var mappedSpecialMeals = _mapper.Map<IEnumerable<SpecialMeal>, IEnumerable<SpecialMealDto>>(specialMeals);
             return Ok(mappedSpecialMeals);
         }
@@ -72,11 +72,11 @@ namespace Cooklee.API.Controllers
                 }
 
                 // Check if ChefPageId exists
-                var chefPageExists = await _unit.ChefPageRepo.CheckIfExistsAsync(specialMeal.ChefPageId);
-                if (!chefPageExists)
-                {
-                    return BadRequest(new ApiResponse(400, "Invalid ChefPageId"));
-                }
+                //var chefPageExists = await _unit.ChefPageRepo.CheckIfExistsAsync(specialMeal.ChefId);
+                //if (!chefPageExists)
+                //{
+                //    return BadRequest(new ApiResponse(400, "Invalid ChefPageId"));
+                //}
 
                 // Add the SpecialMeal entity to repository
                 await _unit.SpecialMealRepo.AddAsync(specialMeal);
@@ -108,10 +108,10 @@ namespace Cooklee.API.Controllers
                 }
                 _mapper.Map(specialMealDto, existingSpecialMeal);
                 var clientExists = await _unit.ClientProfileRepo.CheckIfExistsAsync(existingSpecialMeal.ClientId);
-                var chefPageExists = await _unit.ChefPageRepo.CheckIfExistsAsync(existingSpecialMeal.ChefPageId);
-                if (!clientExists || !chefPageExists)
+                //var chefPageExists = await _unit.ChefPageRepo.CheckIfExistsAsync(existingSpecialMeal.ChefPageId);
+                if (!clientExists)
                 {
-                    return BadRequest(new ApiResponse(400, "Invalid ClientId or ChefPageId"));
+                    return BadRequest(new ApiResponse(400, "Invalid ClientId"));
                 }
                 await _unit.SpecialMealRepo.UpdateAsync(id, existingSpecialMeal);
                 await _unit.SpecialMealRepo.SaveChanges();

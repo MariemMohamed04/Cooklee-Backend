@@ -18,8 +18,10 @@ namespace Cooklee.Data.Entities
         [ForeignKey(nameof(Client))]
         public int ClientId { get; set; }
         public Client? Client { get; set; }
-        public int ChefPageId { get; set; }
-        public ChefPage? ChefPage { get; set; }
+        public int? ChefId { get; set; }
+        public ChefPage? Chef { get; set; }
+        public bool IsAccepted { get; set; }
+        public bool IsTaken { get; set; }
 
         public enum Status
         {

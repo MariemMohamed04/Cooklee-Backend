@@ -40,17 +40,17 @@ namespace Cooklee.API.Controllers.Admin
 
             if (result == true)
             {
-                var email = new Email()
-                {
-                    To = chef.Email,
-                    Subject = $"{meal.MealName} has been accepted",
-                    Body = $"Dear {client.FirstName},  your meal has been accepted."
-                };
+                //var email = new Email()
+                //{
+                //    To = chef.Email,
+                //    Subject = $"{meal.MealName} has been accepted",
+                //    Body = $"Dear {client.FirstName},  your meal has been accepted."
+                //};
 
                 try
                 {
-                    _emailSetting.SendEmailAsync(email);
-                    return  Ok(new { status = result, message = " meal  has been accepted,  please check your email" });
+                    //_emailSetting.SendEmailAsync(email);
+                    return Ok(new { status = result, message = " meal  has been accepted,  please check your email" });
 
                 }
                 catch (Exception ex)
@@ -62,8 +62,9 @@ namespace Cooklee.API.Controllers.Admin
         }
 
         [HttpPost("SendFeedback")]
-        public async Task<IActionResult> SendFeedback([FromQuery] int chefId, [FromQuery] int mealId, [FromBody] string body)
+        public async Task<ActionResult<bool>> SendFeedback(int chefId, int mealId, ChefFeedbackDto chefFeedbackDto)
         {
+            var result = await _unit.ChefPageRepo.SendFeedback(chefId);
             var chef = await _unit.ChefPageRepo.GetAsync(chefId);
             var meal = await _unit.MealRepository.GetAsync(mealId);
             if (chef == null)
@@ -76,19 +77,19 @@ namespace Cooklee.API.Controllers.Admin
                 return BadRequest(new ApiResponse(404, "Meal not found."));
             }
 
-            var email = new Email
-            {
-                To = chef.Email,
-                Subject = "Invalid Meal Details",
-                Body = body
-            };
+            //var email = new Email
+            //{
+            //    To = chef.Email,
+            //    Subject = "Invalid Meal Details",
+            //    Body = body
+            //};
 
             try
             {
-                _emailSetting.SendEmailAsync(email);
+                //_emailSetting.SendEmailAsync(email);
                 return Ok(new { Message = "Feedback has been sent to the chef's email." });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return BadRequest(new ApiResponse(400, "Failed to send email."));
             }

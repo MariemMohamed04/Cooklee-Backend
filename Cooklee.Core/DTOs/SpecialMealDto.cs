@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,8 +17,14 @@ namespace Cooklee.Core.DTOs
         public Status? MealStatus { get; set; }
         public int ClientId { get; set; }
         public string? Client { get; set; }
-        public int ChefPageId { get; set; }
+        //public int ChefPageId { get; set; }
         public string? ChefPage { get; set; }
+
+        [DefaultValue("false")]
+        public bool IsAccepeted { get; set; }        
+        
+        [DefaultValue("false")]
+        public bool IsTaken { get; set; }
 
         public enum Status
         {

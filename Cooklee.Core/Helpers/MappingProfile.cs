@@ -84,7 +84,7 @@ namespace Cooklee.Core.Helpers
 		  
 
             CreateMap<SpecialMeal, SpecialMealDto>()
-                .ForMember(d => d.ChefPage, o => o.MapFrom(src => src.ChefPage.DisplayName))
+                //.ForMember(d => d.ChefPage, o => o.MapFrom(src => src.ChefPage.DisplayName))
                 .ForMember(d => d.Client, o => o.MapFrom(src => src.Client.FirstName)).
                 ForMember(d => d.id, o => o.MapFrom(src => src.Id));
             //.ReverseMap();
@@ -93,8 +93,8 @@ namespace Cooklee.Core.Helpers
             //.ForMember(d => d.ClientName, o => o.MapFrom(src => src.Client.FirstName));
 
             CreateMap<SpecialMealDto, SpecialMeal>()
-                .ForMember(m => m.Client, opt => opt.Ignore())
-                .ForMember(m => m.ChefPage, opt => opt.Ignore());
+                .ForMember(m => m.Chef, opt => opt.Ignore())
+                .ForMember(m => m.Client, opt => opt.Ignore());
         }
     }
 }

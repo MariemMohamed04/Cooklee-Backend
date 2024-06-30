@@ -72,7 +72,7 @@ namespace Cooklee.API.Controllers.Admin
             var deliverdOrders = await _unit.OrderRepository.GetDeliverdOrders();
          
 
-            return Ok(deliverdOrdersDto);
+            return Ok(deliverdOrders);
         }
 
 

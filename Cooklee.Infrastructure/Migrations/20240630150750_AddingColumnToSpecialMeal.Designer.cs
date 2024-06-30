@@ -4,6 +4,7 @@ using Cooklee.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cooklee.Infrastructure.Migrations
 {
     [DbContext(typeof(CookleeDbContext))]
-    partial class CookleeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240630150750_AddingColumnToSpecialMeal")]
+    partial class AddingColumnToSpecialMeal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -405,7 +408,7 @@ namespace Cooklee.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ChefId")
+                    b.Property<int>("ChefPageId")
                         .HasColumnType("int");
 
                     b.Property<int>("ClientId")
@@ -414,9 +417,6 @@ namespace Cooklee.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsAccepted")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsTaken")
                         .HasColumnType("bit");
@@ -436,7 +436,7 @@ namespace Cooklee.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChefId");
+                    b.HasIndex("ChefPageId");
 
                     b.HasIndex("ClientId");
 
@@ -778,9 +778,11 @@ namespace Cooklee.Infrastructure.Migrations
 
             modelBuilder.Entity("Cooklee.Data.Entities.SpecialMeal", b =>
                 {
-                    b.HasOne("Cooklee.Data.Entities.ChefPage", "Chef")
+                    b.HasOne("Cooklee.Data.Entities.ChefPage", "ChefPage")
                         .WithMany("SpecialMeals")
-                        .HasForeignKey("ChefId");
+                        .HasForeignKey("ChefPageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Cooklee.Data.Entities.Client", "Client")
                         .WithMany("SpecialMeals")
@@ -788,7 +790,7 @@ namespace Cooklee.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Chef");
+                    b.Navigation("ChefPage");
 
                     b.Navigation("Client");
                 });
