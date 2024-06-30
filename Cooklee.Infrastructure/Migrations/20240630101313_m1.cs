@@ -298,6 +298,7 @@ namespace Cooklee.Infrastructure.Migrations
                     IsHealthy = table.Column<bool>(type: "bit", nullable: false),
                     IsAvailable = table.Column<bool>(type: "bit", nullable: false),
                     IsSpecial = table.Column<bool>(type: "bit", nullable: false),
+                    IsAccepted = table.Column<bool>(type: "bit", nullable: false),
                     Price = table.Column<float>(type: "real", nullable: false),
                     Rate = table.Column<float>(type: "real", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: false),

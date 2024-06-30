@@ -33,12 +33,7 @@ namespace Cooklee.API.Controllers
         [HttpPost]
         public async Task<ActionResult<OrderDto>> CreateOrder(OrderDto orderDto)
         {
-            //var clientEmailClaim = User.FindFirst(ClaimTypes.Email);
-            //if (clientEmailClaim == null)
-            //{
-            //    return Unauthorized(new ApiResponse(401, "User email not found in token"));
-            //}
-            //var clientEmail = clientEmailClaim.Value;
+            
 
             var shippingAddress = _mapper.Map<ShipmentDetailsDto, ShipmentDetails>(orderDto.ShipmentDetails);
             var order = await _orderService.CreateAsync(orderDto.ClientEmail, orderDto.CartId, shippingAddress);

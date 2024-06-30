@@ -48,5 +48,11 @@ namespace Cooklee.Infrastructure.Repositories
             return client;
 
         }
+
+        public async Task<Client?> GetProfileByEmailAsync(string Email)
+        {
+            var client = await _dbcontext.Clients.FirstOrDefaultAsync(c => c.Email == Email);
+            return client;
+        }
     }
 }

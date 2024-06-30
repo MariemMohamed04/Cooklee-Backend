@@ -103,12 +103,12 @@ namespace Cooklee.API.Controllers.Admin
                 {
                     To= client.Email,
                     Subject= "Page Accepted",
-                    Body = $"Dear {client.FirstName}, Your Chef Page request has been Accepted.",
+                    Body = $"Dear {client.FirstName}, Your Chef Page request has been Activated.",
                 };
                 try
                 {
                     _emailSetting.SendEmailAsync(email);
-                    return Ok(true);
+                    return Ok(new { status = result, message = " chefPage has been Activated  please check your email" });
                 }
                 catch (Exception)
                 {
@@ -127,7 +127,7 @@ namespace Cooklee.API.Controllers.Admin
             var chef = await _unit.ChefPageRepo.GetAsync(chefId);
             if (chef == null)
             {
-                return Ok(false);
+                return NotFound(new ApiResponse(404));
             }
             if (result == true)
             {
@@ -141,15 +141,15 @@ namespace Cooklee.API.Controllers.Admin
                 try
                 {
                     _emailSetting.SendEmailAsync(email);
-                    return Ok(true);
+                        return Ok(new { status = result, message = " failed to activate your Page   please check your email for deails" });
                 }
                 catch (Exception ex)
                 {
-                    return Ok(false);
+                    return BadRequest(ex.Message);
                 }
             }
             else
-                return Ok(false);
+                return  BadRequest(new { status = result, message = " failed to send feedback email" });
         }
 
 

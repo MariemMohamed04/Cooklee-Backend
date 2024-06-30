@@ -17,9 +17,9 @@ namespace Cooklee.Infrastructure.DataSeed
             {
                 var user = new AppUser()
                 {
-                    DisplayName = "Mariem",
-                    Email = "mariem@gmail.com",
-                    UserName = "Mariem.Mohamed",
+                    DisplayName = "omnia",
+                    Email = "omniaakhalill@gmail.com",
+                    UserName = "omnia.khalil",
                     PhoneNumber = "333-333-333-33",
 
                 };

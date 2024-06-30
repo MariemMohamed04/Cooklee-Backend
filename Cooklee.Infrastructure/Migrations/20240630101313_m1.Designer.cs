@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cooklee.Infrastructure.Migrations
 {
     [DbContext(typeof(CookleeDbContext))]
-    [Migration("20240629132924_AddingColumnTo")]
-    partial class AddingColumnTo
+    [Migration("20240630101313_m1")]
+    partial class m1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

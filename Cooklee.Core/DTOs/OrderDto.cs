@@ -9,6 +9,8 @@ namespace Cooklee.Core.DTOs
 {
     public class OrderDto
     {
+        public int id { get; set; }
+
         [Required]
         public string ClientEmail { get; set; }
 

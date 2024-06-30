@@ -309,6 +309,7 @@ namespace Cooklee.Infrastructure.Migrations
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsAccepted")
                         .HasColumnType("bit");
 

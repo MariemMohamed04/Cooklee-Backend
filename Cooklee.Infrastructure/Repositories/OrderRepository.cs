@@ -33,5 +33,56 @@ namespace Cooklee.Infrastructure.Repositories
         {
             return await dbcontext.Orders.Include(O => O.Items).FirstOrDefaultAsync(o=>o.ClientEmail== userEmail);
         }
+
+        public async Task<IReadOnlyList<Order>> GetUndeliverdOrders()
+        {
+           var UndeliverdOrders = await dbcontext.Orders.Where(o=>o.Status!= OrderStatus.Deliverd).ToListAsync();
+            return UndeliverdOrders;
+        }
+
+        public async Task<IReadOnlyList<Order>> GetDeliverdOrders()
+        {
+            var deliverdOrders = await dbcontext.Orders.Where(o => o.Status == OrderStatus.Deliverd).ToListAsync();
+            return deliverdOrders;
+        }
+
+        public async Task<bool> ChangeStatus(int orderId)
+        {
+            var undeliverdOrder = await dbcontext.Orders.SingleOrDefaultAsync(o=>o.Id== orderId);
+            if (undeliverdOrder != null || (undeliverdOrder.Status!=OrderStatus.Deliverd))
+            {
+                
+                if (undeliverdOrder.Status == OrderStatus.Pending)
+                {
+                    undeliverdOrder.Status = OrderStatus.OutforDelivery;
+
+                    dbcontext.Update(undeliverdOrder);
+
+                    var resut = await dbcontext.SaveChangesAsync();
+                    if (resut > 0)
+                    {
+                        return true;
+                    }
+                }
+
+               else if (undeliverdOrder.Status == OrderStatus.OutforDelivery)
+                {
+                    undeliverdOrder.Status = OrderStatus.Deliverd;
+
+                    dbcontext.Update(undeliverdOrder);
+
+                    var resut = await dbcontext.SaveChangesAsync();
+                    if (resut > 0)
+                    {
+                        return true;
+                    }
+                }
+
+            }
+
+            return false;
+
+        }
+
     }
 }

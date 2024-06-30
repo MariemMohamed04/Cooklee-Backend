@@ -34,7 +34,8 @@ namespace Cooklee.API.Controllers.Admin
             var result = await _unit.MealRepository.AcceptMeal(mealId);
             if (chef == null)
             {
-                return Ok(false);
+                return NotFound(new ApiResponse(404));
+
             }
 
             if (result == true)
@@ -49,14 +50,15 @@ namespace Cooklee.API.Controllers.Admin
                 try
                 {
                     _emailSetting.SendEmailAsync(email);
-                    return Ok(true);
+                    return  Ok(new { status = result, message = " meal  has been accepted,  please check your email" });
+
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    return Ok(false);
+                    return BadRequest(ex.Message);
                 }
             }
-            return Ok(false);
+            return BadRequest(new { status = result, message = " failed to send feedback email" });
         }
 
         [HttpPost("SendFeedback")]
@@ -112,7 +114,6 @@ namespace Cooklee.API.Controllers.Admin
 
 
 
-        //get unActive chefs
 
 
 
