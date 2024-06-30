@@ -27,33 +27,6 @@ namespace Cooklee.API.Controllers.Admin
             _emailSetting = emailSetting;
         }
 
-        //[HttpPost("SendFeedback")]
-        //public async Task<IActionResult> SendFeedback(ChefFeedbackDto chefFeedbackDto)
-        //{
-        //    var chef = await _unit.ChefPageRepo.GetAsync(chefFeedbackDto.ChefId);
-        //    if (chef == null)
-        //    {
-        //        return BadRequest(new ApiResponse(404, "Chef not found."));
-        //    }
-
-        //    var email = new Email
-        //    {
-        //        To = chef.Email,
-        //        Subject = "Invalid Chef Details",
-        //        Body = chefFeedbackDto.Body
-        //    };
-
-        //    try
-        //    {
-        //        _emailSetting.SendEmailAsync(email);
-        //        return Ok(new { Message = "Feedback has been sent to the chef's email." });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(new ApiResponse(400, "Failed to send email."));
-        //    }
-        //}
-
         // get all chefs
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ChefPageDto>>> GetAllChefPages()
@@ -73,9 +46,6 @@ namespace Cooklee.API.Controllers.Admin
 
 
         //get unActive chefs
-
-
-
         [HttpGet("UnActivePages")]
         public async Task<ActionResult<IEnumerable<ChefPageDto>>> GetUnActivePages()
         {

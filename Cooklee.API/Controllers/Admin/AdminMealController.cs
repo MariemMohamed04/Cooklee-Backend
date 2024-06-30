@@ -26,7 +26,7 @@ namespace Cooklee.API.Controllers.Admin
         }
 
         [HttpPost("AcceptMeal")]
-        public async Task<ActionResult<bool>> AcceptMeal([FromQuery] int chefId, [FromQuery] int mealId)
+        public async Task<ActionResult<bool>> AcceptMeal(int chefId, int mealId)
         {
             var client = await _unit.ClientProfileRepo.GetClientBychefAsync(chefId);
             var chef = await _unit.ChefPageRepo.GetAsync(chefId);
