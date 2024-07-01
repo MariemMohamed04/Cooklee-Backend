@@ -24,5 +24,10 @@ namespace Cooklee.Infrastructure.Repositories
         {
             return await dbcontext.Set<SpecialMeal>().Where(predicate).ToListAsync();
         }
+
+        async Task<IReadOnlyList<SpecialMeal>> ISpecialMealRepo.getAllByClient(int clientId)
+        {
+           return await dbcontext.SpecialMeals.Where(sm=>sm.ClientId== clientId).ToListAsync();
+        }
     }
 }

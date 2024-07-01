@@ -2,7 +2,9 @@
 using Cooklee.API.Errors;
 using Cooklee.Core.DTOs;
 using Cooklee.Data.Entities;
+using Cooklee.Data.Entities.Identity;
 using Cooklee.Data.Repository.Contract;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cooklee.API.Controllers
@@ -14,10 +16,13 @@ namespace Cooklee.API.Controllers
     {
         private readonly IUnitOfWork _unit;
         private readonly IMapper _mapper;
-        public SpecialMealController(IUnitOfWork unit, IMapper mapper)
+        private readonly UserManager<AppUser> _userManager;
+
+        public SpecialMealController(IUnitOfWork unit, IMapper mapper, UserManager<AppUser> userManager)
         {
             _unit = unit;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         [HttpGet("SpecialMeals")]
@@ -28,17 +33,35 @@ namespace Cooklee.API.Controllers
             return Ok(mappedSpecialMeal);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<SpecialMealDto>>> GetSpecialMealById(int specialMealId)
+        [HttpGet("SpecialMealsByClient")]
+        public async Task<ActionResult<IEnumerable<SpecialMealDto>>> GetAllSpecialMealsById( string userId)
         {
-            var specialMeals = await _unit.SpecialMealRepo.GetAsync(specialMealId);
-            if (specialMeals is null)
+            var client = await _unit.ClientProfileRepo.GetProfileAsync(userId);
+            if (client == null)
+            {
+                return BadRequest(new ApiResponse(400, "Invalid ClientId"));
+            }
+            var specialMeals = await _unit.SpecialMealRepo.getAllByClient(client.Id);
+
+            var mappedSpecialMeal = _mapper.Map<IEnumerable<SpecialMeal>, IEnumerable<SpecialMealDto>>(specialMeals);
+            return Ok(mappedSpecialMeal);
+        }
+
+
+        [HttpGet]
+        public async Task<ActionResult<SpecialMealDto>> GetSpecialMealById( int specialMealId)
+        {
+            var specialMeal = await _unit.SpecialMealRepo.GetAsync(specialMealId);
+            if (specialMeal is null)
             {
                 return NotFound(new ApiResponse(404));
             }
-            var mappedSpecialMeal = _mapper.Map<SpecialMeal,SpecialMealDto>(specialMeals);
+            var mappedSpecialMeal = _mapper.Map<SpecialMeal,SpecialMealDto>(specialMeal);
             return Ok(mappedSpecialMeal);
         }
+
+
+
 
         [HttpGet("byChefPage/{chefPageId}")]
         public async Task<ActionResult<IEnumerable<SpecialMealDto>>> GetSpecialMealByChefPageId(int chefPageId)
@@ -57,7 +80,7 @@ namespace Cooklee.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<SpecialMealDto>> AddSpecialMeal(SpecialMealDto specialMealDto)
+        public async Task<ActionResult<SpecialMealDto>> AddSpecialMeal(SpecialMealDto specialMealDto )
         {
             try
             {
@@ -65,11 +88,15 @@ namespace Cooklee.API.Controllers
                 var specialMeal = _mapper.Map<SpecialMealDto, SpecialMeal>(specialMealDto);
 
                 // Check if ClientId exists
-                var clientExists = await _unit.ClientProfileRepo.CheckIfExistsAsync(specialMeal.ClientId);
-                if (!clientExists)
+
+                var client =   await _unit.ClientProfileRepo.GetProfileAsync(specialMealDto.UserId);
+                if (client==null)
                 {
                     return BadRequest(new ApiResponse(400, "Invalid ClientId"));
                 }
+
+                specialMeal.ClientId = client.Id;
+
 
                 // Check if ChefPageId exists
                 //var chefPageExists = await _unit.ChefPageRepo.CheckIfExistsAsync(specialMeal.ChefId);
@@ -96,26 +123,27 @@ namespace Cooklee.API.Controllers
         }
 
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateSpecialMeal(int id, SpecialMealDto specialMealDto)
+        [HttpPut]
+        public async Task<ActionResult> UpdateSpecialMeal( SpecialMealDto specialMealDto)
         {
             try
             {
-                var existingSpecialMeal = await _unit.SpecialMealRepo.GetAsync(id);
+                var existingSpecialMeal = await _unit.SpecialMealRepo.GetAsync(specialMealDto.id);
                 if (existingSpecialMeal == null)
                 {
                     return NotFound(new ApiResponse(404, "SpecialMeal not found"));
                 }
-                _mapper.Map(specialMealDto, existingSpecialMeal);
-                var clientExists = await _unit.ClientProfileRepo.CheckIfExistsAsync(existingSpecialMeal.ClientId);
-                //var chefPageExists = await _unit.ChefPageRepo.CheckIfExistsAsync(existingSpecialMeal.ChefPageId);
-                if (!clientExists)
+                var client = await _unit.ClientProfileRepo.GetProfileAsync(specialMealDto.UserId);
+                if (client == null)
                 {
                     return BadRequest(new ApiResponse(400, "Invalid ClientId"));
                 }
-                await _unit.SpecialMealRepo.UpdateAsync(id, existingSpecialMeal);
+                existingSpecialMeal.ClientId = client.Id;
+                _mapper.Map(specialMealDto, existingSpecialMeal);
+           
+                await _unit.SpecialMealRepo.UpdateAsync(specialMealDto.id, existingSpecialMeal);
                 await _unit.SpecialMealRepo.SaveChanges();
-                return NoContent();
+                return Ok(true);
             }
             catch (Exception ex)
             {

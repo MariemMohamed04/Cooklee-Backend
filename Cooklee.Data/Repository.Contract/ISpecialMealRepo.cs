@@ -11,5 +11,7 @@ namespace Cooklee.Data.Repository.Contract
     public interface ISpecialMealRepo : IGenericRepo<SpecialMeal>
     {
         Task<IReadOnlyList<SpecialMeal>> FindAsync(Expression<Func<SpecialMeal, bool>> predicate);
+        Task<IReadOnlyList<SpecialMeal>> getAllByClient(int clientId);
+
     }
 }
