@@ -13,7 +13,7 @@ namespace Cooklee.Infrastructure.DataSeed
     {
         public static async Task SeedUserAsync(UserManager<AppUser> userManager)
         {
-            if (userManager.Users.Count() == 3)
+            if (userManager.Users.Count() == 0)
             {
                 var users = new List<AppUser>
                     { new AppUser{

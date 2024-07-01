@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cooklee.Infrastructure.Migrations
 {
     [DbContext(typeof(CookleeDbContext))]
-    [Migration("20240627184642_m1")]
+    [Migration("20240701171238_m1")]
     partial class m1
     {
         /// <inheritdoc />
