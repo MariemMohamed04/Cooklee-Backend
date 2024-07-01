@@ -15,5 +15,9 @@ namespace Cooklee.Core.DTOs
         public int Rate { get; set; } = 1;
         public int ClientId { get; set; }
         public int MealId { get; set; }
+        public string ClientName { get; set; }
+        public string? ImgURL { get; set; }
+
+
     }
 }

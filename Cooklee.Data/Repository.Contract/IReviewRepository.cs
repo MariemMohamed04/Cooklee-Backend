@@ -11,7 +11,10 @@ namespace Cooklee.Data.Repository.Contract
     public interface IReviewRepository: IGenericRepo<Review>
     {
         public Task<IEnumerable<Review>> GetAllReviewsAsync();
-        Task<IEnumerable<Review>> GetReviewsByMealIdAsync(int mealId); 
+        Task<IEnumerable<Review>> GetReviewsByMealIdAsync(int mealId);
+        Task<Review> GetByIdAsync(int id);
+        Task DeleteAsync(Review review);
+
 
 
     }

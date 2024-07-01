@@ -34,9 +34,19 @@ namespace Cooklee.API.Controllers
                 return NotFound(new ApiResponse(404, "No reviews found for this meal."));
             }
 
-            var reviewsDto = _mapper.Map<IEnumerable<ReviewDto>>(reviews);
+            var reviewsDto = reviews.Select(review => new ReviewDto
+            {
+                Comment = review.Comment,
+                Rate = review.Rate,
+                ClientId = review.ClientId,
+                MealId = review.MealId,
+                ClientName = review.Client?.FirstName, // Ensure Client entity has Name property
+                ImgURL = review.Client?.ImgURL // Ensure Client entity has ImgURL property
+            });
+
             return Ok(reviewsDto);
         }
+
         [HttpPost("/api/Review")]
         public async Task<IActionResult> AddReview([FromBody] ReviewDto reviewDto)
         {
@@ -105,17 +115,19 @@ namespace Cooklee.API.Controllers
             var reviewsDto = _mapper.Map<IEnumerable<ReviewDto>>(reviews);
             return Ok(reviewsDto);
         }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteReview(int id)
+        {
+            var review = await _reviewRepository.GetByIdAsync(id);
+            if (review == null)
+            {
+                return NotFound(new ApiResponse(404, "Review not found."));
+            }
 
-        //[HttpDelete("{id}/reviews")]
-        //public async Task<IActionResult> DeleteReview(int id)
-        //{
-        //    var result = await _reviewRepository.DeleteAsync(id);
-        //    if (!result)
-        //    {
-        //        return NotFound(new ApiResponse(404, "Review not found."));
-        //    }
+            await _reviewRepository.DeleteAsync(review);
+            return NoContent();
+        }
 
-        //    return NoContent();
-        //}
+   
     }
 }

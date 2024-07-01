@@ -31,6 +31,14 @@ namespace Cooklee.Infrastructure.Repositories
         {
             return await _dbcontext.Reviews.ToListAsync();
         }
+
+        public async Task<IEnumerable<Review>> GetReviewsByMealIdAsync(int mealId)
+        {
+            return await _dbcontext.Reviews
+                .Include(r => r.Client) // Include the Client details
+                .Where(r => r.MealId == mealId)
+                .ToListAsync();
+        }
         public async Task<bool> DeleteAsync(int id)
         {
             var review = await _dbcontext.Reviews.FindAsync(id);
@@ -77,12 +85,21 @@ namespace Cooklee.Infrastructure.Repositories
             }
 
         }
-        public async Task<IEnumerable<Review>> GetReviewsByMealIdAsync(int mealId)
+        public async Task DeleteAsync(Review review)
         {
-            return await _dbcontext.Reviews.Where(r => r.MealId == mealId).ToListAsync();
+            _dbcontext.Reviews.Remove(review);
+            await _dbcontext.SaveChangesAsync();
         }
+        //public async Task<IEnumerable<Review>> GetReviewsByMealIdAsync(int mealId)
+        //{
+        //    return await _dbcontext.Reviews.Where(r => r.MealId == mealId).ToListAsync();
+        //}
 
 
+        public async Task<Review> GetByIdAsync(int id)
+        {
+            return await _dbcontext.Reviews.FindAsync(id);
+        }
 
         #endregion
     }
