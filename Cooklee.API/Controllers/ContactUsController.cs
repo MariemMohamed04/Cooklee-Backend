@@ -9,7 +9,7 @@ namespace Cooklee.API.Controllers
     public class ContactUsController : ControllerBase
     {
         private readonly IEmailService _emailService;
-        private readonly static string _supportEmail= "cooklee.meals@gmail.com";
+        private readonly static string _supportEmail= "aminamuhammed34286@gmail.com";
 
         public ContactUsController(IEmailService emailService)
         {
