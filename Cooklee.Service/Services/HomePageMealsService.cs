@@ -11,8 +11,6 @@ namespace Cooklee.Service.Services
 {
     public class HomePageMealsService
     {
-            
-
             public class MealsService : IHomePageMealsService
             {
                 private readonly IMealsRepo _mealRepository;

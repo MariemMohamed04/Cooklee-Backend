@@ -14,7 +14,8 @@ namespace Cooklee.Data.Entities
         public string Description { get; set; }
         public int MinPrice { get; set; }
         public int MaxPrice { get; set; }
-        public Status? MealStatus { get; set; }
+        public Status? MealStatus { get; set; } =
+        Status.Request;
         [ForeignKey(nameof(Client))]
         public int ClientId { get; set; }
         public Client? Client { get; set; }
