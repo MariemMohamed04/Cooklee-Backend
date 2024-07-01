@@ -99,7 +99,7 @@ namespace Cooklee.API.Controllers.Admin
                 try
                 {
                     _emailSetting.SendEmailAsync(email);
-                    return Ok(new { status = result, message = "order status changed successfully, please check your emaol" });
+                    return Ok(new { status = result, message = "order status changed successfully, please check your email" });
                 }
                 catch (Exception ex)
                 {
