@@ -1,4 +1,5 @@
-﻿using Cooklee.Data.Entities.Identity;
+﻿using Cooklee.Data.Entities;
+using Cooklee.Data.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -16,14 +17,18 @@ namespace Cooklee.Infrastructure.DataSeed
             {
                 var user = new AppUser()
                 {
-                    DisplayName = "Mariem",
-                    Email = "mariem@gmail.com",
-                    UserName = "Mariem.Mohamed",
+                    DisplayName = "omnia",
+                    Email = "omniaakhalill@gmail.com",
+                    UserName = "omnia.khalil",
                     PhoneNumber = "333-333-333-33",
 
                 };
                 await userManager.CreateAsync(user, "Pa$$w0rd");
             }
+
         }
     }
+
+
 }
+
